@@ -366,15 +366,16 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 <div class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow">Diablo II: Resurrected / Hell / Act II</p>
-      <h1>구울군주가 안 죽는 건<br>딜이 모자라서가 <em>아니다</em></h1>
+      <p class="eyebrow">Diablo II: Resurrected / Hell / Act II · 파괴참 보유</p>
+      <h1>면역은 뚫렸다<br>이제 병목은 <em>내 저항</em>이다</h1>
       <p class="lede">
-        눈보라 <span class="num">1930–2070</span>은 78레벨 기준 충분한 수치다.
-        그런데도 안 죽는다면 데미지가 적게 들어가는 게 아니라 <strong>0이 들어가고 있다</strong>.
-        지옥 난이도의 냉기 면역 구조와, 그걸 뚫는 순서를 정리한다.
+        냉기 파괴참을 확보한 시점에서 구울군주는 더 이상 벽이 아니다.
+        문제는 두 가지로 바뀌었다. <strong>파괴참이 내 냉기 저항을 추가로 깎는다는 것</strong>,
+        그리고 <strong>파괴참으로 가장 크게 이득 보는 지역이 전부 아직 잠겨 있다는 것</strong>이다.
       </p>
       <div class="meta">
         <span>기준 캐릭터 <strong>BOND1</strong> / Lv <span class="num">78</span></span>
+        <span>냉기 파괴참 <strong style="color:var(--ok)">보유</strong></span>
         <span>데이터 기준일 <span class="num">2026-09-11</span></span>
       </div>
     </div>
@@ -404,6 +405,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
         표시값은 지옥 패널티 <span class="num">-100</span>이 이미 반영된 결과다.
         즉 장비 저항은 화염 <span class="num">88</span> / 번개 <span class="num">66</span> /
         냉기 <span class="num">8</span> / 독 <span class="num">90</span>.
+        <strong style="color:var(--danger)">파괴참을 장착하면 냉기는 여기서 더 내려간다.</strong>
       </div>
     </div>
   </div>
@@ -414,7 +416,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">01 — 진단</p>
-      <h2>문제는 두 개다. 딜은 그중 하나도 아니다</h2>
+      <h2>파괴참 확보 후, 무엇이 바뀌고 무엇이 남았나</h2>
     </div>
 
     <div class="stack">
@@ -425,39 +427,56 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
           </thead>
           <tbody>
             <tr>
+              <td class="t-name">냉기 면역 대응</td>
+              <td class="n">파괴참 보유</td>
+              <td><span class="badge b-ok">해결</span></td>
+              <td class="t-note">면역 몬스터 냉기 저항이 <span class="num">95%</span><span class="badge b-approx">근사치</span>로 내려간다. 구울군주에 눈보라가 들어가기 시작한다.</td>
+            </tr>
+            <tr>
               <td class="t-name">눈보라 피해</td>
               <td class="n">1930–2070</td>
               <td><span class="badge b-ok">정상</span></td>
-              <td class="t-note">78레벨 시점에 기대할 수 있는 정상 범위. 스킬 포인트를 더 넣어도 면역 몹에겐 변화 없다.</td>
+              <td class="t-note">면역이 깨진 뒤에도 저항 <span class="num">95%</span>가 남아 있어 체감 딜은 크게 줄어든다. 즉사가 아니라 <strong>「시간을 들이면 죽는다」</strong> 수준으로 바뀐 것.</td>
             </tr>
             <tr>
               <td class="t-name">냉기 저항</td>
-              <td class="n">-92%</td>
-              <td><span class="badge b-no">치명적</span></td>
-              <td class="t-note">장비 저항이 <span class="num">8</span>밖에 없다. 비밀의 성소 뱀파이어 원소 볼트에 그대로 맞는다. 파괴참을 끼면 여기서 더 깎인다.</td>
+              <td class="n">-92% → 더 하락</td>
+              <td><span class="badge b-no">최우선</span></td>
+              <td class="t-note">파괴참은 <strong>내 냉기 저항을 대가로</strong> 면역을 깬다. 장비 저항이 <span class="num">8</span>뿐인 상태라 장착 즉시 하한 <span class="num">-100%</span>에 근접한다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">진행도</td>
+              <td class="n">지옥 Act 2</td>
+              <td><span class="badge b-no">병목</span></td>
+              <td class="t-note">파괴참으로 점수가 가장 크게 오르는 지역 4곳이 <strong>전부 Act 4·5</strong>다. 비밀의 성소를 뚫기 전까지 파괴참 값어치의 대부분이 잠겨 있다.</td>
             </tr>
             <tr>
               <td class="t-name">생명력</td>
               <td class="n">891</td>
               <td><span class="badge b-D">낮음</span></td>
-              <td class="t-note">활력 <span class="num">316</span>인데 891이면 생명력 옵션 장비가 거의 없다는 뜻.</td>
+              <td class="t-note">활력 <span class="num">316</span>인데 891이면 생명력 옵션 장비가 거의 없다는 뜻. 저항이 하한에 붙은 상태에서는 더 위험해진다.</td>
             </tr>
             <tr>
               <td class="t-name">마나</td>
               <td class="n">459</td>
               <td><span class="badge b-B">보통</span></td>
-              <td class="t-note">마력 <span class="num">61</span> 기준으로는 낮은 편. 용병 통찰(명상 오라)로 해결하는 영역이다.</td>
+              <td class="t-note">면역 몹을 오래 때려야 하므로 마나 소모가 전보다 늘어난다. 용병 통찰(명상 오라)로 해결하는 영역.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="callout danger">
-        <div class="callout-title">먼저 이것부터 확인</div>
+        <div class="callout-title">파괴참을 지금 바로 끼면 안 되는 이유</div>
         <p>
-          구울군주에 마우스를 올려 체력바 아래에 <strong>「면역: 냉기」</strong> 표시가 뜨는지 본다.
-          뜬다면 눈보라와 얼음 보주 둘 다 데미지가 <span class="num">0</span>이다.
-          스킬 포인트, +스킬 장비, 시너지 — 전부 무의미하다. <strong>0에 무엇을 곱해도 0이다.</strong>
+          파괴참은 공짜가 아니다. <strong>내 냉기 저항을 깎는 대가로</strong> 몬스터의 면역을 깬다.
+          현재 장비 냉기 저항은 <span class="num">8</span>, 표시값은 <span class="num">-92%</span>다.
+          여기에 파괴참 패널티가 더해지면 <strong>하한인 <span class="num">-100%</span>에 붙는다</strong> —
+          받는 냉기 데미지가 두 배가 되는 상태다.
+        </p>
+        <p>
+          하필 비밀의 성소는 뱀파이어가 냉기 볼트를 던지는 맵이고, 생명력은 <span class="num">891</span>뿐이다.
+          <strong>저항을 먼저 올리고 나서 끼는 게 순서다.</strong> 파괴참은 인벤토리에 넣어둔 채로도 사라지지 않는다.
         </p>
       </div>
     </div>
@@ -597,21 +616,27 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">04 — 해법</p>
-      <h2>실행 순서</h2>
-      <p>아래 번호는 우선순위가 아니라 <strong>실제로 밟아야 하는 순서</strong>다. 1을 건너뛰고 3을 할 수 없다.</p>
+      <h2>실행 순서 <span class="badge b-ok" style="font-size:.75rem; vertical-align:middle">파괴참 확보 반영</span></h2>
+      <p>
+        아래 번호는 우선순위가 아니라 <strong>실제로 밟아야 하는 순서</strong>다.
+        파괴참이 들어오면서 기존 4단계가 완료됐고, 그 결과 <strong>저항 복구가 1순위로 올라왔다.</strong>
+      </p>
     </div>
 
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
         <div>
-          <h3>용병 세팅 — 통찰(Insight) <span class="badge b-runeword">Ral · Tir · Tal · Sol</span></h3>
-          <p>냉기 면역은 소서가 뚫는 문제가 아니라 용병이 뚫는 문제다. 지금 상황에서 투자 대비 효과가 가장 크다.</p>
+          <h3>냉기 저항 복구 <span class="badge b-no">장비 냉기 8</span></h3>
+          <p>
+            파괴참을 끼기 위한 <strong>전제 조건</strong>이다. 이걸 건너뛰고 파괴참을 장착하면
+            냉기 저항이 하한 <span class="num">-100%</span>에 붙어서, 면역을 깨자마자 내가 먼저 죽는다.
+          </p>
           <ul>
-            <li><strong>용병 종류</strong> — Act 2 <strong>악몽 난이도 공격형(힘 오라)</strong>. 냉기 면역 대응이 목적이므로 신성한 서리보다 물리 딜을 올리는 힘 오라가 낫다. 면역 몹에게 서리 오라는 의미가 없다.</li>
-            <li><strong>무기</strong> — 통찰. 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 명상 오라가 마나 <span class="num">459</span> 문제까지 같이 해결한다.</li>
-            <li><strong>투구</strong> — 흡혈의 시선 등 <strong>생명력 흡수</strong>가 붙은 것. 흡혈이 없으면 용병이 먼저 죽어서 아무 의미가 없다.</li>
-            <li><strong>갑옷</strong> — 여유가 되면 불굴(Fortitude), 없으면 저항 위주 아무거나.</li>
+            <li>화염 <span class="num">88</span> / 번개 <span class="num">66</span> / 독 <span class="num">90</span>은 쓸 만한데 <strong>냉기만 <span class="num">8</span></strong>로 구멍이 뚫려 있다.</li>
+            <li>최소 목표는 <strong>파괴참 패널티를 반영한 뒤</strong>에도 표시값이 <span class="num">0</span> 이상. 실사용 목표는 <span class="num">75</span>.</li>
+            <li>가장 빠른 수단 — 영혼(Spirit) 방패, 마라의 만화경, 전 저항 소형 참. 셋 중 하나만 들어와도 체감이 크게 바뀐다.</li>
+            <li>명예의 굴레(전 저항 +65)가 있으면 이 단계가 한 번에 끝난다.</li>
           </ul>
         </div>
       </div>
@@ -619,13 +644,15 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
       <div class="step">
         <div class="step-n">2</div>
         <div>
-          <h3>내 저항 복구 <span class="badge b-no">냉기 8</span></h3>
-          <p>냉기 저항 <span class="num">-92%</span>에 생명력 <span class="num">891</span>은 지옥 비밀의 성소에서 죽는 세팅이다. 이 맵의 뱀파이어는 원소 볼트와 독 노바를 쓴다.</p>
+          <h3>용병 세팅 — 통찰(Insight) <span class="badge b-runeword">Ral · Tir · Tal · Sol</span></h3>
+          <p>
+            파괴참이 있어도 용병은 여전히 필요하다. 면역이 깨진 몬스터는 저항 <span class="num">95%</span>가 남아 있어
+            눈보라 체감 딜이 크게 줄기 때문이다. <strong>면역 몹은 여전히 용병이 훨씬 빨리 죽인다.</strong>
+          </p>
           <ul>
-            <li>화염 <span class="num">88</span> / 번개 <span class="num">66</span> / 독 <span class="num">90</span>은 쓸 만한데 <strong>냉기만 <span class="num">8</span></strong>로 구멍이 뚫려 있다.</li>
-            <li>최소 목표는 표시값 <span class="num">0</span> 이상, 실사용 목표는 <span class="num">75</span>.</li>
-            <li>전 저항 소형 참, 마라의 만화경, 영혼(Spirit) 방패 — 이 중 아무거나 하나만 들어와도 크게 바뀐다.</li>
-            <li><strong>순서가 중요하다.</strong> 파괴참은 내 냉기 저항을 추가로 깎으므로, 저항 복구 없이 파괴참부터 끼면 더 자주 죽는다.</li>
+            <li><strong>용병 종류</strong> — Act 2 <strong>악몽 난이도 공격형(힘 오라)</strong>. 물리 딜을 올리는 쪽이 낫다.</li>
+            <li><strong>무기</strong> — 통찰. 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 명상 오라가 마나 문제까지 해결한다.</li>
+            <li><strong>투구</strong> — 흡혈의 시선 등 <strong>생명력 흡수</strong>. 흡혈이 없으면 용병이 먼저 죽는다.</li>
           </ul>
         </div>
       </div>
@@ -633,16 +660,27 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
       <div class="step">
         <div class="step-n">3</div>
         <div>
-          <h3>비밀의 성소 재도전</h3>
-          <p>용병에 통찰과 흡혈이 붙으면 구울군주는 스킵할 필요 없이 녹는다. 눈보라로 면역이 아닌 유령·뱀파이어를 정리하고, 면역 팩만 용병에게 붙여두면 된다.</p>
+          <h3>비밀의 성소 돌파 <span class="badge b-A">해금 열쇠</span></h3>
+          <p>
+            여기가 지금 가장 중요한 단계다. 구울군주를 잡는 게 목적이 아니라,
+            <strong>Act 3·4·5를 통째로 여는 것</strong>이 목적이다.
+          </p>
+          <ul>
+            <li>파괴참 + 용병이면 구울군주는 잡힌다. 눈보라로 면역이 아닌 유령·뱀파이어를 정리하고 면역 팩만 용병에게 붙인다.</li>
+            <li>호라존의 일지를 먹으면 마법사의 협곡이 열리고, 탈 라샤의 무덤(<span class="num">74</span>점)이 바로 파밍 대상이 된다.</li>
+            <li>그 뒤 Act 3·4·5를 진행하면 <strong>파괴참 효과가 가장 큰 고득점 지역 4곳</strong>이 전부 열린다.</li>
+          </ul>
         </div>
       </div>
 
       <div class="step">
         <div class="step-n">4</div>
         <div>
-          <h3>냉기 파괴참 확보 <span class="badge b-charm">Charm</span></h3>
-          <p>근본 해결책. 이거 하나로 갈 수 있는 공포의 영역 풀이 두 배가 된다. 지옥 난이도 공포의 영역 몬스터에서만 드랍되므로, 로테이션을 확인하며 접근 가능한 지역을 도는 수밖에 없다.</p>
+          <h3>해금 후 고득점 지역 로테이션</h3>
+          <p>
+            Act 5까지 뚫으면 세계석 요새(<span class="num">82</span>점)와 혼돈의 성역(<span class="num">81</span>점)이 열린다.
+            둘 다 파괴참 덕에 <strong>B → A로 승격</strong>한 지역이다. 냉기 기술 대형 참을 여기서 쌓는다.
+          </p>
         </div>
       </div>
 
@@ -650,7 +688,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
         <div class="step-n">5</div>
         <div>
           <h3>장기 — 무한(Infinity) <span class="badge b-runeword">Ber · Mal · Ber · Ist</span></h3>
-          <p>용병 폴암에 무한을 박으면 천벌 오라가 상시로 면역을 깬다. Ber 룬 2개가 필요해 현 시점에서는 목표로만 잡아둘 것. 파괴참이 먼저다.</p>
+          <p>
+            천벌 오라는 파괴참으로 깨진 몬스터의 남은 저항 <span class="num">95%</span>를 추가로 깎는다.
+            <strong>파괴참과 겹치는 게 아니라 곱해지는 관계</strong>다. Ber 룬 2개가 필요하니 목표로만 잡아둘 것.
+          </p>
         </div>
       </div>
     </div>
@@ -661,12 +702,26 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 <section id="farming">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">05 — 파밍 루트</p>
-      <h2>지금 갈 수 있는 곳만 추린 결과</h2>
+      <p class="eyebrow">05 — 파밍 루트 · 파괴참 보유 기준</p>
+      <h2>파괴참의 값어치는 대부분 아직 잠겨 있다</h2>
       <p>
-        지옥 Act 2 비밀의 성소에서 막혀 있으므로 <strong>Act 3·4·5 지옥 지역은 전부 잠겨 있다.</strong>
-        탈 라샤의 무덤도 비밀의 성소를 깨야 마법사의 협곡이 열리므로 제외다.
-        실제 선택지는 Act 1 + Act 2(비밀의 성소 이전) 뿐이다.
+        파밍 효율 점수를 파괴참 보유 기준으로 다시 계산하면 순위가 바뀐다.
+        그런데 <strong>점수가 가장 크게 오른 지역 4곳이 전부 Act 4·5</strong>다.
+        지옥 Act 2에서 막혀 있는 한 그 이득을 한 푼도 못 쓴다.
+      </p>
+    </div>
+
+    <div class="callout warn" style="margin-bottom:28px">
+      <div class="callout-title">잠금의 역설 — 파괴참으로 가장 이득 보는 곳이 지금 못 가는 곳이다</div>
+      <p>
+        파괴참으로 점수가 <span class="num">+12</span> 오른 지역은 세계석 요새 · 혼돈의 성역 · 파괴의 왕좌 · 고뇌의 전당,
+        네 곳이다. 냉기 면역 비중이 <span class="num">3</span>으로 가장 높았던 곳들이라 이득도 가장 크다.
+        그런데 <strong>전부 Act 4·5다.</strong>
+      </p>
+      <p>
+        반면 지금 갈 수 있는 지역의 상승폭은 고대인의 터널 <span class="num">+0</span>,
+        비밀의 성소 <span class="num">+4</span>, 구덩이 <span class="num">+8</span>에 그친다.
+        <strong>그래서 지금 할 일은 새 지역을 찾는 게 아니라 비밀의 성소를 뚫는 것이다.</strong>
       </p>
     </div>
 
@@ -674,26 +729,38 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
       <div class="step">
         <div class="step-n">1</div>
         <div>
-          <h3>고대인의 터널 <span class="badge b-S">S</span> <span class="badge b-ok">냉기 면역 0</span></h3>
-          <p>지금 상황에 정확히 들어맞는 곳이다. 잃어버린 도시 웨이포인트에서 바로 갈 수 있고, <strong>비밀의 성소를 안 깨도 접근 가능</strong>하다.</p>
+          <h3>고대인의 터널 <span class="badge b-S">S</span> <span class="badge b-S">91점</span></h3>
+          <p>
+            <strong>파괴참이 있든 없든 변함없는 1위다</strong>(점수 변동 <span class="num">0</span>).
+            냉기 면역이 원래 <span class="num">0</span>이라 파괴참이 개입할 여지가 없기 때문이다.
+            잃어버린 도시 웨이포인트에서 바로 갈 수 있다.
+          </p>
           <dl class="kv" style="margin-top:12px">
             <dt>지역 레벨</dt><dd>85</dd>
-            <dt>냉기 면역</dt><dd>0 — 눈보라 2000딜이 100% 그대로 들어간다</dd>
+            <dt>냉기 면역</dt><dd>0 — 눈보라가 100% 그대로 들어간다</dd>
             <dt>런타임</dt><dd>약 150초</dd>
-            <dt>목표</dt><dd>저항 장신구 · 참 · 85레벨 유니크</dd>
+            <dt>지금 목표</dt><dd>냉기 저항 장신구 — 해법 1단계 재료</dd>
           </dl>
+          <p style="margin-top:12px">
+            <strong>파괴참을 끼지 않은 채로 도는 것이 핵심이다.</strong> 면역이 0이라 파괴참이 무의미한데
+            내 저항만 깎이므로, 여기서는 빼두는 게 순이득이다.
+          </p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-n">2</div>
         <div>
-          <h3>카운테스 <span class="badge b-runeword">룬 목적</span></h3>
-          <p>아이템이 아니라 <strong>룬</strong>을 보고 가는 곳이다. Act 1 검은 습지 → 잊혀진 탑.</p>
+          <h3>비밀의 성소 <span class="badge b-A">A</span> <span class="badge b-A">85점 ▲4</span></h3>
+          <p>
+            <strong>막혀 있던 곳이 이제 전체 2위 파밍 지역이 됐다.</strong>
+            유령류가 냉기에 잘 녹는 맵인데 면역 팩만 처리 못 해서 막혀 있던 것이고,
+            파괴참이 정확히 그 문제를 푼다.
+          </p>
           <ul>
-            <li>통찰 재료(Ral · Tir · Tal · Sol)가 전부 지옥 카운테스가 흔히 뱉는 하위 룬이다.</li>
-            <li>런 1회가 1분 남짓이라 몇 판이면 모인다.</li>
-            <li>해법 1단계를 여는 열쇠. <strong>가성비가 가장 높은 한 수.</strong></li>
+            <li>여기를 뚫는 것이 <strong>해금 열쇠</strong>다. 호라존의 일지 → 마법사의 협곡 → Act 3·4·5.</li>
+            <li>파밍과 진행을 동시에 하는 유일한 지역이다. 우선순위가 높은 이유.</li>
+            <li>단, 뱀파이어의 냉기 볼트가 있으니 <strong>저항 복구 후</strong> 들어갈 것.</li>
           </ul>
         </div>
       </div>
@@ -701,30 +768,52 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
       <div class="step">
         <div class="step-n">3</div>
         <div>
-          <h3>구덩이 1~2층 <span class="badge b-S">S</span></h3>
-          <p>외곽 수도원 웨이포인트 → 타모에 고원. 냉기 면역이 일부 섞여 있지만 스킵 가능한 수준이고, 지역 레벨 85에 밀도가 좋아 고대인의 터널과 번갈아 돌기 좋다.</p>
+          <h3>구덩이 1~2층 <span class="badge b-S">S</span> <span class="badge b-S">82점 ▲8</span></h3>
+          <p>
+            파괴참으로 <span class="num">74</span> → <span class="num">82</span>점이 됐다.
+            <strong>잠겨 있는 세계석 요새와 동점</strong>이다. 즉 지금 접근 가능한 지역만으로도
+            Act 5급 효율이 나온다는 뜻.
+          </p>
+          <p style="margin-top:8px">외곽 수도원 웨이포인트 → 타모에 고원. 고대인의 터널과 번갈아 돌기 좋다.</p>
         </div>
       </div>
 
       <div class="step">
         <div class="step-n">4</div>
         <div>
-          <h3>공포의 영역 로테이션 중 Act 1·2 지역</h3>
-          <p>냉기 파괴참을 노린다면 이쪽이 유일한 경로다.</p>
+          <h3>카운테스 <span class="badge b-runeword">룬 목적</span></h3>
+          <p>Act 1 검은 습지 → 잊혀진 탑. 아이템이 아니라 <strong>룬</strong>을 보고 가는 곳이다.</p>
           <ul>
-            <li>공포의 영역은 해당 지역 몬스터 레벨을 <strong>캐릭터 레벨 기준으로 끌어올린다.</strong> 정확한 보정치는 패치마다 다르다.</li>
-            <li>그래서 평소엔 D티어인 차가운 평원·지하 통로도 <strong>공포의 영역으로 뜨면 파밍 가치가 생긴다.</strong></li>
-            <li>접근 가능한 Act 1·2 지역이 로테이션에 걸릴 때마다 들어갈 것.</li>
+            <li>통찰 재료(Ral · Tir · Tal · Sol)가 전부 지옥 카운테스가 흔히 뱉는 하위 룬이다.</li>
+            <li>영혼(Spirit) 재료(Tal · Thul · Ort · Amn)도 같은 구간에서 나온다 — <strong>저항 +FCR을 한 번에 해결</strong>하는 방패다.</li>
+            <li>런 1회가 1분 남짓. 해법 1·2단계를 동시에 여는 가장 빠른 경로.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">5</div>
+        <div>
+          <h3>공포의 영역 — 목적이 바뀌었다</h3>
+          <p>
+            파괴참을 이미 확보했으므로 공포의 영역을 도는 이유가 <strong>파괴참 사냥에서 경험치·드랍으로 바뀐다.</strong>
+            더 이상 로테이션에 매달릴 필요가 없다.
+          </p>
+          <ul>
+            <li>접근 가능한 Act 1·2 지역이 걸리면 들어가되, 안 걸리면 고대인의 터널을 도는 게 낫다.</li>
+            <li>공포의 영역은 몬스터 레벨을 캐릭터 레벨 기준으로 끌어올린다. 정확한 보정치는 패치마다 다르다.</li>
+            <li>78레벨이므로 경험치 효율도 같이 챙길 수 있다.</li>
           </ul>
         </div>
       </div>
     </div>
 
     <div class="callout" style="margin-top:28px">
-      <div class="callout-title">정리</div>
+      <div class="callout-title">정리 — 지금의 최단 경로</div>
       <p>
-        고대인의 터널(저항 장비) → 카운테스(통찰 룬) → 용병 세팅 → 비밀의 성소 복귀 →
-        그 사이 공포의 영역 로테이션에서 파괴참 노림.
+        고대인의 터널 + 카운테스로 <strong>냉기 저항과 통찰·영혼 룬</strong>을 먼저 확보한다 →
+        저항이 올라간 뒤에 파괴참을 장착한다 → 비밀의 성소를 뚫어 <strong>Act 3·4·5를 연다</strong> →
+        그때부터 세계석 요새·혼돈의 성역에서 파괴참의 진짜 값어치를 회수한다.
       </p>
     </div>
   </div>
@@ -734,20 +823,22 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 <section id="zones">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">06 — 공포의 영역 전체 티어</p>
-      <h2>극블리 소서 기준 맵 등급</h2>
+      <p class="eyebrow">06 — 공포의 영역 전체 티어 · 파괴참 보유 기준 재계산</p>
+      <h2>순위가 바뀐 곳과 안 바뀐 곳</h2>
       <p>
-        평가 기준은 냉기 면역 비중 &gt; 밀도 &gt; 지역 레벨 &gt; 동선이다.
-        「지금 접근」 열은 <strong>지옥 Act 2 비밀의 성소에서 막힌 상태</strong> 기준으로 계산한 값이다.
+        점수는 대시보드의 <code>computeZoneScore()</code>로 실제 계산한 값이다
+        (냉기 면역 40점 · 밀도 30점 · 지역 레벨 20점 · 런타임 10점).
+        <strong>점수 순 정렬</strong>이며, <span class="num">▲</span> 표시는 파괴참으로 오른 폭이다.
+        「지금 접근」은 지옥 Act 2 비밀의 성소에서 막힌 진행도 기준이다.
       </p>
     </div>
 
     <div class="tablewrap">
-      <table style="min-width:820px">
+      <table style="min-width:860px">
         <thead>
           <tr>
             <th>티어</th><th>지역</th><th>Act</th><th>지역Lv</th>
-            <th>밀도</th><th>냉기 면역</th><th>파괴참</th><th>런타임</th><th>지금 접근</th><th>메모</th>
+            <th>밀도</th><th>냉기 면역</th><th>점수</th><th>런타임</th><th>지금 접근</th><th>메모</th>
           </tr>
         </thead>
         <tbody>
@@ -757,21 +848,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">2</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
             <td class="dots"><span class="off">□□□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>91</strong></td>
             <td class="n">150초</td>
             <td><span class="badge b-ok">가능</span></td>
-            <td class="t-note">지옥에서 냉기 면역이 0. 극블리 전용 S티어. 파괴참 없이도 풀속도.</td>
-          </tr>
-          <tr class="tier-S">
-            <td class="stripe"><span class="badge b-S">S</span></td>
-            <td class="t-name">구덩이 1~2층 <span class="t-sub">The Pit</span></td>
-            <td class="n">1</td><td class="n">85</td>
-            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
-            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
-            <td class="n">180초</td>
-            <td><span class="badge b-ok">가능</span></td>
-            <td class="t-note">1액트 접근성 최고. 냉면 일부 있지만 스킵 가능한 수준.</td>
+            <td class="t-note">냉기 면역이 원래 0이라 <strong>파괴참 영향을 안 받는 유일한 지역</strong>. 여기서는 파괴참을 빼는 게 순이득이다.</td>
           </tr>
           <tr class="tier-A">
             <td class="stripe"><span class="badge b-A">A</span></td>
@@ -779,43 +859,54 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">2</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
             <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>85</strong> <span style="color:var(--ok)">▲4</span></td>
             <td class="n">210초</td>
             <td><span class="badge b-ok">가능</span></td>
-            <td class="t-note">유령류가 냉기에 잘 녹는다. 면역은 소수 팩에 몰려 있다 — 그게 지금 막힌 구울군주다. 다리 구조상 텔포 동선이 관건.</td>
+            <td class="t-note">막혀 있던 곳이 전체 2위가 됐다. 파밍과 진행 해금을 동시에 하는 유일한 지역.</td>
+          </tr>
+          <tr class="tier-S">
+            <td class="stripe"><span class="badge b-S">S</span></td>
+            <td class="t-name">구덩이 1~2층 <span class="t-sub">The Pit</span></td>
+            <td class="n">1</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>82</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">180초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">잠겨 있는 세계석 요새와 동점. 지금 갈 수 있는 곳만으로 Act 5급 효율이 나온다.</td>
           </tr>
           <tr class="tier-A">
-            <td class="stripe"><span class="badge b-A">A</span></td>
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
             <td class="t-name">세계석 요새 2~3층 <span class="t-sub">Worldstone Keep</span></td>
             <td class="n">5</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■■■</span></td>
             <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td><span class="badge b-D">필요</span></td>
+            <td class="n"><strong>82</strong> <span style="color:var(--ok)">▲12</span></td>
             <td class="n">240초</td>
             <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">기술 대형 참이 뜨는 핵심 구간. 냉면 밀집이라 파괴참·무한 없으면 답답하다.</td>
+            <td class="t-note">파괴참 최대 수혜 지역. 기술 대형 참이 뜨는 핵심 구간. <strong>해금이 곧 딜 상승.</strong></td>
           </tr>
           <tr class="tier-A">
-            <td class="stripe"><span class="badge b-A">A</span></td>
-            <td class="t-name">파괴의 왕좌 <span class="t-sub">Throne of Destruction</span></td>
-            <td class="n">5</td><td class="n">85</td>
-            <td class="dots cool"><span class="on">■■■■■</span></td>
-            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td><span class="badge b-D">필요</span></td>
-            <td class="n">300초</td>
-            <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">경험치+아이템 동시 효율. 웨이브 특성상 랩타임 편차가 크다.</td>
-          </tr>
-          <tr class="tier-A">
-            <td class="stripe"><span class="badge b-A">A</span></td>
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
             <td class="t-name">혼돈의 성역 <span class="t-sub">Chaos Sanctuary</span></td>
             <td class="n">4</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■■■</span></td>
             <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td><span class="badge b-D">필요</span></td>
+            <td class="n"><strong>81</strong> <span style="color:var(--ok)">▲12</span></td>
             <td class="n">270초</td>
             <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">게임 최고의 공포의 영역이지만 그건 해머딘 기준. 블리소서는 파괴참·무한 전제.</td>
+            <td class="t-note">파괴참 없을 땐 블리소서에게 함정이었지만 이제는 정상 파밍지. 봉인 보스 3종.</td>
+          </tr>
+          <tr class="tier-A">
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
+            <td class="t-name">파괴의 왕좌 <span class="t-sub">Throne of Destruction</span></td>
+            <td class="n">5</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■■</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>80</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">300초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">경험치+아이템 동시 효율. 웨이브 특성상 랩타임 편차가 크다.</td>
           </tr>
           <tr class="tier-B">
             <td class="stripe"><span class="badge b-B">B</span></td>
@@ -823,32 +914,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">3</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
             <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>79</strong> <span style="color:var(--ok)">▲8</span></td>
             <td class="n">90초</td>
             <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">런 1회가 매우 짧아 시간당 횟수로 승부. 단일 구간 밀도는 낮다.</td>
-          </tr>
-          <tr class="tier-B">
-            <td class="stripe"><span class="badge b-B">B</span></td>
-            <td class="t-name">탈 라샤의 무덤 <span class="t-sub">Tal Rasha's Tombs</span></td>
-            <td class="n">2</td><td class="n">85</td>
-            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
-            <td class="n">240초</td>
-            <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">Act 2지만 마법사의 협곡이 비밀의 성소 클리어로 열린다. 무덤 7개 로테이션 구조라 동선 낭비가 있다.</td>
-          </tr>
-          <tr class="tier-B">
-            <td class="stripe"><span class="badge b-B">B</span></td>
-            <td class="t-name">고뇌의 전당 / 고통의 전당 <span class="t-sub">Halls of Anguish / Pain</span></td>
-            <td class="n">5</td><td class="n">85</td>
-            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
-            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td><span class="badge b-D">필요</span></td>
-            <td class="n">240초</td>
-            <td><span class="badge b-no">잠김</span></td>
-            <td class="t-note">밀도는 좋은데 냉면+물리 저항 조합이 껄끄럽다.</td>
+            <td class="t-note">런 1회 90초로 최단. 해금 직후 가장 먼저 돌기 좋은 곳이다.</td>
           </tr>
           <tr class="tier-B">
             <td class="stripe"><span class="badge b-B">B</span></td>
@@ -856,10 +925,32 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">4</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
             <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>77</strong> <span style="color:var(--ok)">▲8</span></td>
             <td class="n">150초</td>
             <td><span class="badge b-no">잠김</span></td>
             <td class="t-note">혼돈의 성역 가는 길에 끼워 도는 용도. 단독 파밍 가치는 중간.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span> <span class="t-note" style="font-size:.625rem">▲D</span></td>
+            <td class="t-name">고뇌의 전당 / 고통의 전당 <span class="t-sub">Halls of Anguish / Pain</span></td>
+            <td class="n">5</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>76</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">두 단계 승격. 파괴참 없을 땐 D였지만 이제 니흘라탁 연계로 쓸 만하다.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span></td>
+            <td class="t-name">탈 라샤의 무덤 <span class="t-sub">Tal Rasha's Tombs</span></td>
+            <td class="n">2</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>74</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">Act 2지만 마법사의 협곡이 비밀의 성소 클리어로 열린다. <strong>해금 즉시 열리는 첫 지역.</strong></td>
           </tr>
           <tr class="tier-D">
             <td class="stripe"><span class="badge b-D">D</span></td>
@@ -867,32 +958,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">2</td><td class="n">85</td>
             <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
             <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>66</strong> <span style="color:var(--ok)">▲8</span></td>
             <td class="n">300초</td>
             <td><span class="badge b-ok">가능</span></td>
             <td class="t-note">일자 통로라 블리자드 장판 효율 최악. 접근은 되지만 시간만 먹는다. 스킵.</td>
-          </tr>
-          <tr class="tier-D">
-            <td class="stripe"><span class="badge b-D">D</span></td>
-            <td class="t-name">머나먼 오아시스 <span class="t-sub">Far Oasis</span></td>
-            <td class="n">2</td><td class="n">81</td>
-            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
-            <td class="n">300초</td>
-            <td><span class="badge b-ok">가능</span></td>
-            <td class="t-note">맵이 넓고 밀도가 낮다. 지역 레벨도 85 미만. 공포의 영역으로 뜰 때만 의미가 있다.</td>
-          </tr>
-          <tr class="tier-D">
-            <td class="stripe"><span class="badge b-D">D</span></td>
-            <td class="t-name">지하 통로 <span class="t-sub">Underground Passage</span></td>
-            <td class="n">1</td><td class="n">80</td>
-            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
-            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
-            <td class="n">240초</td>
-            <td><span class="badge b-ok">가능</span></td>
-            <td class="t-note">지역 레벨이 낮아 상위 드랍이 안 열린다. 단, 공포의 영역으로 뜨면 파괴참 사냥터가 된다.</td>
           </tr>
           <tr class="tier-D">
             <td class="stripe"><span class="badge b-D">D</span></td>
@@ -900,10 +969,32 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <td class="n">1</td><td class="n">80</td>
             <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
             <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
-            <td><span class="badge b-ok">불필요</span></td>
+            <td class="n"><strong>57</strong> <span style="color:var(--ok)">▲4</span></td>
             <td class="n">210초</td>
             <td><span class="badge b-ok">가능</span></td>
             <td class="t-note">이름만 차갑다. 밀도·지역 레벨 둘 다 부족. 공포의 영역 로테이션 때만.</td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">지하 통로 <span class="t-sub">Underground Passage</span></td>
+            <td class="n">1</td><td class="n">80</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
+            <td class="n"><strong>56</strong> <span style="color:var(--ok)">▲4</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">지역 레벨이 낮아 상위 드랍이 안 열린다. 파괴참을 이미 얻었으므로 갈 이유가 사라졌다.</td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">머나먼 오아시스 <span class="t-sub">Far Oasis</span></td>
+            <td class="n">2</td><td class="n">81</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>46</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">300초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">상승폭은 크지만 여전히 최하위. 맵이 넓고 밀도가 낮으며 지역 레벨도 85 미만이다. 스킵.</td>
           </tr>
         </tbody>
       </table>
@@ -939,11 +1030,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
           <div class="gear">
             <div class="gear-top">
               <div><div class="gear-name">추위의 파열 (냉기 파괴참)</div><span class="gear-en">Cold Rupture</span></div>
-              <span class="badge b-charm">참</span>
+              <span class="badge b-ok">보유</span>
             </div>
             <div class="gear-base">참 슬롯</div>
             <div class="gear-stats"><span>몬스터 냉기 면역 파괴</span><span>내 냉기 저항 감소(패널티)</span></div>
-            <p class="gear-note">이거 하나로 갈 수 있는 공포의 영역 풀이 두 배가 된다. 지옥 공포의 영역 몬스터에서만 드랍.</p>
+            <p class="gear-note"><strong>확보 완료.</strong> 다만 장착하려면 냉기 저항이 먼저 올라가야 한다. 지금 끼면 저항 하한에 붙는다. 고대인의 터널처럼 면역이 0인 지역에서는 빼두는 게 이득.</p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1107,7 +1198,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <div class="gear-runes">Ral · Tir · Tal · Sol</div>
             <div class="gear-base">4소켓 창/폴암 · 용병</div>
             <div class="gear-stats"><span>명상 오라</span><span>+1~6 전 기술</span><span>+마나 회복</span></div>
-            <p class="gear-note"><strong>지금 1순위.</strong> 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 마나 문제를 통째로 해결한다.</p>
+            <p class="gear-note"><strong>지금 2순위.</strong> 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 면역이 깨진 뒤에도 저항 95%가 남으므로 용병 물리 딜은 여전히 필요하다.</p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1117,7 +1208,12 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
             <div class="gear-runes">Tal · Thul · Ort · Amn</div>
             <div class="gear-base">4소켓 모나크 · 방패</div>
             <div class="gear-stats"><span>+2 전 기술</span><span>+25~35 FCR</span><span>+55 FHR</span><span>+112 마나</span></div>
-            <p class="gear-note">가격 대비 성능이 말이 안 되는 방패. FCR 105를 맞추는 핵심 부품.</p>
+            <p class="gear-note">
+              <strong>지금 1순위.</strong> 재료가 카운테스 구간 룬이라 가장 빨리 만들 수 있고,
+              위 옵션 외에 <strong>냉기·번개·독 저항</strong>이 함께 붙는다(화염은 없다).
+              파괴참 패널티를 상쇄하면서 FCR 105까지 챙기는 유일한 부품.
+              <span class="badge b-approx">저항 옵션은 대시보드 데이터에 누락돼 있음</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1329,7 +1425,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 70px; }
       </div>
     </div>
     <p style="margin-top:32px; padding-top:20px; border-top:1px solid var(--line);">
-      데이터 기준일 <span class="num">2026-09-11</span> · 진단 기준 캐릭터 BOND1 (Lv <span class="num">78</span>, 지옥 Act 2)
+      데이터 기준일 <span class="num">2026-09-11</span> ·
+      진단 기준 캐릭터 BOND1 (Lv <span class="num">78</span>, 지옥 Act 2, <strong>냉기 파괴참 보유</strong>) ·
+      공포의 영역 점수는 <code>js/03-logic.js</code>의 <code>computeZoneScore()</code>로 실제 계산한 값이다
     </p>
   </div>
 </footer>
