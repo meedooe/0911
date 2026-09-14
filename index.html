@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>극블리 소서 파밍 대시보드 — D2R</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!--
+  ★ 경량 모델 주의 ★
+  이 파일은 "마크업 뼈대"만 담는다. 내용 채우기는 js/04-render.js 가 한다.
+  data-* 속성과 id 는 렌더러/이벤트 바인딩이 참조하므로 임의로 바꾸지 마라.
+-->
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">❄</span>
+    <div>
+      <h1>극블리 소서 파밍 대시보드</h1>
+      <p class="sub">Blizzard Sorceress · Endgame Farming Console · 데이터 기준일 <span id="data-date"></span></p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <label class="switch" title="냉기 파괴참 보유 여부에 따라 맵 티어가 재평가된다">
+      <input type="checkbox" id="toggle-sunder">
+      <span>냉기 파괴참 보유</span>
+    </label>
+    <button type="button" class="btn btn-ghost" id="btn-reset">전체 초기화</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button type="button" class="tab" data-tab="tz">공포의 영역</button>
+  <button type="button" class="tab" data-tab="timer">랩타임</button>
+  <button type="button" class="tab" data-tab="bounty">현상수배</button>
+  <button type="button" class="tab" data-tab="cheat">치트시트</button>
+  <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 버튼을 여기 추가] -->
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ 1. 공포의 영역 메타 분석기 ============ -->
+  <section class="panel" id="panel-tz">
+    <div class="panel-head">
+      <h2>공포의 영역 메타 분석기</h2>
+      <div class="filters" id="tz-filters">
+        <button type="button" class="chip" data-tier="ALL">전체</button>
+        <button type="button" class="chip chip-s" data-tier="S">S</button>
+        <button type="button" class="chip chip-a" data-tier="A">A</button>
+        <button type="button" class="chip chip-b" data-tier="B">B</button>
+        <button type="button" class="chip chip-d" data-tier="D">D</button>
+      </div>
+    </div>
+    <p class="hint">티어는 <strong>극블리 소서 기준</strong>이다. 냉기 면역 비중 &gt; 밀도 &gt; 지역 레벨 &gt; 동선 순으로 평가했다.</p>
+    <div class="zone-grid" id="tz-grid"></div>
+  </section>
+
+  <!-- ============ 2. 스피드런 랩타임 & 세션 카운터 ============ -->
+  <section class="panel" id="panel-timer">
+    <div class="panel-head">
+      <h2>스피드런 랩타임 &amp; 세션 카운터</h2>
+      <div class="zone-select-wrap">
+        <label for="timer-zone">측정 대상</label>
+        <select id="timer-zone"></select>
+      </div>
+    </div>
+
+    <div class="timer-display">
+      <div class="timer-now" id="timer-now">0:00.0</div>
+      <div class="timer-target" id="timer-target"></div>
+    </div>
+
+    <div class="timer-controls">
+      <button type="button" class="btn btn-primary" id="btn-lap">런 시작</button>
+      <button type="button" class="btn" id="btn-stop">중단</button>
+      <button type="button" class="btn btn-ghost" id="btn-clear-runs">기록 삭제</button>
+    </div>
+
+    <div class="stat-cards" id="timer-stats"></div>
+    <div class="lap-list" id="timer-laps"></div>
+  </section>
+
+  <!-- ============ 3. 졸업 장비 현상수배 보드 ============ -->
+  <section class="panel" id="panel-bounty">
+    <div class="panel-head">
+      <h2>졸업 장비 현상수배 보드</h2>
+      <div class="filters">
+        <select id="bounty-slot"></select>
+        <label class="switch">
+          <input type="checkbox" id="toggle-hide-done">
+          <span>획득한 것 숨기기</span>
+        </label>
+      </div>
+    </div>
+    <div class="progress-wrap" id="bounty-progress"></div>
+    <div class="bounty-grid" id="bounty-grid"></div>
+  </section>
+
+  <!-- ============ 4. 극블리 메커니즘 치트시트 ============ -->
+  <section class="panel" id="panel-cheat">
+    <div class="panel-head"><h2>극블리 메커니즘 치트시트</h2></div>
+
+    <div class="cheat-cols">
+
+      <div class="card">
+        <h3>패캐(FCR) 프레임</h3>
+        <div class="field">
+          <label for="in-fcr">현재 장비 FCR 합 (%)</label>
+          <input type="number" id="in-fcr" min="0" max="400" step="1">
+        </div>
+        <div id="fcr-result"></div>
+        <table class="bp-table" id="fcr-table"></table>
+      </div>
+
+      <div class="card">
+        <h3>블리자드 딜 계산기 <span class="badge badge-warn">근사치</span></h3>
+        <div class="grid-2">
+          <div class="field"><label for="in-blizz">블리자드 레벨 (아이템 포함)</label><input type="number" id="in-blizz" min="1" max="60" step="1"></div>
+          <div class="field"><label for="in-syn">시너지 레벨 (3종 각각)</label><input type="number" id="in-syn" min="0" max="60" step="1"></div>
+          <div class="field"><label for="in-csd">장비 냉기 기술 데미지 합 (%)</label><input type="number" id="in-csd" min="0" max="400" step="1"></div>
+          <div class="field"><label for="in-cm">냉기 숙련 레벨 (저항 감소)</label><input type="number" id="in-cm" min="0" max="60" step="1"></div>
+          <div class="field"><label for="in-mres">몬스터 냉기 저항 (%)</label><input type="number" id="in-mres" min="-100" max="100" step="1"></div>
+          <div class="field"><label for="in-conv">천벌 오라 저항 감소 (%)</label><input type="number" id="in-conv" min="0" max="150" step="1"></div>
+        </div>
+        <div class="switch-row">
+          <label class="switch"><input type="checkbox" id="in-immune"><span>몬스터 냉기 면역</span></label>
+          <label class="switch"><input type="checkbox" id="in-sunder"><span>냉기 파괴참 착용</span></label>
+        </div>
+        <div id="calc-result"></div>
+      </div>
+
+      <div class="card">
+        <h3>룬워드 재료 수요 등급</h3>
+        <p class="hint">가격이 아니라 <strong>상대적 수요</strong>다. 시세는 시즌마다 변하니 거래 사이트에서 직접 확인해라.</p>
+        <div id="rune-list"></div>
+      </div>
+
+      <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 치트시트 카드를 여기 추가] -->
+    </div>
+  </section>
+
+  <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 패널(section.panel)을 여기 추가] -->
+
+</main>
+
+<footer class="foot">
+  <p>로컬 전용 대시보드 · 외부 통신 없음 · 기록은 이 브라우저에만 저장된다</p>
+  <p id="storage-note"></p>
+</footer>
+
+<!-- 로드 순서 고정: state -> data -> logic -> render -> main. 순서를 바꾸면 깨진다. -->
+<script src="js/01-state.js"></script>
+<script src="js/02-data.js"></script>
+<script src="js/03-logic.js"></script>
+<script src="js/04-render.js"></script>
+<script src="js/05-main.js"></script>
+</body>
+</html>
