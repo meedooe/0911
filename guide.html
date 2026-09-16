@@ -554,6 +554,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
       <a href="#calc">계산기</a>
       <a href="#gambling">도박</a>
       <a href="#buy">현질</a>
+      <a href="#respec">초기화</a>
     </nav>
     <div class="topbar-tools">
       <button class="iconbtn" id="btn-theme" type="button" title="밝은 테마 / 어두운 테마 전환">테마</button>
@@ -640,6 +641,12 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
         <h3>파밍은 지옥 고대인의 터널에서</h3>
         <p><strong>지옥 기준</strong> 지금 갈 수 있는 곳 중 <span class="num">91</span>점으로 1위다. 냉기 면역이 <span class="num">0</span>이라 파괴참 없이 도는 게 오히려 이득.</p>
         <a class="go" href="#zones">→ 지역 티어표 보기</a>
+      </div>
+      <div class="tldr-card">
+        <span class="n">초기화 전</span>
+        <h3>무료 초기화는 3번뿐이다</h3>
+        <p>아카라가 난이도당 <span class="num">1</span>회. 증표는 지옥 보스 정수가 필요한데 아직 메피스토도 못 잡는다 — <strong>쓰기 전에 배분을 정해라.</strong></p>
+        <a class="go" href="#respec">→ 다시 찍는 법</a>
       </div>
       <div class="tldr-card">
         <span class="n">그다음</span>
@@ -2250,6 +2257,196 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
   </div>
 </section>
 
+
+<!-- ===================== 초기화 후 다시 찍기 ===================== -->
+<section id="respec">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">15 — 초기화 후 다시 찍기</p>
+      <h2>초기화는 남은 횟수가 정해져 있다</h2>
+      <p>
+        능력치·기술 포인트를 다시 찍기 전에 <strong>남은 초기화 횟수부터 확인해라.</strong>
+        이 캐릭터의 진행도에서는 <strong>지금이 사실상 마지막 무료 기회</strong>일 수 있다.
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="callout danger">
+        <div class="callout-title">먼저 읽어라 — 이 캐릭터는 추가 초기화 수단이 아직 없다</div>
+        <p>
+          무료 초기화는 <strong>아카라(액트1 로그 야영지)</strong>가 해준다. 악의 소굴 퀘스트를 끝내면
+          <strong>난이도당 <span class="num">1</span>회씩, 노말·악몽·지옥 합쳐 총 <span class="num">3</span>회</strong>다.
+        </p>
+        <p>
+          그 뒤로는 <strong>절대의 증표(Token of Absolution)</strong>를 큐브로 만들어야 하는데,
+          재료인 정수 <span class="num">4</span>종은 <strong>전부 지옥에서만 떨어진다</strong> —
+          안다리엘·두리엘 / <strong>메피스토</strong> / <strong>디아블로</strong> / <strong>바알</strong>.
+        </p>
+        <p>
+          <strong>지금은 지옥 3막이라 메피스토조차 아직 못 잡는다.</strong>
+          즉 증표를 만들 길이 없다. <strong>지옥 아카라 초기화를 아직 안 썼다면 그게 마지막 카드다</strong> —
+          쓰기 전에 아래 배분을 정해놓고 한 번에 끝내라.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">기술 포인트 — 찍는 순서가 곧 우선순위다</h3>
+        <div class="tablewrap">
+          <table style="min-width:680px">
+            <thead>
+              <tr><th>순서</th><th>기술</th><th>포인트</th><th>이유</th></tr>
+            </thead>
+            <tbody>
+              <tr class="tier-S">
+                <td class="stripe n"><strong>1</strong></td>
+                <td class="t-name">블리자드 <span class="t-sub">Blizzard</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">주력기. 여기부터 채운다.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>2</strong></td>
+                <td class="t-name">글레이셜 스파이크 <span class="t-sub">Glacial Spike</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지. 덤으로 얼리는 효과가 있어 셋 중 실전 가치가 가장 높다.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>3</strong></td>
+                <td class="t-name">아이스 블라스트 <span class="t-sub">Ice Blast</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>4</strong></td>
+                <td class="t-name">아이스 볼트 <span class="t-sub">Ice Bolt</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지.</td>
+              </tr>
+              <tr class="tier-B">
+                <td class="stripe n"><strong>5</strong></td>
+                <td class="t-name">냉기 숙련 <span class="t-sub">Cold Mastery</span></td>
+                <td class="n">관통 100%까지만</td>
+                <td class="t-note"><strong>더 찍으면 버려진다.</strong> 장비 +스킬을 포함해 관통이 <span class="num">100%</span>가 되는 지점에서 멈춰라. 커뮤니티 기준 대략 <span class="num">17</span>레벨 전후. <span class="badge b-approx">근사치 · 인게임 툴팁으로 확인</span></td>
+              </tr>
+              <tr class="tier-B">
+                <td class="stripe n"><strong>—</strong></td>
+                <td class="t-name">1포인트만 <span class="t-sub">1 point wonders</span></td>
+                <td class="n">각 1</td>
+                <td class="t-note">순간이동 · 스태틱 필드 · 염력 · 냉기 갑옷 · 온기. <strong>순간이동은 필수다</strong> — <a href="#now">독침 구간 우회</a>가 여기서 나온다.</td>
+              </tr>
+              <tr class="tier-D">
+                <td class="stripe n"><strong>—</strong></td>
+                <td class="t-name">남는 포인트</td>
+                <td class="n">스태틱 필드</td>
+                <td class="t-note">위를 다 채우고 남으면 여기. 면역 몹의 체력을 속성 무시로 깎는다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-note" style="margin-top:12px">
+          시너지 계산식은 <strong>냉기 피해 +5% × (아이스 볼트 + 아이스 블라스트 + 글레이셜 스파이크 레벨 합)</strong>이다.
+          셋을 다 채우면 <strong>+<span class="num">300</span>%</strong>가 된다 — <a href="#cheatsheet">치트시트</a>의 딜 계산이 이 값을 쓴다.
+        </p>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">냉기 숙련에 과투자하지 마라 — 파괴참 때문에 더 그렇다</div>
+        <p>
+          냉기 숙련은 <strong>면역을 깨지 못한다.</strong> 그리고 파괴참으로 면역이 깨진 몬스터는
+          저항 <span class="num">95%</span>에서 시작해 <strong>이후 저항 감소가 <span class="num">20%</span> 비율로만 적용된다.</strong>
+          <span class="badge b-approx">커뮤니티 통용값</span>
+        </p>
+        <p>
+          즉 <strong>면역이었던 몹 상대로는 냉기 숙련 한 포인트의 값어치가 1/5로 줄어든다.</strong>
+          관통 <span class="num">100%</span>를 넘겨 찍는 건 비면역 몹에게도 버려지고 면역 몹에게도 거의 안 먹는다.
+          남는 포인트는 스태틱 필드로 보내라. → <a href="#immunity">냉기 면역 해부</a>
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">능력치 포인트 — 원칙은 세 줄이다</h3>
+        <div class="tips" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+          <div class="tip"><span class="ic">💪</span><span><b>힘</b> — 입을 장비의 요구치까지만. <b>한 점도 더 찍지 마라.</b></span></div>
+          <div class="tip"><span class="ic">🎯</span><span><b>민첩</b> — 역시 장비 요구치까지만. 소서는 방패 막기에 기대지 않는다.</span></div>
+          <div class="tip"><span class="ic">❤️</span><span><b>활력</b> — <b>나머지 전부.</b> 생명력 <span class="num">891</span>은 지금 너무 얇다.</span></div>
+          <div class="tip"><span class="ic">🚫</span><span><b>마력</b> — <b>0.</b> 마나는 용병 <a href="#gear">통찰(명상 오라)</a>과 장비로 푼다. 스탯으로 풀지 마라.</span></div>
+        </div>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">이번 초기화의 진짜 결정 — 힘을 156까지 올릴 것인가</div>
+        <p>
+          갈림길은 하나다. <strong><a href="#gear">영혼(Spirit) 모나크 방패</a>를 쓸 것인가.</strong>
+          쓴다면 힘 <span class="num">156</span>이 필요하고, 그 대가로 활력에 갈 포인트를 상당량 떼야 한다.
+        </p>
+        <ul style="margin:4px 0 0; padding-left:18px; font-size:.9375rem; color:var(--ink-2); line-height:1.7">
+          <li><strong>쓴다면</strong> — 독 저항 <span class="num">+35%</span>, 냉기 저항 <span class="num">+35%</span>, FCR <span class="num">+25~35%</span>, +2 전 기술이 한 부위에서 나온다. <a href="#now">지금 막힌 문제</a>를 한 방에 친다.</li>
+          <li><strong>안 쓴다면</strong> — 그 포인트가 전부 활력으로 간다. 대신 저항은 <a href="#buy">마라·모래폭풍 여로</a> 같은 장비로만 메워야 한다.</li>
+          <li><strong>요구치는 장비 보너스를 포함해서 판정된다.</strong> 모래폭풍 여로(+힘 10~15)와 마라(전 능력치 +5)를 끼면 그만큼 덜 찍어도 된다.</li>
+        </ul>
+        <p style="margin-top:10px">
+          <strong>주의 — 캐릭터 창의 힘 수치에는 장비 보너스가 이미 섞여 있다.</strong>
+          찍을 양을 계산하려면 <strong>장비를 벗은 맨몸 수치</strong>를 먼저 확인해라.
+          아래 계산기에 그 값을 넣어야 정확하다.
+        </p>
+      </div>
+
+      <div class="calcbox">
+        <div class="calcbox-head">
+          <span>능력치 포인트 배분 계산기</span>
+          <span class="badge b-S">초기화 전에 돌려봐라</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-row">
+            <label for="st-lv">캐릭터 레벨
+              <span class="hint">레벨당 <span class="num">5</span>포인트 · 초기화하면 전부 돌려받는다</span>
+            </label>
+            <input type="number" id="st-lv" value="81" min="1" max="99" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-gear">장비에서 오는 +힘
+              <span class="hint">모래폭풍 여로 <span class="num">+10~15</span> · 마라 <span class="num">+5</span> 등의 합</span>
+            </label>
+            <input type="number" id="st-gear" value="0" min="0" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-str">목표 힘 (장비 포함)
+              <span class="hint">모나크 <span class="num">156</span> · 안 쓰면 입을 갑옷 요구치</span>
+            </label>
+            <input type="number" id="st-str" value="156" min="10" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-dex">목표 민첩 (장비 포함)
+              <span class="hint">장비 요구치까지만. 기본값 <span class="num">25</span></span>
+            </label>
+            <input type="number" id="st-dex" value="25" min="25" step="1">
+          </div>
+        </div>
+        <div class="calc-out">
+          <div class="calc-big" id="st-out">—</div>
+          <div class="calc-msg" id="st-msg"></div>
+          <div class="calc-formula">
+            총 포인트 = (레벨 − 1) × 5 · 소서 기본 능력치 힘 <span class="num">10</span> / 민첩 <span class="num">25</span> / 활력 <span class="num">10</span> / 마력 <span class="num">35</span> ·
+            힘·민첩에 쓰고 남는 전부가 활력이다
+          </div>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>초기화하기 전 체크리스트</summary>
+        <div class="body">
+          <ul>
+            <li><strong>지옥 아카라 무료 초기화를 이미 썼는지 확인해라.</strong> 썼다면 지금은 증표를 못 만드니 되돌릴 방법이 없다.</li>
+            <li><strong>장비를 벗고 맨몸 힘·민첩을 적어둬라.</strong> 계산기에 넣을 기준값이다.</li>
+            <li><strong>목표 장비를 먼저 정해라.</strong> 힘을 얼마나 찍을지는 「뭘 입을 것인가」로 결정된다. 순서가 반대면 포인트를 버린다.</li>
+            <li><strong>순간이동에 1포인트는 반드시 남겨라.</strong> 지금 막힌 구간을 우회하는 수단이 그것뿐이다.</li>
+            <li>초기화 직후에는 스킬이 비어 있어 약해진다. <strong>마을에서 다 찍고 나가라.</strong></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== 푸터 ===================== -->
 <footer>
   <div class="wrap">
@@ -2261,6 +2458,8 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
           <li>DiabloBytes — Terror Zone 가이드</li>
           <li>Diablo Wiki (Fandom) — Blizzard 스킬 데미지 / 시너지</li>
           <li>카오스큐브 — 국내 거래 방식(CP) 확인용. 개별 시세는 인용하지 않았다</li>
+          <li>Maxroll — 능력치·기술 포인트 배분 및 시너지 계산식 (2026-09-16 확인)</li>
+          <li>Diablo Wiki — 초기화(아카라 / 절대의 증표) 규칙</li>
         </ul>
       </div>
       <div>
@@ -2672,7 +2871,71 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
   updateFcr();
 
   /* =======================================================================
-   * 9) 기록 초기화
+   * 9) 능력치 포인트 배분 계산기
+   * ===================================================================== */
+  /** 소서리스 기본 능력치 — 초기화해도 이 아래로는 안 내려간다. */
+  var SORC_BASE = { str: 10, dex: 25, vit: 10, enr: 35 };
+  /** 레벨업 1회당 받는 능력치 포인트. */
+  var STAT_PER_LEVEL = 5;
+
+  /**
+   * 목표 힘·민첩을 맞추고 남는 포인트가 얼마인지 계산한다.
+   * @param {number} level    - 캐릭터 레벨
+   * @param {number} gearStr  - 장비에서 오는 +힘
+   * @param {number} goalStr  - 장비 포함 목표 힘
+   * @param {number} goalDex  - 장비 포함 목표 민첩
+   * @returns {{total:number, str:number, dex:number, left:number, vit:number, over:boolean}}
+   */
+  function computeStatPlan(level, gearStr, goalStr, goalDex) {
+    var total = Math.max(0, (level - 1)) * STAT_PER_LEVEL;
+    var str = Math.max(0, goalStr - gearStr - SORC_BASE.str);
+    var dex = Math.max(0, goalDex - SORC_BASE.dex);
+    var left = total - str - dex;
+    return {
+      total: total, str: str, dex: dex,
+      left: Math.max(0, left),
+      vit: SORC_BASE.vit + Math.max(0, left),
+      over: left < 0
+    };
+  }
+
+  /** 능력치 계산기 출력 갱신. @returns {void} */
+  function updateStat() {
+    var out = $('#st-out');
+    if (!out) return;
+    var plan = computeStatPlan(
+      Number($('#st-lv').value) || 1,
+      Number($('#st-gear').value) || 0,
+      Number($('#st-str').value) || 0,
+      Number($('#st-dex').value) || 0
+    );
+
+    var msg = $('#st-msg');
+    if (plan.over) {
+      out.textContent = '포인트 부족';
+      out.className = 'calc-big bad';
+      msg.innerHTML = '목표를 맞추려면 <strong class="num">' + (plan.str + plan.dex - plan.total)
+        + '</strong>포인트가 더 필요하다. 레벨을 더 올리거나 <strong>장비 +힘</strong>으로 메워라 — '
+        + '<a href="#buy">모래폭풍 여로</a>가 그 역할을 한다.';
+      return;
+    }
+
+    out.textContent = '활력에 ' + plan.left + '포인트';
+    out.className = 'calc-big ' + (plan.left >= 250 ? 'ok' : (plan.left >= 180 ? 'warn' : 'bad'));
+    msg.innerHTML = '총 <strong class="num">' + plan.total + '</strong>포인트 중 '
+      + '힘 <strong class="num">' + plan.str + '</strong> · 민첩 <strong class="num">' + plan.dex + '</strong>을 쓰고 '
+      + '나머지가 활력으로 간다 (활력 <strong class="num">' + plan.vit + '</strong>). '
+      + '<strong>마력은 0이다.</strong>';
+  }
+
+  ['#st-lv', '#st-gear', '#st-str', '#st-dex'].forEach(function (sel) {
+    var el = $(sel);
+    if (el) el.addEventListener('input', updateStat);
+  });
+  updateStat();
+
+  /* =======================================================================
+   * 10) 기록 초기화
    * ===================================================================== */
   var resetBtn = $('#btn-reset');
   if (resetBtn) {
