@@ -103,11 +103,13 @@ const STORAGE_KEY = 'd2r_blizz_dashboard_v1';
  * @property {boolean} calc.useSunder                 - 냉기 파괴참 착용 여부
  * @property {number} calc.convictionMinus            - 인피니티 천벌 오라의 저항 감소(%)
  * @property {number} calc.fcr                        - 현재 장비 FCR 합(%)
+ * @property {Object} guide                           - 진행 가이드 체크리스트 상태
+ * @property {Record<string, boolean>} guide.checked   - 스텝 id -> 완료 여부
  */
 
 /** 기본 상태 (초기화/리셋 기준). 새 키를 STATE에 추가하면 여기에도 추가할 것. */
 const DEFAULT_STATE = {
-  activeTab: 'tz',
+  activeTab: 'guide',
   tz: { selectedZoneId: 'ancient-tunnels', filterTier: 'ALL', hasSunder: false },
   timer: { running: false, startedAt: 0, runs: [] },
   bounty: { checked: {}, filterSlot: 'ALL', hideDone: false },
@@ -121,7 +123,8 @@ const DEFAULT_STATE = {
     useSunder: false,
     convictionMinus: 0,
     fcr: 105
-  }
+  },
+  guide: { checked: {} }
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 기능의 기본 상태를 여기 추가]
 };
 

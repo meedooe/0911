@@ -36,6 +36,7 @@
   <button type="button" class="tab" data-tab="timer">랩타임</button>
   <button type="button" class="tab" data-tab="bounty">현상수배</button>
   <button type="button" class="tab" data-tab="cheat">치트시트</button>
+  <button type="button" class="tab" data-tab="guide">진행 가이드</button>
   <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 버튼을 여기 추가] -->
 </nav>
 
@@ -137,8 +138,22 @@
         <div id="rune-list"></div>
       </div>
 
+      <div class="card">
+        <h3>도박(Gheed's Gambling) 안내 <span class="badge badge-warn">근사치</span></h3>
+        <p class="hint">확률·가격 수치는 패치마다 다르고 공식 수치가 없어 뺐다. 동작 원리와 극블리 소서 기준 노려볼 부위만 정리.</p>
+        <div id="gamble-info"></div>
+      </div>
+
       <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 치트시트 카드를 여기 추가] -->
     </div>
+  </section>
+
+  <!-- ============ 5. 진행 가이드 (막혔을 때) ============ -->
+  <section class="panel" id="panel-guide">
+    <div class="panel-head"><h2>진행 가이드 — 막혔을 때</h2></div>
+    <p class="hint">지금 상황 진단 + 응급 팁, 그리고 두 갈래 경로 체크리스트. 클릭해서 하나씩 지워나가면 된다.</p>
+    <div class="guide-status" id="guide-status"></div>
+    <div class="guide-paths" id="guide-paths"></div>
   </section>
 
   <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 패널(section.panel)을 여기 추가] -->

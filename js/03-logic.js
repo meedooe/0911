@@ -365,6 +365,24 @@ function computeBlizzardDamage(cfg, consts) {
   };
 }
 
+/* ---------------------------------------------------------------------------
+ * 기능 5) 진행 가이드 — 체크리스트 진행률
+ * ------------------------------------------------------------------------- */
+
+/**
+ * 체크리스트 경로 하나의 진행률을 계산한다.
+ * @param {{id:string}[]} steps - 경로의 단계들 (META_DATA.stuckGuide.paths[].steps)
+ * @param {Record<string, boolean>} checked - 스텝 id -> 완료 여부
+ * @returns {{done:number, total:number, pct:number}} 진행률 요약
+ */
+function computeChecklistProgress(steps, checked) {
+  const map = checked || {};
+  const list = Array.isArray(steps) ? steps : [];
+  const total = list.length;
+  const done = list.filter((s) => map[s.id]).length;
+  return { done: done, total: total, pct: total ? Math.round((done / total) * 100) : 0 };
+}
+
 // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 순수 계산 함수를 여기 추가하고 test/logic.test.mjs 에 테스트를 넣어라]
 
 // Node 테스트용 내보내기 (브라우저에서는 무시됨)
@@ -375,6 +393,7 @@ if (typeof module !== 'undefined' && module.exports) {
     computeBountyProgress, buildBountyView,
     findBreakpoint, framesToCastsPerSecond,
     interpolateBlizzardDamage, computeEffectiveResist, computeBlizzardDamage,
+    computeChecklistProgress,
     TIER_ORDER
   };
 }

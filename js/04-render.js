@@ -300,6 +300,67 @@ function renderRunes(data) {
 }
 
 /**
+ * 도박(Gheed's Gambling) 안내 카드를 그린다.
+ * @param {Object} data - META_DATA
+ * @returns {void}
+ */
+function renderGambling(data) {
+  const g = data.gambling;
+  const el = $('gamble-info');
+  if (!el) return;
+
+  el.innerHTML =
+    '<p class="base">' + esc(g.host) + '</p>' +
+    '<ul class="calc-notes">' + g.howItWorks.map((h) => '<li>' + esc(h) + '</li>').join('') + '</ul>' +
+    '<p class="base">극블리 소서 기준 노려볼 부위</p>' +
+    '<ul class="stats">' + g.sorcTargets.map((t) =>
+      '<li><strong>' + esc(t.slot) + '</strong> — ' + esc(t.why) + '</li>').join('') + '</ul>' +
+    '<p class="bounty-note">' + esc(g.caution) + '</p>' +
+    (g.verified ? '' : '<p class="bounty-note">⚠ ' + esc(g.note) + '</p>');
+}
+
+/* ---------------------------------------------------------------------------
+ * 5) 진행 가이드
+ * ------------------------------------------------------------------------- */
+
+/**
+ * "막혔을 때" 상태 카드 + 경로 체크리스트를 그린다.
+ * @param {Object} state - STATE
+ * @param {Object} data - META_DATA
+ * @returns {void}
+ */
+function renderStuckGuide(state, data) {
+  const g = data.stuckGuide;
+  const checked = state.guide.checked;
+
+  $('guide-status').innerHTML =
+    '<p class="guide-status-line">' + esc(g.statusNote) + '</p>' +
+    '<ul class="calc-notes">' + g.immediateTips.map((t) => '<li>' + esc(t) + '</li>').join('') + '</ul>';
+
+  $('guide-paths').innerHTML = g.paths.map((path) => {
+    const prog = computeChecklistProgress(path.steps, checked);
+    const doneCls = prog.total && prog.done === prog.total ? ' done' : '';
+    return '' +
+      '<article class="guide-path' + doneCls + '">' +
+        '<div class="progress-head"><strong>' + esc(path.title) + '</strong>' +
+          '<span>' + prog.done + ' / ' + prog.total + ' (' + prog.pct + '%)</span></div>' +
+        '<div class="progress-bar"><i style="width:' + prog.pct + '%"></i></div>' +
+        '<p class="hint">' + esc(path.summary) + '</p>' +
+        '<ul class="guide-steps">' + path.steps.map((s) => {
+          const isDone = !!checked[s.id];
+          return '<li class="' + (isDone ? 'done' : '') + '">' +
+            '<label>' +
+              '<input type="checkbox" class="guide-check" data-step-id="' + esc(s.id) + '"' + (isDone ? ' checked' : '') + '>' +
+              '<span>' + esc(s.text) + '</span>' +
+            '</label>' +
+          '</li>';
+        }).join('') + '</ul>' +
+      '</article>';
+  }).join('');
+  // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 진행 가이드에 표시할 항목 추가]
+}
+
+/**
  * 현재 활성 탭에 맞게 패널 표시를 전환한다.
  * @param {string} tabId - 탭 id
  * @returns {void}

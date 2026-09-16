@@ -117,6 +117,17 @@ ok('저항 -20%면 최종 데미지가 증폭값보다 크다',
 ok('근사치 데이터에는 안내 문구가 붙는다',
   L.computeBlizzardDamage({ blizzLevel: 33, synergyLevel: 20, coldSkillDamage: 0, coldMastery: 0, monsterResist: 0, monsterImmune: false, useSunder: false, convictionMinus: 0 }, B).notes.some((n) => n.includes('근사치')));
 
+console.log('\n--- 진행 가이드 체크리스트 ---');
+const gPath = META_DATA.stuckGuide.paths.find((p) => p.id === 'gamble-path');
+const prog0g = L.computeChecklistProgress(gPath.steps, {});
+ok('아무것도 체크 안 하면 0%', prog0g.done === 0 && prog0g.pct === 0, prog0g);
+const prog1g = L.computeChecklistProgress(gPath.steps, { 'gp-1': true, 'gp-2': true });
+ok('2개 체크하면 done=2', prog1g.done === 2, prog1g);
+ok('빈 스텝 배열은 total 0, pct 0', L.computeChecklistProgress([], {}).total === 0 && L.computeChecklistProgress([], {}).pct === 0);
+ok('진행 가이드 경로 2개, 각 스텝 id 중복 없음',
+  META_DATA.stuckGuide.paths.length === 2 &&
+  META_DATA.stuckGuide.paths.every((p) => new Set(p.steps.map((s) => s.id)).size === p.steps.length));
+
 console.log('\n========================================');
 console.log('  PASS ' + pass + ' / FAIL ' + fail);
 console.log('========================================\n');

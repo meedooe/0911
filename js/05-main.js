@@ -25,6 +25,8 @@ function renderAll() {
   renderFcr(STATE, META_DATA);
   renderCalc(STATE, META_DATA);
   renderRunes(META_DATA);
+  renderGambling(META_DATA);
+  renderStuckGuide(STATE, META_DATA);
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 렌더 함수 호출을 여기 추가]
 }
 
@@ -209,6 +211,15 @@ function init() {
     syncStateToCalcInputs();
     handleStop();
     renderAll();
+  });
+
+  /* ---- 진행 가이드 ---- */
+  $('guide-paths').addEventListener('change', (e) => {
+    const cb = e.target.closest('.guide-check');
+    if (!cb) return;
+    STATE.guide.checked[cb.dataset.stepId] = cb.checked;
+    renderStuckGuide(STATE, META_DATA);
+    saveState();
   });
 
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 이벤트 바인딩을 여기 추가]
