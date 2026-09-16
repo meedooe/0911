@@ -701,7 +701,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
           </div>
           <div class="tip">
             <span class="ic">🛡</span>
-            <span><b>독 저항을 먼저 점검해라.</b> 독 저항이 낮으면 같은 공격도 체감 데미지가 확 뛴다. <a href="#calc">계산기</a>에 장비 저항을 넣어보면 바로 보인다.</span>
+            <span><b>독 저항을 먼저 점검해라.</b> 독 저항이 낮으면 같은 공격도 체감 데미지가 확 뛴다. <a href="#calc">계산기</a>에 넣어보고, 부족하면 <a href="#buy">모래폭풍 여로(독 저항 +40~70%)</a>가 한 부위로 끝내는 답이다.</span>
           </div>
           <div class="tip">
             <span class="ic">🚪</span>
@@ -839,7 +839,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <td class="t-name">독 저항</td>
               <td class="n">-10%</td>
               <td><span class="badge b-no">현재 원인</span></td>
-              <td class="t-note"><strong>지금 막힌 직접 원인.</strong> 장비 독 저항이 <span class="num">90</span>인데도 지옥 패널티 <span class="num">-100</span> 때문에 표시값이 마이너스다. 박피자의 독침이 아프게 들어오는 이유가 여기 있다. → <a href="#now">응급 처치</a></td>
+              <td class="t-note"><strong>지금 막힌 직접 원인.</strong> 장비 독 저항이 <span class="num">90</span>인데도 지옥 패널티 <span class="num">-100</span> 때문에 표시값이 마이너스다. 박피자의 독침이 아프게 들어오는 이유가 여기 있다. → <a href="#now">응급 처치</a> · <a href="#buy">장비로 메우기</a></td>
             </tr>
             <tr>
               <td class="t-name">생명력</td>
@@ -1028,6 +1028,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
             <li>최소 목표는 <strong>파괴참 패널티를 반영한 뒤</strong>에도 표시값이 <span class="num">0</span> 이상. 실사용 목표는 <span class="num">75</span>.</li>
             <li>가장 빠른 수단 — 영혼(Spirit) 방패, 마라의 만화경, 전 저항 소형 참. 셋 중 하나만 들어와도 체감이 크게 바뀐다.</li>
             <li><strong>전 저항</strong> 옵션을 노려라. 지금 막힌 원인이 독이라, 냉기와 독을 한 번에 메우는 옵션이 일석이조다.</li>
+            <li>부위별 최대치는 이렇다 — 독은 <strong>모래폭풍 여로(+40~70%)</strong>, 냉기는 <strong>트래그울의 발톱(+30%)</strong>, 둘 다면 <strong>영혼 방패(각 +35%)</strong>나 <strong>마라(전 저항 +20~30)</strong>. → <a href="#buy">구매 우선순위</a></li>
             <li>명예의 굴레(전 저항 +65)가 있으면 이 단계가 한 번에 끝난다.</li>
           </ul>
         </div>
@@ -1441,6 +1442,25 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
       </p>
     </div>
 
+    <div class="callout danger" style="margin-bottom:20px">
+      <div class="callout-title">2026-09-16 — 옵션 데이터 일부를 수정했다</div>
+      <p>
+        인게임 아이템 정보와 대조한 결과 <strong>원본 데이터에 오류가 있었다.</strong> 고친 항목은 다음과 같다.
+      </p>
+      <ul style="margin:4px 0 0; padding-left:18px; font-size:.875rem; color:var(--ink-2); line-height:1.7">
+        <li><strong>트래그울의 발톱</strong> — 「냉기 데미지 +25% · 독 저항」은 틀렸다. 실제는 <strong>냉기 저항 +30%</strong>이고, +25%는 <strong>독 기술 피해</strong>(소서 무용)다.</li>
+        <li><strong>모래폭풍 여로</strong> — 독 저항이 무려 <strong>+40~70%</strong>다. 수치가 빠져 있어 중요도가 가려져 있었다.</li>
+        <li><strong>밤날개의 너울</strong> — 「적 냉기 저항 감소」는 없는 옵션이다. 실제는 <strong>냉기 흡수 +5~9</strong>.</li>
+        <li><strong>죽음의 깊이</strong> — 냉기 스킬 피해는 <span class="num">15~30%</span>(40 아님), 붙는 저항은 <strong>화염·번개</strong>뿐이다.</li>
+        <li><strong>거미 그물띠</strong> — 「느리게 하기 저항 감소」가 아니라 <strong>대상 둔화 10%</strong>. 요구 레벨 <span class="num">80</span>.</li>
+        <li><strong>영혼 · 칠흑 서리</strong> — 빠져 있던 저항·흡수 수치를 채웠다.</li>
+      </ul>
+      <p style="margin-top:8px">
+        <span class="badge b-ok">2026-09-16 재검증</span> 배지가 붙은 카드만 대조를 마쳤다.
+        <strong>배지가 없는 카드는 최초 리서치 그대로이며 아직 검증되지 않았다</strong> — 지르기 전에 인게임 툴팁을 보고 확인해라.
+      </p>
+    </div>
+
     <div class="chipbar">
       <span class="lbl">현상수배</span>
       <button class="chip" type="button" id="gear-hide">확보한 것 숨기기</button>
@@ -1457,8 +1477,12 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <span class="badge b-unique">유니크</span>
             </div>
             <div class="gear-base">차원의 파편 (Dimensional Shard) · 무기</div>
-            <div class="gear-stats"><span>+3 냉기 기술</span><span>냉기 데미지 +15~40%</span><span>+FCR</span><span>전 저항</span></div>
-            <p class="gear-note">극블리 딜의 상한선을 결정하는 단일 최대 변수. 40% 롤이 진짜 졸업. 지옥 바알 등 고레벨 몬스터 드랍.</p>
+            <div class="gear-stats"><span>+3 소서리스 기술</span><span>냉기 스킬 피해 +15~30%</span><span>FCR +20%</span><span>화염·번개 저항 +25~40%</span></div>
+            <p class="gear-note">
+              극블리 딜의 상한선을 결정하는 단일 최대 변수. <strong>냉기 스킬 피해는 최대 30%</strong>이고,
+              붙는 저항은 <strong>화염·번개뿐이다 — 냉기 저항은 없다.</strong> 지옥 바알 등 고레벨 몬스터 드랍.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1501,8 +1525,12 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <span class="badge b-unique">유니크</span>
             </div>
             <div class="gear-base">첨탑 투구 · 투구</div>
-            <div class="gear-stats"><span>+2 전 기술</span><span>냉기 데미지 +5~15%</span><span>적 냉기 저항 -X%</span><span>+민첩</span></div>
-            <p class="gear-note">냉뎀 15% + 적 냉기저항 감소가 붙은 게 졸업. 소켓엔 파세공 주얼.</p>
+            <div class="gear-stats"><span>+2 전 기술</span><span>냉기 스킬 피해 +8~15%</span><span>냉기 흡수 +5~9</span><span>요구치 -50%</span></div>
+            <p class="gear-note">
+              <strong>적 냉기 저항을 깎는 옵션은 없다</strong> — 붙는 건 내가 받는 냉기를 흡수하는 쪽이다.
+              저항이 마이너스인 지금은 그 흡수가 오히려 쓸모 있다. 냉기 스킬 피해 15% 롤이 졸업. 소켓엔 파세공 주얼.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1529,8 +1557,13 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <span class="badge b-unique">유니크</span>
             </div>
             <div class="gear-base">스파이더웹 새시 · 벨트</div>
-            <div class="gear-stats"><span>+1 전 기술</span><span>+20 FCR</span><span>마나 +5%</span><span>느리게 하기 저항 감소</span></div>
-            <p class="gear-note">벨트에서 +1스킬과 20 FCR을 동시에 주는 유일한 선택. 사실상 확정.</p>
+            <div class="gear-stats"><span>+1 전 기술</span><span>FCR +20%</span><span>최대 마나 +5%</span><span>대상 둔화 10%</span></div>
+            <p class="gear-note">
+              벨트에서 +1스킬과 FCR 20을 동시에 주는 유일한 선택. 사실상 확정.
+              <strong>요구 레벨 <span class="num">80</span></strong>이라 지금(<span class="num">81</span>)에야 겨우 낄 수 있게 됐다.
+              저항은 하나도 안 붙으니 생존 목적으로는 사지 마라.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1640,12 +1673,14 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
             </div>
             <div class="gear-runes">Tal · Thul · Ort · Amn</div>
             <div class="gear-base">4소켓 모나크 · 방패</div>
-            <div class="gear-stats"><span>+2 전 기술</span><span>+25~35 FCR</span><span>+55 FHR</span><span>+112 마나</span></div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>FCR +25~35%</span><span>FHR +55%</span><span>냉기·번개·독 저항 각 +35%</span></div>
             <p class="gear-note">
               <strong>지금 1순위.</strong> 재료가 카운테스 구간 룬이라 가장 빨리 만들 수 있고,
-              위 옵션 외에 <strong>냉기·번개·독 저항</strong>이 함께 붙는다(화염은 없다).
+              <strong>독 저항 +35%는 이 문서 전체에서 단일 최대 독 저항 수단</strong>이다(화염 저항만 없다).
               파괴참 패널티를 상쇄하면서 FCR 105까지 챙기는 유일한 부품.
-              <span class="badge b-approx">저항 옵션은 대시보드 데이터에 누락돼 있음</span>
+              <strong>단 모나크 방패는 힘 <span class="num">156</span>·레벨 <span class="num">54</span>를 요구한다</strong> —
+              기록된 힘 <span class="num">121</span>로는 못 낀다. → <a href="#buy">착용 조건 항목</a>
+              <span class="badge b-ok">2026-09-16 재검증</span>
             </p>
           </div>
           <div class="gear">
@@ -1653,9 +1688,16 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <div><div class="gear-name">트래그울의 발톱</div><span class="gear-en">Trang-Oul's Claws</span></div>
               <span class="badge b-set">세트</span>
             </div>
-            <div class="gear-base">헤비 브레이서 · 장갑</div>
-            <div class="gear-stats"><span>+25% 냉기 데미지</span><span>+20 FCR</span><span>+독 저항</span></div>
-            <p class="gear-note">세트 2피스 없이 단독 착용해도 옵션이 다 나온다. 가성비 최고의 냉뎀 25%.</p>
+            <div class="gear-base">헤비 브레이서 / 엘리트 뱀브레이스 · 장갑</div>
+            <div class="gear-stats"><span>냉기 저항 +30%</span><span>FCR +20%</span><span>방어력 +30</span></div>
+            <p class="gear-note">
+              세트 2피스 없이 단독 착용해도 옵션이 다 나온다. <strong>쓸 건 냉기 저항 30과 FCR 20 두 줄뿐이다</strong> —
+              같이 붙은 「독 기술 피해 +25%」와 「+2 저주(강령술사 전용)」는 소서에게 아무 값어치가 없다.
+              <strong>독 저항은 붙지 않는다.</strong>
+              요구 힘/레벨은 일반본 <span class="num">58</span>/<span class="num">45</span>,
+              엘리트 업그레이드본 <span class="num">106</span>/<span class="num">58</span>.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1663,8 +1705,12 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <span class="badge b-unique">유니크</span>
             </div>
             <div class="gear-base">반지</div>
-            <div class="gear-stats"><span>얼지 않음</span><span>+민첩 15~20</span><span>냉기 흡수</span><span>+마나</span></div>
-            <p class="gear-note">얼지 않음 확보 수단. 다른 데서 CBF가 나오면 FCR 반지로 교체.</p>
+            <div class="gear-stats"><span>얼지 않음</span><span>+민첩 15~20</span><span>냉기 흡수 +20%</span><span>+마나 40</span></div>
+            <p class="gear-note">
+              얼지 않음 확보 수단. <strong>냉기 흡수 20%는 냉기 저항이 마이너스인 지금 특히 크게 먹는다.</strong>
+              다른 데서 CBF가 나오면 FCR 반지로 교체.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
           <div class="gear">
             <div class="gear-top">
@@ -1681,8 +1727,14 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               <span class="badge b-unique">유니크</span>
             </div>
             <div class="gear-base">스케럽 허스크 부츠 · 신발</div>
-            <div class="gear-stats"><span>+FHR</span><span>+힘/활력</span><span>독 저항</span><span>스태미나 회복</span></div>
-            <p class="gear-note">생존용 신발. MF를 노리면 전쟁 여행자(War Traveler)로 교체.</p>
+            <div class="gear-stats"><span>독 저항 +40~70%</span><span>FHR +20%</span><span>+힘 10~15</span><span>+활력 10~15</span></div>
+            <p class="gear-note">
+              <strong>지금 막힌 문제의 최대 단일 해법이다.</strong> 독 저항이 한 부위에서 최대 <span class="num">70</span>까지 붙는다.
+              덤으로 <strong>+힘 10~15</strong>가 붙어서 모나크(힘 156) 착용 조건을 좁히는 데도 기여한다.
+              요구 힘 <span class="num">91</span> · 레벨 <span class="num">64</span>로 지금 바로 낄 수 있다.
+              MF를 노릴 때만 전쟁 여행자로 교체.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
           </div>
         </div>
       </div>
@@ -2008,15 +2060,29 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow">14 — 현금 구매 우선순위</p>
-      <h2>돈을 쓴다면 딜템이 아니라 저항이다</h2>
+      <h2>독 저항과 냉기 저항은 서로 다른 부위에서 온다</h2>
       <p>
         <a href="#gambling">도박</a>이 골드로 얻는 경로라면 이쪽은 현금으로 얻는 경로다.
-        예산이 작을수록 순위가 중요해진다. 원칙은 하나 —
-        <strong>자력으로 안 나오는 것에만 쓴다.</strong>
+        예산이 작을수록 순위가 중요해진다. 원칙은 둘 —
+        <strong>자력으로 안 나오는 것에만 쓰고, 지금 막힌 문제부터 친다.</strong>
       </p>
     </div>
 
     <div class="stack">
+      <div class="callout warn">
+        <div class="callout-title">순위를 다시 뽑은 이유 — 2026-09-16</div>
+        <p>
+          이 표의 이전 판은 <strong>트래그울의 발톱을 「독 저항 + 냉기 데미지」로 잘못 알고 1순위에 뒀다.</strong>
+          실제 옵션은 <strong>냉기 저항 +30%</strong>이고 붙은 「+25%」는 <strong>독 기술 피해</strong>로 소서에겐 무용이다.
+          독 저항은 한 줄도 없다.
+        </p>
+        <p>
+          같은 대조에서 <strong>모래폭풍 여로의 독 저항이 <span class="num">+40~70%</span></strong>라는 게 드러났고,
+          그게 지금 막힌 문제의 실제 정답이다. 아래는 그 기준으로 다시 세운 순서다.
+          → <a href="#gear">수정 내역 전체</a>
+        </p>
+      </div>
+
       <div class="callout danger">
         <div class="callout-title">먼저, 사면 안 되는 것 — 룬 재료</div>
         <p>
@@ -2024,81 +2090,82 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
           전부 <a href="#farming">지옥 카운테스</a>가 흔히 뱉는 하위 룬이다. 런 1회가 1분 남짓이라 몇 판이면 모인다.
         </p>
         <p>
-          이 둘은 <a href="#gear">졸업 장비</a>에서 「지금 1·2순위」로 적어둔 부품이지만,
-          <strong>순위가 높다는 것과 돈을 쓸 곳이라는 건 다른 얘기다.</strong>
-          현금은 자력으로 안 나오는 유니크·참에 써라.
+          특히 영혼은 <strong>독 저항 +35% · 냉기 저항 +35%</strong>가 한 번에 붙는 최고의 부품인데
+          <strong>재료값이 거의 안 든다.</strong> 현금은 자력으로 안 나오는 유니크에 써라.
+          다만 착용 조건이 문제다 — 바로 아래 항목을 보라.
         </p>
       </div>
 
       <div>
         <h3 class="sub">현금을 쓴다면 이 순서 <span class="badge b-S">필수만</span></h3>
         <div class="tablewrap">
-          <table style="min-width:720px">
+          <table style="min-width:760px">
             <thead>
-              <tr><th>순위</th><th>아이템</th><th>부위</th><th>핵심 옵션</th><th>왜 이 순위인가</th></tr>
+              <tr><th>순위</th><th>아이템</th><th>부위</th><th>이 캐릭터에 실제로 먹는 옵션</th><th>요구 힘 / Lv</th><th>왜 이 순위인가</th></tr>
             </thead>
             <tbody>
               <tr class="tier-S">
                 <td class="stripe n"><strong>1</strong></td>
-                <td class="t-name">트래그울의 발톱 <span class="t-sub">Trang-Oul's Claws</span></td>
-                <td class="n">장갑</td>
-                <td class="t-note">독 저항 · 냉기 데미지 +25% · FCR +20</td>
-                <td class="t-note"><strong>지금 막힌 원인이 독침</strong>인데 그걸 정확히 친다. 세트 2피스 없이 단독 착용해도 옵션이 다 나오고, 유니크가 아니라 값도 눅다. <strong>가성비 1위.</strong></td>
+                <td class="t-name">모래폭풍 여로 <span class="t-sub">Sandstorm Trek</span></td>
+                <td class="n">신발</td>
+                <td class="t-note"><strong>독 저항 +40~70%</strong> · +힘 10~15 · +활력 10~15 · FHR +20%</td>
+                <td class="n">91 / 64</td>
+                <td class="t-note"><strong>지금 막힌 독침 문제의 최대 단일 해법.</strong> 한 부위에서 독 저항이 최대 <span class="num">70</span> 붙는다. 덤으로 오르는 <strong>+힘</strong>이 영혼(모나크) 착용 조건까지 좁혀준다.</td>
               </tr>
               <tr class="tier-S">
                 <td class="stripe n"><strong>2</strong></td>
                 <td class="t-name">마라의 만화경 <span class="t-sub">Mara's Kaleidoscope</span></td>
                 <td class="n">목걸이</td>
-                <td class="t-note">전 저항 +20~30 · +2 전 기술 · 전 능력치 +5</td>
-                <td class="t-note">목걸이 <strong>한 부위로 냉기와 독 두 구멍을 동시에</strong> 메운다. <a href="#diagnosis">진단표</a>의 병목 두 줄이 이거 하나로 같이 내려간다. 예산의 주력을 여기 쓸 값어치가 있다.</td>
+                <td class="t-note"><strong>전 저항 +20~30</strong> · +2 전 기술 · 전 능력치 +5</td>
+                <td class="n">— / 67</td>
+                <td class="t-note">목걸이 <strong>한 부위로 냉기와 독을 동시에</strong> 메운다. <a href="#diagnosis">진단표</a>의 병목 두 줄이 이거 하나로 같이 내려간다. 예산의 주력.</td>
               </tr>
               <tr class="tier-A">
                 <td class="stripe n"><strong>3</strong></td>
-                <td class="t-name">칠흑 서리 <span class="t-sub">Raven Frost</span></td>
-                <td class="n">반지</td>
-                <td class="t-note">얼지 않음(CBF) · +민첩 15~20 · 냉기 흡수</td>
-                <td class="t-note">값이 싸고 <strong>얼지 않음</strong>은 사실상 필수다. 다른 부위에서 CBF가 들어오면 그때 FCR 반지로 교체하면 된다.</td>
+                <td class="t-name">트래그울의 발톱 <span class="t-sub">Trang-Oul's Claws</span></td>
+                <td class="n">장갑</td>
+                <td class="t-note"><strong>냉기 저항 +30%</strong> · FCR +20% <span class="badge b-no">독 저항 없음</span></td>
+                <td class="n">58 / 45</td>
+                <td class="t-note">담당이 다르다 — <strong>독침이 아니라 <a href="#solutions">파괴참 착용 전제조건(냉기 저항)</a></strong> 쪽이다. 세트 단품으로도 옵션이 다 나오고 값이 눅어서 순위가 높다.</td>
               </tr>
               <tr class="tier-A">
                 <td class="stripe n"><strong>4</strong></td>
                 <td class="t-name">전 저항 소형 참 <span class="t-sub">All Resist Small Charm</span></td>
                 <td class="n">인벤</td>
-                <td class="t-note">전 저항 +N</td>
-                <td class="t-note">개당 값이 싸고 저항을 직접 메운다. <strong>예산이 애매하게 남으면 여기에 털어넣는 게 이득</strong>이다 — 한 장씩 사도 손해가 없는 유일한 항목.</td>
+                <td class="t-note">전 저항 +N <span class="badge b-approx">롤 편차</span></td>
+                <td class="n">— / —</td>
+                <td class="t-note">냉기·독을 같이 올리고 <strong>한 장씩 쪼개 살 수 있다.</strong> 예산이 애매하게 남았을 때 손해 없이 털어넣는 유일한 항목.</td>
               </tr>
               <tr class="tier-B">
                 <td class="stripe n"><strong>5</strong></td>
-                <td class="t-name">거미 그물띠 <span class="t-sub">Arachnid Mesh</span></td>
-                <td class="n">벨트</td>
-                <td class="t-note">+1 전 기술 · FCR +20</td>
-                <td class="t-note"><a href="#cheatsheet">FCR 105</a>를 맞추는 핵심 부품이지만 위 넷보다 비싸다. <strong>남으면</strong> 사라. 생존이 먼저다.</td>
+                <td class="t-name">칠흑 서리 <span class="t-sub">Raven Frost</span></td>
+                <td class="n">반지</td>
+                <td class="t-note">얼지 않음 · <strong>냉기 흡수 +20%</strong> · +민첩 15~20</td>
+                <td class="n">— / 45</td>
+                <td class="t-note">값이 싸다. <strong>냉기 저항이 마이너스인 지금은 흡수 20%가 저항보다 체감이 크다.</strong> 얼지 않음은 덤.</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="t-note" style="margin-top:12px">
+          <strong>거미 그물띠는 이 표에서 뺐다.</strong> +1 스킬과 FCR 20은 좋지만 <strong>저항이 한 줄도 없어서</strong>
+          지금의 생존 문제에 아무것도 못 한다. 요구 레벨도 <span class="num">80</span>이다. 저항을 다 채운 뒤에 살 물건이다.
+        </p>
       </div>
 
       <div class="callout warn">
-        <div class="callout-title">사기 전에 착용 조건부터 봐라</div>
+        <div class="callout-title">영혼(Spirit)을 쓰려면 힘이 35 모자란다</div>
         <p>
-          <strong>힘이 모자라서 못 끼는 경우가 진짜로 나온다.</strong>
-          영혼(Spirit)을 노린다면 표준 베이스인 <strong>모나크 방패는 힘 <span class="num">156</span></strong>을 요구하는데,
+          독 저항 <span class="num">+35%</span>가 공짜로 붙는 영혼이 최선인데, 표준 베이스인
+          <strong>모나크 방패는 힘 <span class="num">156</span> · 레벨 <span class="num">54</span></strong>를 요구한다.
           기록된 이 캐릭터의 힘은 <span class="num">121</span>이다.
-          <span class="badge b-approx">Lv 78 스냅샷 · 지금은 올랐을 수 있음</span>
+          <span class="badge b-approx">Lv 78 스냅샷 · 인게임에서 현재 값 확인</span>
         </p>
         <p>
-          모자라면 방패를 사도 장식품이 된다. <strong>인게임 아이템 툴팁의 요구 힘·레벨을 먼저 확인하고 지를 것.</strong>
-          위 표의 다섯 항목은 요구치가 낮아 이 문제에서 자유롭다 — 그것도 순위에 반영돼 있다.
-        </p>
-      </div>
-
-      <div class="callout danger">
-        <div class="callout-title">후보에서 뺀 것 — 그리고 그 이유</div>
-        <p>
-          죽음의 깊이 · 인피니티 · 에니그마 · 명예의 굴레는 <strong>일부러 넣지 않았다.</strong>
-          소액 예산 밖이기도 하지만 더 중요한 이유가 있다 —
-          <strong>지금 문제는 딜이 아니라 생존이다.</strong>
-          <a href="#now">독침에 끊겨 죽는 상황</a>에서 딜템을 사봐야 똑같이 죽는다.
+          <strong>장비만으로는 안 메워진다.</strong> 모래폭풍 여로(+10~15)와 마라(전 능력치 +5)를 둘 다 껴도
+          <span class="num">136~141</span>이라 <strong>아직 15~20이 모자라다.</strong>
+          힘에 스탯 포인트를 직접 찍거나 스탯 재분배를 쓰는 수밖에 없다.
+          <strong>그래서 1순위가 신발이다</strong> — 독 저항과 힘을 동시에 주는 유일한 부위라서다.
         </p>
       </div>
 
