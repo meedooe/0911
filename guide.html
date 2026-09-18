@@ -41,6 +41,7 @@
 
   --wrap: 1140px;
   --prose: 70ch;
+  --topbar-h: 55px; /* 내비 안쪽 높이 54 + 아래 테두리 1 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -102,6 +103,8 @@ body {
   font-size: 16px;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
+  /* 상단 내비가 position:fixed 라 문서 흐름에서 빠진다 — 그 높이만큼 위를 비운다 */
+  padding-top: var(--topbar-h);
 }
 
 .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
@@ -131,10 +134,14 @@ a { color: var(--glacier); text-decoration-thickness: 1px; text-underline-offset
    상단 내비
    ============================================================ */
 .topbar {
-  position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: color-mix(in srgb, var(--ground) 96%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
+}
+/* backdrop-filter 미지원 브라우저에서 글자가 겹쳐 보이지 않도록 불투명 배경 */
+@supports not (backdrop-filter: blur(10px)) {
+  .topbar { background: var(--ground); }
 }
 .topbar-inner { display: flex; align-items: center; gap: 20px; height: 54px; }
 .brand {
@@ -347,13 +354,13 @@ footer li { margin-bottom: 4px; }
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 16px); }
 
 /* ============================================================
    [추가] 읽기 진행 바 — 문서를 얼마나 읽었는지 상단에 표시
    ============================================================ */
 #readbar {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 60;
+  position: fixed; top: var(--topbar-h); left: 0; height: 3px; width: 0; z-index: 60;
   background: linear-gradient(90deg, var(--glacier), var(--gold));
   transition: width .08s linear;
 }
