@@ -120,6 +120,7 @@ a { color: var(--glacier); text-decoration-thickness: 1px; text-underline-offset
 
 .num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
 .en  { font-family: var(--font-display); font-style: italic; color: var(--muted); }
+.gloss { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
 
 .eyebrow {
   font-family: var(--font-data);
@@ -751,10 +752,13 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
 <section id="paths">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">02 — 경로 선택</p>
+      <p class="eyebrow">02 — 경로 선택 <span class="badge b-approx">지난 기록 · 참고용</span></p>
       <h2>장비를 채우든 레벨을 채우든, 둘 중 하나만 고르면 된다</h2>
       <p>
-        두 경로를 동시에 돌리지 마라. 하나를 끝까지 밀어야 체감이 온다.
+        <strong>이 섹션도 독 저항이 낮아 박피자의 정글에 막혀 있던 시절 짠 경로다.</strong>
+        그 문제는 <a href="#now">2026-09-18에 해결됐다</a> — 지금 당장 뭘 할지는 여기가 아니라
+        <a href="#solutions">실행 순서</a>를 따라가면 된다. 아래 체크리스트는 나중에 비슷하게 막히는 구간이
+        또 생기면 그때 다시 꺼내 쓰라고 남겨둔다.
         <strong>체크 상태는 이 브라우저(localStorage)에만 저장된다</strong> — 외부로 나가는 통신은 없다.
       </p>
     </div>
@@ -1692,8 +1696,8 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
             </div>
             <div class="gear-runes">Jah · Ith · Ber</div>
             <div class="gear-base">3소켓 갑옷 (모너크/듀사 셸 등) · 갑옷</div>
-            <div class="gear-stats"><span>순간이동</span><span>+2 전 기술</span><span>레벨당 MF</span><span>이동속도</span></div>
-            <p class="gear-note">소서는 텔포가 기본이라 다른 클래스만큼 급하진 않다. MF·스탯 목적이면 후순위 가능.</p>
+            <div class="gear-stats"><span>순간이동</span><span>+2 전 기술</span><span>레벨당 <abbr class="gloss" title="Magic Find — 아이템이 매직/레어/세트/유니크 등급으로 드랍될 확률을 올려주는 스탯">MF</abbr></span><span>이동속도</span></div>
+            <p class="gear-note">소서는 텔포가 기본이라 다른 클래스만큼 급하진 않다. <abbr class="gloss" title="Magic Find — 아이템이 매직/레어/세트/유니크 등급으로 드랍될 확률을 올려주는 스탯">MF</abbr>·스탯 목적이면 후순위 가능.</p>
           </div>
         </div>
       </div>
@@ -1967,7 +1971,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
               독 저항이 한 부위에서 최대 <span class="num">70</span>까지 붙는다. 독 <span class="num">75</span>(상한)는 여기서 나왔다.
               덤으로 <strong>+힘 10~15</strong>가 붙어서 모너크(힘 156) 착용 조건을 좁히는 데도 기여한다.
               요구 힘 <span class="num">91</span> · 레벨 <span class="num">64</span>로 지금 바로 낄 수 있다.
-              MF를 노릴 때만 전쟁 여행자로 교체.
+              <abbr class="gloss" title="Magic Find — 아이템이 매직/레어/세트/유니크 등급으로 드랍될 확률을 올려주는 스탯">MF</abbr>를 노릴 때만 전쟁 여행자로 교체.
               <span class="badge b-ok">2026-09-16 재검증</span>
             </p>
           </div>
@@ -2005,7 +2009,7 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
           <tr><td class="t-name">말 <span class="t-sub">Mal</span></td><td><span class="badge b-B">중상위</span></td><td class="t-note">무한 · 소집 · 슬픔</td></tr>
           <tr><td class="t-name">움 <span class="t-sub">Um</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">명예의 굴레 · 파멸</td></tr>
           <tr><td class="t-name">풀 <span class="t-sub">Pul</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">참나무의 심장</td></tr>
-          <tr><td class="t-name">렘 <span class="t-sub">Lem</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">부(Wealth) · MF 룬워드</td></tr>
+          <tr><td class="t-name">렘 <span class="t-sub">Lem</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">부(Wealth) · <abbr class="gloss" title="Magic Find — 아이템이 매직/레어/세트/유니크 등급으로 드랍될 확률을 올려주는 스탯">MF</abbr> 룬워드</td></tr>
           <tr><td class="t-name">코 <span class="t-sub">Ko</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">참나무의 심장</td></tr>
         </tbody>
       </table>

@@ -6,6 +6,8 @@
  * - "변하는 값"은 전부 여기 STATE 안에 있다. 다른 파일에서 전역 변수를 새로 만들지 마라.
  * - 새 상태가 필요하면 STATE의 해당 섹션 안에 키를 추가하고, DEFAULT_STATE에도 똑같이 추가해라.
  * - 로직/렌더 함수는 여기 있는 것을 읽기만 하고, 변경은 아래 setter 계열 함수로만 한다.
+ * - 2026-09-24: 이 대시보드는 스피드런 랩타임 도구로 범위를 줄였다. 맵 티어/현상수배/
+ *   치트시트/막힘 가이드는 guide.html(공략서)로 이전됐다 — 자세한 경위는 README.md.
  * =============================================================================
  */
 
@@ -80,52 +82,18 @@ const STORAGE_KEY = 'd2r_blizz_dashboard_v1';
 /**
  * 앱 전체 상태.
  * @typedef {Object} AppState
- * @property {string} activeTab                       - 현재 탭 id
- * @property {Object} tz                              - 공포의 영역 분석기 상태
+ * @property {Object} tz                              - 측정 대상 지역 선택 상태
  * @property {string} tz.selectedZoneId               - 선택된 지역 id
- * @property {string} tz.filterTier                   - 티어 필터 ("ALL"|"S"|"A"|"B"|"D")
- * @property {boolean} tz.hasSunder                   - 냉기 파괴참 보유 여부(티어 재평가에 사용)
  * @property {Object} timer                           - 랩타임 상태
  * @property {boolean} timer.running                  - 측정 중인가
  * @property {number} timer.startedAt                 - 현재 런 시작 시각(ms). 정지 시 0
  * @property {RunRecord[]} timer.runs                 - 완료된 런 기록들
- * @property {Object} bounty                          - 현상수배 상태
- * @property {Record<string, boolean>} bounty.checked - 아이템 id -> 획득 여부
- * @property {string} bounty.filterSlot               - 부위 필터 ("ALL" 또는 slot 값)
- * @property {boolean} bounty.hideDone                - 획득한 것 숨기기
- * @property {Object} calc                            - 딜 계산기 입력값
- * @property {number} calc.blizzLevel                 - 블리자드 스킬 레벨(아이템 포함)
- * @property {number} calc.synergyLevel               - 시너지 스킬 3종 각각의 레벨(동일 가정)
- * @property {number} calc.coldSkillDamage            - 장비 냉기 기술 데미지 합(%)
- * @property {number} calc.coldMastery                - 냉기 숙련 레벨(적 냉기저항 감소)
- * @property {number} calc.monsterResist              - 몬스터 기본 냉기 저항(%)
- * @property {boolean} calc.monsterImmune             - 몬스터가 원래 냉기 면역인가
- * @property {boolean} calc.useSunder                 - 냉기 파괴참 착용 여부
- * @property {number} calc.convictionMinus            - 인피니티 천벌 오라의 저항 감소(%)
- * @property {number} calc.fcr                        - 현재 장비 FCR 합(%)
- * @property {Object} guide                           - 진행 가이드 체크리스트 상태
- * @property {Record<string, boolean>} guide.checked   - 스텝 id -> 완료 여부
- * @property {string} guide.selectedGoal               - "오늘 뭐 돌지" 선택된 목적 id
  */
 
 /** 기본 상태 (초기화/리셋 기준). 새 키를 STATE에 추가하면 여기에도 추가할 것. */
 const DEFAULT_STATE = {
-  activeTab: 'guide',
-  tz: { selectedZoneId: 'ancient-tunnels', filterTier: 'ALL', hasSunder: false },
-  timer: { running: false, startedAt: 0, runs: [] },
-  bounty: { checked: {}, filterSlot: 'ALL', hideDone: false },
-  calc: {
-    blizzLevel: 40,
-    synergyLevel: 20,
-    coldSkillDamage: 80,
-    coldMastery: 20,
-    monsterResist: 0,
-    monsterImmune: false,
-    useSunder: false,
-    convictionMinus: 0,
-    fcr: 105
-  },
-  guide: { checked: {}, selectedGoal: 'gear' }
+  tz: { selectedZoneId: 'ancient-tunnels' },
+  timer: { running: false, startedAt: 0, runs: [] }
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 기능의 기본 상태를 여기 추가]
 };
 
@@ -161,7 +129,7 @@ function saveState() {
 }
 
 /**
- * 상태를 전부 초기화한다 (런 기록·체크리스트 포함).
+ * 상태를 전부 초기화한다 (런 기록 포함).
  * @returns {void}
  */
 function resetState() {

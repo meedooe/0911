@@ -5,6 +5,8 @@
  * ★ 경량 모델 주의 ★
  * - 이벤트는 전부 여기서만 붙인다. 렌더 파일에 addEventListener 를 넣지 마라.
  * - 상태를 바꾼 뒤에는 반드시 saveState() 와 관련 render 함수를 호출해라.
+ * - 2026-09-24: 탭/현상수배/치트시트/막힘 가이드 이벤트는 guide.html 쪽으로
+ *   이전됐다. 여기 남은 건 스피드런 타이머 하나뿐이다.
  * =============================================================================
  */
 
@@ -18,53 +20,8 @@ let TICK_HANDLE = null;
  * @returns {void}
  */
 function renderAll() {
-  renderActiveTab(STATE.activeTab);
-  renderTerrorZones(STATE, META_DATA);
   renderTimerStats(STATE, META_DATA);
-  renderBounties(STATE, META_DATA);
-  renderFcr(STATE, META_DATA);
-  renderCalc(STATE, META_DATA);
-  renderRunes(META_DATA);
-  renderGambling(META_DATA);
-  renderTodayPicker(STATE, META_DATA);
-  renderStuckGuide(STATE, META_DATA);
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 렌더 함수 호출을 여기 추가]
-}
-
-/**
- * 폼 입력값을 STATE.calc 에 반영한다.
- * @returns {void}
- */
-function syncCalcInputsToState() {
-  const num = (id, fallback) => {
-    const v = parseFloat($(id).value);
-    return Number.isFinite(v) ? v : fallback;
-  };
-  STATE.calc.fcr = num('in-fcr', 0);
-  STATE.calc.blizzLevel = num('in-blizz', 1);
-  STATE.calc.synergyLevel = num('in-syn', 0);
-  STATE.calc.coldSkillDamage = num('in-csd', 0);
-  STATE.calc.coldMastery = num('in-cm', 0);
-  STATE.calc.monsterResist = num('in-mres', 0);
-  STATE.calc.convictionMinus = num('in-conv', 0);
-  STATE.calc.monsterImmune = $('in-immune').checked;
-  STATE.calc.useSunder = $('in-sunder').checked;
-}
-
-/**
- * STATE.calc 값을 폼에 채운다. (초기 로드 시)
- * @returns {void}
- */
-function syncStateToCalcInputs() {
-  $('in-fcr').value = STATE.calc.fcr;
-  $('in-blizz').value = STATE.calc.blizzLevel;
-  $('in-syn').value = STATE.calc.synergyLevel;
-  $('in-csd').value = STATE.calc.coldSkillDamage;
-  $('in-cm').value = STATE.calc.coldMastery;
-  $('in-mres').value = STATE.calc.monsterResist;
-  $('in-conv').value = STATE.calc.convictionMinus;
-  $('in-immune').checked = STATE.calc.monsterImmune;
-  $('in-sunder').checked = STATE.calc.useSunder;
 }
 
 /**
@@ -114,41 +71,9 @@ function init() {
     ? '저장소: localStorage 사용 중'
     : '저장소를 쓸 수 없는 환경이라 기록이 새로고침 시 사라진다';
 
-  $('toggle-sunder').checked = STATE.tz.hasSunder;
-  $('toggle-hide-done').checked = STATE.bounty.hideDone;
   renderZoneSelect(META_DATA, STATE.tz.selectedZoneId);
-  renderSlotSelect(META_DATA, STATE.bounty.filterSlot);
-  syncStateToCalcInputs();
   renderAll();
   renderTimerTick(STATE, Date.now());
-
-  /* ---- 탭 ---- */
-  $('tabs').addEventListener('click', (e) => {
-    const btn = e.target.closest('.tab');
-    if (!btn) return;
-    STATE.activeTab = btn.dataset.tab;
-    renderActiveTab(STATE.activeTab);
-    saveState();
-  });
-
-  /* ---- 공포의 영역 ---- */
-  $('tz-filters').addEventListener('click', (e) => {
-    const chip = e.target.closest('.chip');
-    if (!chip) return;
-    STATE.tz.filterTier = chip.dataset.tier;
-    renderTerrorZones(STATE, META_DATA);
-    saveState();
-  });
-
-  $('toggle-sunder').addEventListener('change', (e) => {
-    STATE.tz.hasSunder = e.target.checked;
-    STATE.calc.useSunder = e.target.checked;
-    $('in-sunder').checked = e.target.checked;
-    renderTerrorZones(STATE, META_DATA);
-    renderCalc(STATE, META_DATA);
-    renderTodayPicker(STATE, META_DATA);
-    saveState();
-  });
 
   /* ---- 랩타임 ---- */
   $('timer-zone').addEventListener('change', (e) => {
@@ -166,71 +91,13 @@ function init() {
     saveState();
   });
 
-  /* ---- 현상수배 ---- */
-  $('bounty-grid').addEventListener('change', (e) => {
-    const cb = e.target.closest('.bounty-check');
-    if (!cb) return;
-    STATE.bounty.checked[cb.dataset.bountyId] = cb.checked;
-    renderBounties(STATE, META_DATA);
-    saveState();
-  });
-  $('bounty-slot').addEventListener('change', (e) => {
-    STATE.bounty.filterSlot = e.target.value;
-    renderBounties(STATE, META_DATA);
-    saveState();
-  });
-  $('toggle-hide-done').addEventListener('change', (e) => {
-    STATE.bounty.hideDone = e.target.checked;
-    renderBounties(STATE, META_DATA);
-    saveState();
-  });
-
-  /* ---- 치트시트 입력 ---- */
-  ['in-fcr', 'in-blizz', 'in-syn', 'in-csd', 'in-cm', 'in-mres', 'in-conv', 'in-immune', 'in-sunder']
-    .forEach((id) => {
-      $(id).addEventListener('input', () => {
-        syncCalcInputsToState();
-        renderFcr(STATE, META_DATA);
-        renderCalc(STATE, META_DATA);
-        saveState();
-      });
-      $(id).addEventListener('change', () => {
-        syncCalcInputsToState();
-        renderFcr(STATE, META_DATA);
-        renderCalc(STATE, META_DATA);
-        saveState();
-      });
-    });
-
   /* ---- 전체 초기화 ---- */
   $('btn-reset').addEventListener('click', () => {
-    if (!window.confirm('런 기록과 현상수배 체크를 포함해 전부 초기화할까?')) return;
+    if (!window.confirm('런 기록을 전부 초기화할까?')) return;
     resetState();
-    $('toggle-sunder').checked = STATE.tz.hasSunder;
-    $('toggle-hide-done').checked = STATE.bounty.hideDone;
     renderZoneSelect(META_DATA, STATE.tz.selectedZoneId);
-    renderSlotSelect(META_DATA, STATE.bounty.filterSlot);
-    syncStateToCalcInputs();
     handleStop();
     renderAll();
-  });
-
-  /* ---- 오늘 뭐 돌지 ---- */
-  $('today-goals').addEventListener('click', (e) => {
-    const btn = e.target.closest('.today-goal');
-    if (!btn) return;
-    STATE.guide.selectedGoal = btn.dataset.goalId;
-    renderTodayPicker(STATE, META_DATA);
-    saveState();
-  });
-
-  /* ---- 진행 가이드 ---- */
-  $('guide-paths').addEventListener('change', (e) => {
-    const cb = e.target.closest('.guide-check');
-    if (!cb) return;
-    STATE.guide.checked[cb.dataset.stepId] = cb.checked;
-    renderStuckGuide(STATE, META_DATA);
-    saveState();
   });
 
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 이벤트 바인딩을 여기 추가]

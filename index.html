@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>극블리 소서 파밍 대시보드 — D2R</title>
+<title>극블리 소서 스피드런 타이머 — D2R</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,54 +12,30 @@
   ★ 경량 모델 주의 ★
   이 파일은 "마크업 뼈대"만 담는다. 내용 채우기는 js/04-render.js 가 한다.
   data-* 속성과 id 는 렌더러/이벤트 바인딩이 참조하므로 임의로 바꾸지 마라.
+
+  2026-09-24: 이 페이지는 스피드런 랩타임 도구로 범위를 줄였다.
+  맵 티어 평가 / 현상수배 보드 / 치트시트 / 막힘 가이드 / 도박 안내는
+  guide.html(공략서, 캐릭터별로 실제 갱신되는 문서)로 이전됐다 — 아래 링크로 이동.
 -->
 
 <header class="topbar">
   <div class="brand">
     <span class="brand-mark">❄</span>
     <div>
-      <h1>극블리 소서 파밍 대시보드</h1>
-      <p class="sub">Blizzard Sorceress · Endgame Farming Console · 데이터 기준일 <span id="data-date"></span></p>
+      <h1>극블리 소서 스피드런 타이머</h1>
+      <p class="sub">Blizzard Sorceress · Lap Timer · 데이터 기준일 <span id="data-date"></span></p>
     </div>
   </div>
   <div class="topbar-actions">
-    <label class="switch" title="냉기 파괴참 보유 여부에 따라 맵 티어가 재평가된다">
-      <input type="checkbox" id="toggle-sunder">
-      <span>냉기 파괴참 보유</span>
-    </label>
+    <a class="btn" href="guide.html">공략서 보기 →</a>
     <button type="button" class="btn btn-ghost" id="btn-reset">전체 초기화</button>
   </div>
 </header>
 
-<nav class="tabs" id="tabs">
-  <button type="button" class="tab" data-tab="tz">공포의 영역</button>
-  <button type="button" class="tab" data-tab="timer">랩타임</button>
-  <button type="button" class="tab" data-tab="bounty">현상수배</button>
-  <button type="button" class="tab" data-tab="cheat">치트시트</button>
-  <button type="button" class="tab" data-tab="guide">진행 가이드</button>
-  <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 버튼을 여기 추가] -->
-</nav>
-
 <main class="wrap">
 
-  <!-- ============ 1. 공포의 영역 메타 분석기 ============ -->
-  <section class="panel" id="panel-tz">
-    <div class="panel-head">
-      <h2>공포의 영역 메타 분석기</h2>
-      <div class="filters" id="tz-filters">
-        <button type="button" class="chip" data-tier="ALL">전체</button>
-        <button type="button" class="chip chip-s" data-tier="S">S</button>
-        <button type="button" class="chip chip-a" data-tier="A">A</button>
-        <button type="button" class="chip chip-b" data-tier="B">B</button>
-        <button type="button" class="chip chip-d" data-tier="D">D</button>
-      </div>
-    </div>
-    <p class="hint">티어는 <strong>극블리 소서 기준</strong>이다. 냉기 면역 비중 &gt; 밀도 &gt; 지역 레벨 &gt; 동선 순으로 평가했다.</p>
-    <div class="zone-grid" id="tz-grid"></div>
-  </section>
-
-  <!-- ============ 2. 스피드런 랩타임 & 세션 카운터 ============ -->
-  <section class="panel" id="panel-timer">
+  <!-- ============ 스피드런 랩타임 & 세션 카운터 ============ -->
+  <section class="panel visible" id="panel-timer">
     <div class="panel-head">
       <h2>스피드런 랩타임 &amp; 세션 카운터</h2>
       <div class="zone-select-wrap">
@@ -67,6 +43,7 @@
         <select id="timer-zone"></select>
       </div>
     </div>
+    <p class="hint">지역 목록·티어·파밍 우선순위는 <a href="guide.html#zones">공략서의 지역 티어</a>를 참고해라. 여기서는 런타임만 잰다.</p>
 
     <div class="timer-display">
       <div class="timer-now" id="timer-now">0:00.0</div>
@@ -83,93 +60,12 @@
     <div class="lap-list" id="timer-laps"></div>
   </section>
 
-  <!-- ============ 3. 졸업 장비 현상수배 보드 ============ -->
-  <section class="panel" id="panel-bounty">
-    <div class="panel-head">
-      <h2>졸업 장비 현상수배 보드</h2>
-      <div class="filters">
-        <select id="bounty-slot"></select>
-        <label class="switch">
-          <input type="checkbox" id="toggle-hide-done">
-          <span>획득한 것 숨기기</span>
-        </label>
-      </div>
-    </div>
-    <div class="progress-wrap" id="bounty-progress"></div>
-    <div class="bounty-grid" id="bounty-grid"></div>
-  </section>
-
-  <!-- ============ 4. 극블리 메커니즘 치트시트 ============ -->
-  <section class="panel" id="panel-cheat">
-    <div class="panel-head"><h2>극블리 메커니즘 치트시트</h2></div>
-
-    <div class="cheat-cols">
-
-      <div class="card">
-        <h3>패캐(FCR) 프레임</h3>
-        <div class="field">
-          <label for="in-fcr">현재 장비 FCR 합 (%)</label>
-          <input type="number" id="in-fcr" min="0" max="400" step="1">
-        </div>
-        <div id="fcr-result"></div>
-        <table class="bp-table" id="fcr-table"></table>
-      </div>
-
-      <div class="card">
-        <h3>블리자드 딜 계산기 <span class="badge badge-warn">근사치</span></h3>
-        <div class="grid-2">
-          <div class="field"><label for="in-blizz">블리자드 레벨 (아이템 포함)</label><input type="number" id="in-blizz" min="1" max="60" step="1"></div>
-          <div class="field"><label for="in-syn">시너지 레벨 (3종 각각)</label><input type="number" id="in-syn" min="0" max="60" step="1"></div>
-          <div class="field"><label for="in-csd">장비 냉기 기술 데미지 합 (%)</label><input type="number" id="in-csd" min="0" max="400" step="1"></div>
-          <div class="field"><label for="in-cm">냉기 숙련 레벨 (저항 감소)</label><input type="number" id="in-cm" min="0" max="60" step="1"></div>
-          <div class="field"><label for="in-mres">몬스터 냉기 저항 (%)</label><input type="number" id="in-mres" min="-100" max="100" step="1"></div>
-          <div class="field"><label for="in-conv">천벌 오라 저항 감소 (%)</label><input type="number" id="in-conv" min="0" max="150" step="1"></div>
-        </div>
-        <div class="switch-row">
-          <label class="switch"><input type="checkbox" id="in-immune"><span>몬스터 냉기 면역</span></label>
-          <label class="switch"><input type="checkbox" id="in-sunder"><span>냉기 파괴참 착용</span></label>
-        </div>
-        <div id="calc-result"></div>
-      </div>
-
-      <div class="card">
-        <h3>룬워드 재료 수요 등급</h3>
-        <p class="hint">가격이 아니라 <strong>상대적 수요</strong>다. 시세는 시즌마다 변하니 거래 사이트에서 직접 확인해라.</p>
-        <div id="rune-list"></div>
-      </div>
-
-      <div class="card">
-        <h3>도박(Gheed's Gambling) 안내 <span class="badge badge-warn">근사치</span></h3>
-        <p class="hint">확률·가격 수치는 패치마다 다르고 공식 수치가 없어 뺐다. 동작 원리와 극블리 소서 기준 노려볼 부위만 정리.</p>
-        <div id="gamble-info"></div>
-      </div>
-
-      <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 치트시트 카드를 여기 추가] -->
-    </div>
-  </section>
-
-  <!-- ============ 5. 진행 가이드 (막혔을 때) ============ -->
-  <section class="panel" id="panel-guide">
-    <div class="panel-head"><h2>진행 가이드 — 막혔을 때</h2></div>
-    <p class="hint">지금 상황 진단 + 응급 팁, 그리고 두 갈래 경로 체크리스트. 클릭해서 하나씩 지워나가면 된다.</p>
-
-    <div class="card today-picker">
-      <h3>오늘 뭐 돌지 (30초 결정)</h3>
-      <div id="today-intro"></div>
-      <div class="filters" id="today-goals"></div>
-      <div id="today-recommend"></div>
-    </div>
-
-    <div class="guide-status" id="guide-status"></div>
-    <div class="guide-paths" id="guide-paths"></div>
-  </section>
-
   <!-- [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 탭 패널(section.panel)을 여기 추가] -->
 
 </main>
 
 <footer class="foot">
-  <p>로컬 전용 대시보드 · 외부 통신 없음 · 기록은 이 브라우저에만 저장된다</p>
+  <p>로컬 전용 도구 · 외부 통신 없음 · 기록은 이 브라우저에만 저장된다</p>
   <p id="storage-note"></p>
 </footer>
 
