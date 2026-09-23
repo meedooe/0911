@@ -26,6 +26,7 @@ function renderAll() {
   renderCalc(STATE, META_DATA);
   renderRunes(META_DATA);
   renderGambling(META_DATA);
+  renderTodayPicker(STATE, META_DATA);
   renderStuckGuide(STATE, META_DATA);
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 렌더 함수 호출을 여기 추가]
 }
@@ -145,6 +146,7 @@ function init() {
     $('in-sunder').checked = e.target.checked;
     renderTerrorZones(STATE, META_DATA);
     renderCalc(STATE, META_DATA);
+    renderTodayPicker(STATE, META_DATA);
     saveState();
   });
 
@@ -211,6 +213,15 @@ function init() {
     syncStateToCalcInputs();
     handleStop();
     renderAll();
+  });
+
+  /* ---- 오늘 뭐 돌지 ---- */
+  $('today-goals').addEventListener('click', (e) => {
+    const btn = e.target.closest('.today-goal');
+    if (!btn) return;
+    STATE.guide.selectedGoal = btn.dataset.goalId;
+    renderTodayPicker(STATE, META_DATA);
+    saveState();
   });
 
   /* ---- 진행 가이드 ---- */

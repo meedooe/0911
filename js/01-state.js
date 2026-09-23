@@ -105,6 +105,7 @@ const STORAGE_KEY = 'd2r_blizz_dashboard_v1';
  * @property {number} calc.fcr                        - 현재 장비 FCR 합(%)
  * @property {Object} guide                           - 진행 가이드 체크리스트 상태
  * @property {Record<string, boolean>} guide.checked   - 스텝 id -> 완료 여부
+ * @property {string} guide.selectedGoal               - "오늘 뭐 돌지" 선택된 목적 id
  */
 
 /** 기본 상태 (초기화/리셋 기준). 새 키를 STATE에 추가하면 여기에도 추가할 것. */
@@ -124,7 +125,7 @@ const DEFAULT_STATE = {
     convictionMinus: 0,
     fcr: 105
   },
-  guide: { checked: {} }
+  guide: { checked: {}, selectedGoal: 'gear' }
   // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 기능의 기본 상태를 여기 추가]
 };
 

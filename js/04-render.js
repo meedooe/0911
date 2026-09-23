@@ -324,6 +324,48 @@ function renderGambling(data) {
  * ------------------------------------------------------------------------- */
 
 /**
+ * "오늘 뭐 돌지" 30초 결정 카드를 그린다. 목적 버튼 + 추천 지역 3곳.
+ * @param {Object} state - STATE
+ * @param {Object} data - META_DATA
+ * @returns {void}
+ */
+function renderTodayPicker(state, data) {
+  const picker = data.todayPicker;
+  const goalId = state.guide.selectedGoal;
+  const goal = picker.goals.find((g) => g.id === goalId) || picker.goals[0];
+
+  $('today-intro').innerHTML =
+    '<p class="guide-status-line">' + esc(picker.intro) + '</p>' +
+    '<p class="hint">' + esc(picker.tzPrincipleNote) + '</p>';
+
+  $('today-goals').innerHTML = picker.goals.map((g) =>
+    '<button type="button" class="chip today-goal' + (g.id === goalId ? ' active' : '') + '" data-goal-id="' + esc(g.id) + '">' +
+      esc(g.label) +
+    '</button>'
+  ).join('');
+
+  const zones = recommendZonesForGoal(data.terrorZones, goal.strategy, state.tz.hasSunder);
+  const list = zones.length
+    ? zones.map((z) => {
+        const tierCls = 'tier-' + z.evalTier.toLowerCase();
+        return '' +
+          '<div class="today-zone">' +
+            '<span class="tier-badge ' + tierCls + '">' + esc(z.evalTier) + '</span>' +
+            '<div class="today-zone-body">' +
+              '<strong>' + esc(z.nameKo) + '</strong>' +
+              '<span class="today-zone-meta">밀도 ' + z.density + '/5 · 목표 ' + Math.floor(z.runTimeSec / 60) + '분 ' + (z.runTimeSec % 60) + '초</span>' +
+              '<p>' + esc(z.note) + '</p>' +
+            '</div>' +
+          '</div>';
+      }).join('')
+    : '<p class="empty">조건에 맞는 지역이 없다. 냉기 파괴참 확보 후 다시 확인해라.</p>';
+
+  $('today-recommend').innerHTML =
+    '<p class="hint">' + esc(goal.hint) + '</p>' +
+    '<div class="today-zones">' + list + '</div>';
+}
+
+/**
  * "막혔을 때" 상태 카드 + 경로 체크리스트를 그린다.
  * @param {Object} state - STATE
  * @param {Object} data - META_DATA

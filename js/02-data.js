@@ -83,6 +83,15 @@
  */
 
 /**
+ * "오늘 뭐 돌지" 목적 선택지 1개.
+ * @typedef {Object} TodayGoal
+ * @property {string} id       - 고유 ID
+ * @property {string} label    - 버튼에 표시할 목적 이름
+ * @property {string} hint     - 이 목적을 고를 상황 설명
+ * @property {"top-tier"|"safe-density"|"fast-loop"} strategy - 지역 추천 전략 (03-logic.js 에서 해석)
+ */
+
+/**
  * 도박(마을 상인 Gamble) 안내 데이터.
  * @typedef {Object} GamblingInfo
  * @property {string} host - 대표 도박 상인/위치
@@ -794,6 +803,43 @@ const META_DATA = {
           { id: 'np-4', text: '레벨·저항이 충분하다 싶으면 다시 지옥 3막으로 복귀' },
           { id: 'np-5', text: '독 저항 확보한 상태로 박피자의 정글 재도전' }
         ]
+      }
+    ]
+  },
+
+  /* =========================================================================
+   * 8) 오늘 뭐 돌지 — 30초 결정 카드
+   * 원칙: 목적이 다르면 가는 곳도 다르다. 지역 추천보다 "오늘 뭐 할지"가 먼저다.
+   * ------------------------------------------------------------------------
+   * [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 목적은 todayPicker.goals 배열에 추가]
+   * ========================================================================= */
+  todayPicker: {
+    intro: '목적이 다르면 가는 곳도 다르다. 지역표를 보기 전에 오늘 뭐 할지부터 골라라.',
+    tzPrincipleNote: '지옥에서 장비가 받쳐주면 공포의 영역(TZ) 위주가 맞다 — 지역 레벨 85 고정 + 밀도·경험치 보너스로 시간당 효율이 가장 좋다. 다만 특정 구간에서 반복해서 막히면 그 TZ를 무리해서 도는 것보다 아래에서 경험치/골드 루트로 먼저 안정화하는 게 낫다.',
+    goals: [
+      {
+        id: 'gear',
+        label: '아이템 파밍 (장비/룬)',
+        hint: '장비가 받쳐준다면 이게 기본값. 티어표 그대로 S/A 지역 위주로 돈다.',
+        strategy: 'top-tier'
+      },
+      {
+        id: 'exp',
+        label: '경험치 · 레벨업',
+        hint: '아직 위험 구간이 많으면 냉기면역 낮고 밀도 높은 지역으로 안정적으로 반복한다.',
+        strategy: 'safe-density'
+      },
+      {
+        id: 'gold',
+        label: '골드 파밍',
+        hint: '도박 자금 마련 등. 런타임 짧고 회전 빠른 지역 위주로 돈다.',
+        strategy: 'fast-loop'
+      },
+      {
+        id: 'target',
+        label: '특정 목표템 노리기',
+        hint: '현상수배 우선순위 1 아이템을 노릴 때. 드랍 TC가 가장 넓게 열리는 S/A 지역 위주.',
+        strategy: 'top-tier'
       }
     ]
   }

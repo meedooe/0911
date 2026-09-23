@@ -117,6 +117,17 @@ ok('저항 -20%면 최종 데미지가 증폭값보다 크다',
 ok('근사치 데이터에는 안내 문구가 붙는다',
   L.computeBlizzardDamage({ blizzLevel: 33, synergyLevel: 20, coldSkillDamage: 0, coldMastery: 0, monsterResist: 0, monsterImmune: false, useSunder: false, convictionMinus: 0 }, B).notes.some((n) => n.includes('근사치')));
 
+console.log('\n--- 오늘 뭐 돌지 (목적별 지역 추천) ---');
+const topTier = L.recommendZonesForGoal(META_DATA.terrorZones, 'top-tier', true);
+ok('top-tier는 S/A 위주 상위 3개', topTier.length === 3 && topTier.every((z) => z.evalTier === 'S' || z.evalTier === 'A'), topTier.map((z) => z.id));
+const safeDensity = L.recommendZonesForGoal(META_DATA.terrorZones, 'safe-density', false);
+ok('safe-density는 냉기면역 2 이하만', safeDensity.every((z) => z.coldImmune <= 2), safeDensity.map((z) => z.coldImmune));
+ok('safe-density는 밀도 내림차순', safeDensity.every((z, i) => i === 0 || safeDensity[i - 1].density >= z.density));
+const fastLoop = L.recommendZonesForGoal(META_DATA.terrorZones, 'fast-loop', false);
+ok('fast-loop는 런타임 오름차순', fastLoop.every((z, i) => i === 0 || fastLoop[i - 1].runTimeSec <= z.runTimeSec), fastLoop.map((z) => z.runTimeSec));
+ok('todayPicker 목적 4개, strategy 값이 전부 유효', META_DATA.todayPicker.goals.length === 4 &&
+  META_DATA.todayPicker.goals.every((g) => ['top-tier', 'safe-density', 'fast-loop'].includes(g.strategy)));
+
 console.log('\n--- 진행 가이드 체크리스트 ---');
 const gPath = META_DATA.stuckGuide.paths.find((p) => p.id === 'gamble-path');
 const prog0g = L.computeChecklistProgress(gPath.steps, {});

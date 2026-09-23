@@ -366,6 +366,31 @@ function computeBlizzardDamage(cfg, consts) {
 }
 
 /* ---------------------------------------------------------------------------
+ * 기능 4-3) 오늘 뭐 돌지 — 목적별 지역 추천
+ * ------------------------------------------------------------------------- */
+
+/**
+ * 목적(전략)에 맞는 상위 지역 3곳을 고른다.
+ * - top-tier: 티어(S>A>B>D) 우선, 동률이면 점수 높은 순 (buildZoneView 정렬 그대로)
+ * - safe-density: 냉기면역 2 이하(안정적으로 잡히는 곳)만 두고 밀도 높은 순
+ * - fast-loop: 런타임 짧은 순
+ * @param {Object[]} zones - META_DATA.terrorZones
+ * @param {"top-tier"|"safe-density"|"fast-loop"} strategy - 추천 전략
+ * @param {boolean} hasSunder - 냉기 파괴참 보유 여부
+ * @returns {Array<Object>} evalTier/score가 붙은 상위 3개 지역 (전략에 맞는 것이 없으면 빈 배열)
+ */
+function recommendZonesForGoal(zones, strategy, hasSunder) {
+  const view = buildZoneView(zones, 'ALL', hasSunder);
+  if (strategy === 'safe-density') {
+    return view.filter((z) => z.coldImmune <= 2).sort((a, b) => b.density - a.density).slice(0, 3);
+  }
+  if (strategy === 'fast-loop') {
+    return view.slice().sort((a, b) => a.runTimeSec - b.runTimeSec).slice(0, 3);
+  }
+  return view.slice(0, 3);
+}
+
+/* ---------------------------------------------------------------------------
  * 기능 5) 진행 가이드 — 체크리스트 진행률
  * ------------------------------------------------------------------------- */
 
@@ -393,7 +418,7 @@ if (typeof module !== 'undefined' && module.exports) {
     computeBountyProgress, buildBountyView,
     findBreakpoint, framesToCastsPerSecond,
     interpolateBlizzardDamage, computeEffectiveResist, computeBlizzardDamage,
-    computeChecklistProgress,
+    recommendZonesForGoal, computeChecklistProgress,
     TIER_ORDER
   };
 }
