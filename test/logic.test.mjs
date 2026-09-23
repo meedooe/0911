@@ -58,6 +58,16 @@ console.log('\n--- 지역 데이터 무결성 (타이머 선택지) ---');
 ok('지역 id 중복 없음', new Set(META_DATA.terrorZones.map((z) => z.id)).size === META_DATA.terrorZones.length);
 ok('모든 지역에 runTimeSec이 있다', META_DATA.terrorZones.every((z) => typeof z.runTimeSec === 'number' && z.runTimeSec > 0));
 
+console.log('\n--- 파밍 효율 점수 (guide.html #zones 표와 대조) ---');
+const findZone = (id) => META_DATA.terrorZones.find((z) => z.id === id);
+ok('고대 토굴 91점', L.computeZoneScore(findZone('ancient-tunnels')) === 91, L.computeZoneScore(findZone('ancient-tunnels')));
+ok('영묘 87점', L.computeZoneScore(findZone('mausoleum')) === 87, L.computeZoneScore(findZone('mausoleum')));
+ok('세계석 성채 82점', L.computeZoneScore(findZone('worldstone-keep')) === 82, L.computeZoneScore(findZone('worldstone-keep')));
+ok('트라빈칼 63점', L.computeZoneScore(findZone('travincal')) === 63, L.computeZoneScore(findZone('travincal')));
+ok('탈 라샤의 무덤 58점', L.computeZoneScore(findZone('tal-rasha-tombs')) === 58, L.computeZoneScore(findZone('tal-rasha-tombs')));
+ok('파괴참 미보유면 냉면 지역 점수가 내려간다',
+  L.computeZoneScore(findZone('icy-cellar'), false) < L.computeZoneScore(findZone('icy-cellar'), true));
+
 console.log('\n========================================');
 console.log('  PASS ' + pass + ' / FAIL ' + fail);
 console.log('========================================\n');

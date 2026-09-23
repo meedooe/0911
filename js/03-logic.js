@@ -116,11 +116,33 @@ function evaluatePace(avgMs, targetSec) {
   return { deltaMs: Math.round(avgMs - targetMs), ratio: Math.round(ratio * 100) / 100, grade: grade };
 }
 
+/* ---------------------------------------------------------------------------
+ * 공포의 영역 — 파밍 효율 점수 (guide.html #zones 표의 점수와 같은 식)
+ * ------------------------------------------------------------------------- */
+
+/**
+ * 지역의 파밍 효율 점수(0~100)를 계산한다. guide.html의 지역 표가 이 식을 그대로 쓴다고
+ * 각주에 밝히고 있으므로, 점수를 바꾸려면 이 함수와 guide.html #zones 표를 같이 고쳐라.
+ * 가중치: 냉기면역 낮을수록 40점, 밀도 30점, 지역레벨 85 여부 20점, 런타임 짧을수록 10점.
+ * @param {{density:number, coldImmune:number, areaLevel:number, runTimeSec:number}} zone - 지역 정보
+ * @param {boolean} [hasSunder=true] - 냉기 파괴참 보유 여부. guide.html 표는 보유 기준으로 계산했다.
+ * @returns {number} 0~100 점수 (정수)
+ */
+function computeZoneScore(zone, hasSunder) {
+  const sunder = hasSunder === undefined ? true : hasSunder;
+  const immunePenalty = sunder ? zone.coldImmune * 0.5 : zone.coldImmune;
+  const immuneScore = clamp((5 - immunePenalty) / 5, 0, 1) * 40;
+  const densityScore = clamp(zone.density / 5, 0, 1) * 30;
+  const levelScore = zone.areaLevel >= 85 ? 20 : (zone.areaLevel >= 83 ? 12 : 4);
+  const timeScore = clamp((360 - zone.runTimeSec) / 300, 0, 1) * 10;
+  return Math.round(immuneScore + densityScore + levelScore + timeScore);
+}
+
 // [TODO: LITE_MODEL_INSERT_FEATURE_HERE — 새 순수 계산 함수를 여기 추가하고 test/logic.test.mjs 에 테스트를 넣어라]
 
 // Node 테스트용 내보내기 (브라우저에서는 무시됨)
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    esc, clamp, formatDuration, computeSessionStats, evaluatePace
+    esc, clamp, formatDuration, computeSessionStats, evaluatePace, computeZoneScore
   };
 }
