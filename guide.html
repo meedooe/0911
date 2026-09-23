@@ -1,0 +1,3130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>극블리 소서 공략서</title>
+
+<style>
+/* ============================================================
+   토큰 — 라이트가 :root 기본, 다크는 미디어쿼리 + data-theme 양방향
+   ============================================================ */
+:root {
+  --ground:      #E7EAEF;
+  --surface:     #F7F9FB;
+  --surface-2:   #EDF1F6;
+  --line:        #D0D7E1;
+  --line-soft:   #DFE5EC;
+  --ink:         #121721;
+  --ink-2:       #2C3546;
+  --muted:       #59657A;
+
+  --gold:        #8A6A11;
+  --glacier:     #12708F;
+  --glacier-dim: #4E93AC;
+  --glacier-wash:#DCEDF4;
+
+  --r-unique:    #8A7635;
+  --r-rune:      #A8620A;
+  --r-set:       #2A7F49;
+  --r-magic:     #4444C4;
+
+  --danger:      #BE3A2C;
+  --warn:        #9A6A0C;
+  --ok:          #2A7F49;
+
+  --shadow: 0 1px 2px rgba(18,23,33,.06), 0 8px 24px rgba(18,23,33,.05);
+
+  --font-display: Georgia, "Times New Roman", Batang, serif;
+  --font-body: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  --font-data: Consolas, "SF Mono", ui-monospace, Menlo, monospace;
+
+  --wrap: 1140px;
+  --prose: 70ch;
+  --topbar-h: 55px; /* 내비 안쪽 높이 54 + 아래 테두리 1 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground:      #0A0D13;
+    --surface:     #121923;
+    --surface-2:   #19222E;
+    --line:        #26313F;
+    --line-soft:   #1E2733;
+    --ink:         #D8DEE8;
+    --ink-2:       #AFBACA;
+    --muted:       #818EA2;
+
+    --gold:        #C9A227;
+    --glacier:     #62C4E8;
+    --glacier-dim: #3E87A3;
+    --glacier-wash:#0F2530;
+
+    --r-unique:    #C7B377;
+    --r-rune:      #FF9C1A;
+    --r-set:       #48C767;
+    --r-magic:     #8A8AFF;
+
+    --danger:      #E85B4F;
+    --warn:        #E0A030;
+    --ok:          #4FBF7B;
+
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:#0A0D13; --surface:#121923; --surface-2:#19222E;
+  --line:#26313F; --line-soft:#1E2733;
+  --ink:#D8DEE8; --ink-2:#AFBACA; --muted:#818EA2;
+  --gold:#C9A227; --glacier:#62C4E8; --glacier-dim:#3E87A3; --glacier-wash:#0F2530;
+  --r-unique:#C7B377; --r-rune:#FF9C1A; --r-set:#48C767; --r-magic:#8A8AFF;
+  --danger:#E85B4F; --warn:#E0A030; --ok:#4FBF7B;
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.35);
+}
+
+:root[data-theme="light"] {
+  --ground:#E7EAEF; --surface:#F7F9FB; --surface-2:#EDF1F6;
+  --line:#D0D7E1; --line-soft:#DFE5EC;
+  --ink:#121721; --ink-2:#2C3546; --muted:#59657A;
+  --gold:#8A6A11; --glacier:#12708F; --glacier-dim:#4E93AC; --glacier-wash:#DCEDF4;
+  --r-unique:#8A7635; --r-rune:#A8620A; --r-set:#2A7F49; --r-magic:#4444C4;
+  --danger:#BE3A2C; --warn:#9A6A0C; --ok:#2A7F49;
+  --shadow: 0 1px 2px rgba(18,23,33,.06), 0 8px 24px rgba(18,23,33,.05);
+}
+
+/* ============================================================
+   기본
+   ============================================================ */
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  /* 상단 내비가 position:fixed 라 문서 흐름에서 빠진다 — 그 높이만큼 위를 비운다 */
+  padding-top: var(--topbar-h);
+}
+
+.wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
+.prose { max-width: var(--prose); }
+
+h1, h2, h3, h4 { text-wrap: balance; line-height: 1.25; font-weight: 700; }
+
+p { margin: 0; }
+
+a { color: var(--glacier); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+:focus-visible { outline: 2px solid var(--glacier); outline-offset: 3px; border-radius: 2px; }
+
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.en  { font-family: var(--font-display); font-style: italic; color: var(--muted); }
+
+.eyebrow {
+  font-family: var(--font-data);
+  font-size: .6875rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+}
+
+/* ============================================================
+   상단 내비
+   ============================================================ */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: color-mix(in srgb, var(--ground) 96%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+/* backdrop-filter 미지원 브라우저에서 글자가 겹쳐 보이지 않도록 불투명 배경 */
+@supports not (backdrop-filter: blur(10px)) {
+  .topbar { background: var(--ground); }
+}
+.topbar-inner { display: flex; align-items: center; gap: 20px; height: 54px; }
+.brand {
+  font-family: var(--font-data); font-size: .75rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap; font-weight: 700;
+}
+.brand span { color: var(--glacier); }
+.navlinks { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.navlinks::-webkit-scrollbar { display: none; }
+.navlinks a {
+  font-size: .8125rem; color: var(--muted); text-decoration: none;
+  padding: 5px 10px; border-radius: 4px; white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+.navlinks a:hover { color: var(--ink); background: var(--surface-2); }
+
+/* ============================================================
+   히어로
+   ============================================================ */
+.hero { padding: 72px 0 56px; border-bottom: 1px solid var(--line); }
+.hero-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,420px); gap: 56px; align-items: start; }
+.hero h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); letter-spacing: -.02em; margin: 14px 0 0; }
+.hero h1 em { font-style: normal; color: var(--glacier); }
+.hero .lede { margin-top: 20px; color: var(--ink-2); font-size: 1.0625rem; max-width: 52ch; }
+.hero .meta {
+  margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px 20px;
+  font-family: var(--font-data); font-size: .75rem; color: var(--muted);
+}
+
+/* 캐릭터 시트 재현 패널 */
+.sheet {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 3px; box-shadow: var(--shadow); overflow: hidden;
+}
+.sheet-head {
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  background: var(--surface-2);
+}
+.sheet-name { font-family: var(--font-display); font-size: 1.125rem; letter-spacing: .08em; color: var(--gold); }
+.sheet-lv { font-family: var(--font-data); font-size: .75rem; color: var(--muted); }
+.sheet-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); }
+.sheet-rows > div {
+  background: var(--surface); padding: 9px 14px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  font-size: .8125rem;
+}
+.sheet-rows dt, .sheet-rows .k { color: var(--muted); }
+.sheet-rows .v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
+.sheet-rows .v.hl { color: var(--glacier); }
+.sheet-res { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line-soft); border-top: 1px solid var(--line); }
+.sheet-res > div {
+  background: var(--surface); padding: 9px 14px;
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: .8125rem;
+}
+.sheet-res .v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--danger); font-weight: 700; }
+.sheet-res .v.crit { background: color-mix(in srgb, var(--danger) 16%, transparent); padding: 0 6px; border-radius: 2px; }
+.sheet-foot {
+  padding: 10px 14px; border-top: 1px solid var(--line); background: var(--surface-2);
+  font-size: .75rem; color: var(--muted);
+}
+
+/* ============================================================
+   섹션
+   ============================================================ */
+section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+.sec-head { margin-bottom: 32px; }
+.sec-head h2 { font-size: clamp(1.4rem, 2.6vw, 1.95rem); letter-spacing: -.015em; margin: 10px 0 0; }
+.sec-head p { margin-top: 12px; color: var(--muted); max-width: 62ch; }
+
+.stack { display: flex; flex-direction: column; gap: 20px; }
+.stack-lg { display: flex; flex-direction: column; gap: 36px; }
+
+h3.sub {
+  font-size: 1.0625rem; margin: 0 0 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-soft);
+}
+
+/* ============================================================
+   콜아웃
+   ============================================================ */
+.callout {
+  border-left: 3px solid var(--glacier);
+  background: var(--surface); padding: 18px 22px; border-radius: 0 3px 3px 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.callout.warn   { border-left-color: var(--warn); }
+.callout.danger { border-left-color: var(--danger); }
+.callout-title {
+  font-size: .875rem; font-weight: 700; letter-spacing: .01em;
+  color: var(--glacier);
+}
+.callout.warn .callout-title   { color: var(--warn); }
+.callout.danger .callout-title { color: var(--danger); }
+.callout p { font-size: .9375rem; color: var(--ink-2); }
+
+/* ============================================================
+   테이블
+   ============================================================ */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: .875rem; min-width: 560px; }
+thead th {
+  text-align: left; padding: 11px 14px;
+  font-family: var(--font-data); font-size: .6875rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); font-weight: 400;
+  background: var(--surface-2); border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+td.n { font-family: var(--font-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.t-name { font-weight: 700; color: var(--ink); }
+.t-sub { display: block; font-family: var(--font-display); font-style: italic; font-size: .8125rem; color: var(--muted); }
+.t-note { color: var(--muted); font-size: .8125rem; line-height: 1.6; }
+
+/* 등급 스트라이프 */
+td.stripe { border-left: 3px solid var(--line); }
+tr.tier-S td.stripe { border-left-color: var(--glacier); }
+tr.tier-A td.stripe { border-left-color: var(--gold); }
+tr.tier-B td.stripe { border-left-color: var(--muted); }
+tr.tier-D td.stripe { border-left-color: var(--danger); }
+
+/* ============================================================
+   배지 / 칩
+   ============================================================ */
+.badge {
+  display: inline-block; font-family: var(--font-data);
+  font-size: .6875rem; letter-spacing: .08em; padding: 2px 7px;
+  border-radius: 2px; border: 1px solid currentColor; white-space: nowrap;
+}
+.b-S { color: var(--glacier); }
+.b-A { color: var(--gold); }
+.b-B { color: var(--muted); }
+.b-D { color: var(--danger); }
+.b-unique { color: var(--r-unique); }
+.b-runeword { color: var(--r-rune); }
+.b-set { color: var(--r-set); }
+.b-charm { color: var(--r-magic); }
+.b-ok { color: var(--ok); }
+.b-no { color: var(--danger); }
+.b-approx { color: var(--warn); }
+
+.dots { font-family: var(--font-data); letter-spacing: .12em; font-size: .8125rem; }
+.dots .on  { color: var(--danger); }
+.dots .off { color: var(--line); }
+.dots.cool .on { color: var(--glacier); }
+
+/* ============================================================
+   해법 카드 (순서가 실제 실행 순서를 뜻함)
+   ============================================================ */
+.steps { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.step { background: var(--surface); padding: 22px 24px; display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 20px; }
+.step-n {
+  font-family: var(--font-data); font-size: 1.25rem; color: var(--glacier);
+  font-variant-numeric: tabular-nums; line-height: 1.3;
+}
+.step h3 { font-size: 1.0625rem; margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.step p { color: var(--ink-2); font-size: .9375rem; }
+.step ul { margin: 10px 0 0; padding-left: 18px; color: var(--ink-2); font-size: .9375rem; }
+.step li { margin-bottom: 5px; }
+.step li::marker { color: var(--glacier-dim); }
+
+/* ============================================================
+   장비 그리드
+   ============================================================ */
+.gear-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.gear { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.gear-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.gear-name { font-weight: 700; font-size: .9375rem; line-height: 1.4; }
+.gear-en { font-family: var(--font-display); font-style: italic; font-size: .8125rem; color: var(--muted); display: block; }
+.gear-stats { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.gear-stats span {
+  font-size: .75rem; color: var(--ink-2);
+  background: var(--surface-2); border: 1px solid var(--line-soft);
+  padding: 1px 7px; border-radius: 2px;
+}
+.gear-runes { font-family: var(--font-data); font-size: .75rem; color: var(--r-rune); letter-spacing: .04em; }
+.gear-note { font-size: .8125rem; color: var(--muted); line-height: 1.6; }
+.gear-base { font-size: .75rem; color: var(--muted); }
+
+/* ============================================================
+   2열 유틸
+   ============================================================ */
+.cols2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: .875rem; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   푸터
+   ============================================================ */
+footer { padding: 48px 0 72px; color: var(--muted); font-size: .8125rem; }
+footer h3 { font-size: .9375rem; color: var(--ink); margin: 0 0 10px; }
+footer ul { margin: 0; padding-left: 18px; }
+footer li { margin-bottom: 4px; }
+
+/* ============================================================
+   반응형
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: minmax(0,1fr); gap: 36px; }
+  .hero { padding: 48px 0 40px; }
+  section { padding: 48px 0; }
+  .wrap { padding-inline: 18px; }
+  .step { grid-template-columns: minmax(0,1fr); gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 16px); }
+
+/* ============================================================
+   [추가] 읽기 진행 바 — 문서를 얼마나 읽었는지 상단에 표시
+   ============================================================ */
+#readbar {
+  position: fixed; top: var(--topbar-h); left: 0; height: 3px; width: 0; z-index: 60;
+  background: linear-gradient(90deg, var(--glacier), var(--gold));
+  transition: width .08s linear;
+}
+
+/* ============================================================
+   [추가] 상단 도구 — 테마 토글 / 진행 초기화
+   ============================================================ */
+.topbar-tools { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.iconbtn {
+  font-family: var(--font-data); font-size: .75rem; line-height: 1.4;
+  color: var(--muted); background: transparent;
+  border: 1px solid var(--line); border-radius: 3px;
+  padding: 5px 9px; cursor: pointer; white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.iconbtn:hover { color: var(--ink); border-color: var(--glacier); background: var(--surface-2); }
+.navlinks a.active { color: var(--ink); background: var(--surface-2); box-shadow: inset 0 -2px 0 var(--glacier); }
+
+/* ============================================================
+   [추가] 30초 요약 밴드
+   ============================================================ */
+.tldr { padding: 40px 0; border-bottom: 1px solid var(--line); background: var(--surface); }
+.tldr-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  border-radius: 3px; overflow: hidden; margin-top: 20px;
+}
+.tldr-card { background: var(--surface); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; transition: background .15s; }
+.tldr-card:hover { background: var(--surface-2); }
+.tldr-card .n { font-family: var(--font-data); font-size: .6875rem; letter-spacing: .2em; color: var(--gold); }
+.tldr-card h3 { font-size: 1rem; margin: 0; }
+.tldr-card p { font-size: .875rem; color: var(--muted); line-height: 1.65; }
+.tldr-card .go { font-size: .8125rem; margin-top: auto; padding-top: 4px; }
+
+/* ============================================================
+   [추가] 현재 막힌 지점 배너 + 응급 팁
+   ============================================================ */
+.nowcard {
+  border: 1px solid var(--danger); border-left-width: 3px; border-radius: 3px;
+  background: color-mix(in srgb, var(--danger) 7%, var(--surface));
+  padding: 20px 24px; display: flex; flex-direction: column; gap: 10px;
+}
+.nowcard h3 { margin: 0; font-size: 1.125rem; }
+.nowcard p { font-size: .9375rem; color: var(--ink-2); }
+.tagrow { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.tips {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  border-radius: 3px; overflow: hidden;
+}
+.tip {
+  background: var(--surface); padding: 16px 18px;
+  display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start;
+  font-size: .875rem; color: var(--ink-2); line-height: 1.65; transition: background .15s;
+}
+.tip:hover { background: var(--surface-2); }
+.tip .ic { font-size: 1.125rem; line-height: 1.35; }
+.tip b { color: var(--ink); }
+
+/* ============================================================
+   [추가] 경로 체크리스트 — 체크 상태는 localStorage 에만 저장된다
+   ============================================================ */
+.pathgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 20px; }
+.pathcard {
+  border: 1px solid var(--line); border-radius: 3px; background: var(--surface);
+  box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden;
+}
+.pathcard-head { padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--surface-2); transition: background .3s; }
+.pathcard-head h3 { margin: 0 0 6px; font-size: 1.0625rem; }
+.pathcard-head p { font-size: .8125rem; color: var(--muted); line-height: 1.6; }
+.pathcard.done .pathcard-head { background: color-mix(in srgb, var(--ok) 14%, var(--surface-2)); }
+.meter { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 14px; }
+.meter > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--glacier), var(--ok)); transition: width .35s ease; }
+.meter-label { display: flex; justify-content: space-between; gap: 10px; font-family: var(--font-data); font-size: .6875rem; color: var(--muted); margin-top: 7px; }
+.cklist { list-style: none; margin: 0; padding: 4px 0; }
+.cklist li { border-bottom: 1px solid var(--line-soft); }
+.cklist li:last-child { border-bottom: none; }
+.ck {
+  display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 12px; align-items: start;
+  padding: 12px 20px; cursor: pointer; font-size: .875rem; color: var(--ink-2); line-height: 1.6;
+  transition: background .15s;
+}
+.ck:hover { background: var(--surface-2); }
+.ck input { width: 16px; height: 16px; margin: 3px 0 0; accent-color: var(--glacier); cursor: pointer; }
+.ck input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--glacier-dim); }
+.pathcard-foot { margin-top: auto; padding: 11px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pathcard-foot .msg { font-size: .75rem; color: var(--muted); }
+
+/* ============================================================
+   [추가] 필터 칩 — 표를 지금 상황에 맞게 좁혀 본다
+   ============================================================ */
+.chipbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: center; }
+.chipbar .lbl {
+  font-family: var(--font-data); font-size: .6875rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted); margin-right: 2px;
+}
+.chip {
+  font-family: var(--font-data); font-size: .75rem; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+}
+.chip:hover { border-color: var(--glacier-dim); color: var(--ink); }
+.chip.on { border-color: var(--glacier); color: var(--glacier); background: var(--glacier-wash); }
+.rowcount { font-family: var(--font-data); font-size: .6875rem; color: var(--muted); margin-left: auto; }
+tr.hidden-row { display: none; }
+
+/* ============================================================
+   [추가] 계산기
+   ============================================================ */
+.calcbox { border: 1px solid var(--line); border-radius: 3px; background: var(--surface); overflow: hidden; display: flex; flex-direction: column; }
+.calcbox-head {
+  padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--line);
+  font-size: .9375rem; font-weight: 700; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+}
+.calc-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 13px; }
+.calc-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: .875rem; }
+.calc-row .hint { display: block; font-size: .75rem; color: var(--muted); line-height: 1.5; }
+.calc-row input[type="number"], .calc-row select {
+  width: 104px; font-family: var(--font-data); font-size: .875rem; padding: 6px 8px;
+  border: 1px solid var(--line); border-radius: 3px; background: var(--ground); color: var(--ink);
+}
+.calc-out { margin-top: auto; border-top: 1px solid var(--line); background: var(--surface-2); padding: 15px 18px; display: flex; flex-direction: column; gap: 7px; }
+.calc-big { font-family: var(--font-data); font-size: 1.75rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.calc-big.ok { color: var(--ok); }
+.calc-big.warn { color: var(--warn); }
+.calc-big.bad { color: var(--danger); }
+.calc-msg { font-size: .8125rem; color: var(--ink-2); line-height: 1.6; }
+.calc-formula { font-family: var(--font-data); font-size: .6875rem; color: var(--muted); line-height: 1.6; }
+
+/* ============================================================
+   [추가] 장비 획득 체크 — 현상수배 보드처럼 쓰기
+   ============================================================ */
+.gear { position: relative; transition: background .15s, opacity .2s; }
+.gear:hover { background: var(--surface-2); }
+.gear.got { opacity: .45; }
+.gear.got .gear-name { text-decoration: line-through; }
+.gearck {
+  display: flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 8px;
+  font-family: var(--font-data); font-size: .6875rem; letter-spacing: .06em; color: var(--muted); cursor: pointer;
+}
+.gearck input { width: 14px; height: 14px; accent-color: var(--ok); cursor: pointer; }
+
+/* ============================================================
+   [추가] 접었다 펴는 보충 설명
+   ============================================================ */
+details.more { border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+details.more > summary { padding: 13px 18px; cursor: pointer; font-size: .875rem; font-weight: 700; color: var(--glacier); list-style: none; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::before { content: '▸'; margin-right: .4em; color: var(--glacier-dim); }
+details.more[open] > summary::before { content: '▾'; }
+details.more .body { padding: 14px 18px 16px; border-top: 1px solid var(--line-soft); font-size: .875rem; color: var(--ink-2); line-height: 1.75; }
+details.more .body ul { margin: 8px 0 0; padding-left: 18px; }
+details.more .body li { margin-bottom: 5px; }
+
+/* ============================================================
+   [추가] 맨 위로 버튼
+   ============================================================ */
+#totop {
+  position: fixed; right: 20px; bottom: 20px; z-index: 55; width: 42px; height: 42px;
+  border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  cursor: pointer; font-size: 1rem; box-shadow: var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity .2s, color .15s, border-color .15s;
+}
+#totop.show { opacity: 1; pointer-events: auto; }
+#totop:hover { color: var(--glacier); border-color: var(--glacier); }
+
+/* ============================================================
+   [추가] 표 가독성 — 마우스 올린 줄 강조, 현재 위치 줄 표시
+   ============================================================ */
+tbody tr:hover td { background: color-mix(in srgb, var(--glacier) 6%, transparent); }
+tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
+
+@media (max-width: 720px) {
+  .topbar-inner { gap: 10px; }
+  .brand { display: none; }
+  .tldr { padding: 28px 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">극블리 <span>소서</span> 공략서</div>
+    <nav class="navlinks">
+      <a href="#now">지금 막힘</a>
+      <a href="#paths">경로</a>
+      <a href="#diagnosis">진단</a>
+      <a href="#difficulty">난이도</a>
+      <a href="#immunity">면역</a>
+      <a href="#solutions">해법</a>
+      <a href="#farming">파밍</a>
+      <a href="#zones">지역 티어</a>
+      <a href="#gear">장비</a>
+      <a href="#runes">룬</a>
+      <a href="#cheatsheet">수치표</a>
+      <a href="#calc">계산기</a>
+      <a href="#gambling">도박</a>
+      <a href="#buy">현질</a>
+      <a href="#respec">초기화</a>
+    </nav>
+    <div class="topbar-tools">
+      <button class="iconbtn" id="btn-theme" type="button" title="밝은 테마 / 어두운 테마 전환">테마</button>
+      <button class="iconbtn" id="btn-reset" type="button" title="이 문서에 저장된 체크 기록을 전부 지운다">기록 초기화</button>
+    </div>
+  </div>
+</header>
+<div id="readbar" aria-hidden="true"></div>
+
+<!-- ===================== 히어로 / 진단 ===================== -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Diablo II: Resurrected / Hell / Act III · Lv 80 · 영혼 방패 + 파괴참 동시 운용</p>
+      <h1>이제 모자란 건<br><em>저항이 아니라 +기술</em>이다</h1>
+      <p class="lede">
+        무기·방패·신발을 맞추면서 <strong>이 문서가 1순위로 잡았던 저항 문제는 사실상 끝났다</strong> —
+        독 <span class="num">75</span>(상한), 냉기 <span class="num">54</span>가 <strong>파괴참을 품은 상태에서 나온 값</strong>이다.
+        남은 구멍은 두 개뿐이다. <strong>번개 저항 <span class="num">20%</span></strong>, 그리고
+        <strong>투구·갑옷·장갑·허리띠 네 부위가 아직 옵션 없는 일반템</strong>이라는 것.
+        딜이 약하고 몸이 얇게 느껴지는 이유가 정확히 여기다 — 네 칸에서 <strong>+기술도 생명력도 저항도 0</strong>이 나오고 있다.
+      </p>
+      <div class="meta">
+        <span>기준 캐릭터 <strong>BOND1</strong> / Lv <span class="num">80</span></span>
+        <span>진행도 <strong>지옥 3막</strong></span>
+        <span>영혼 방패 · 파괴참 <strong style="color:var(--ok)">장착</strong></span>
+        <span>빈 부위 <strong style="color:var(--danger)">투구 · 갑옷 · 장갑 · 허리띠</strong></span>
+        <span>데이터 기준일 <span class="num">2026-09-18</span></span>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="sheet-head">
+        <div class="sheet-name">BOND1</div>
+        <div class="sheet-lv">Lv <span class="num">80</span> 시점 스냅샷 · <span class="num">2026-09-18</span></div>
+      </div>
+      <div class="sheet-rows">
+        <div><span class="k">힘</span><span class="v">172</span></div>
+        <div><span class="k">냉기 피해</span><span class="v">526–668</span></div>
+        <div><span class="k">민첩</span><span class="v">36</span></div>
+        <div><span class="k">마나</span><span class="v">391</span></div>
+        <div><span class="k">활력</span><span class="v">384</span></div>
+        <div><span class="k">방어력</span><span class="v">1001</span></div>
+        <div><span class="k">마력</span><span class="v">46</span></div>
+        <div><span class="k">생명력</span><span class="v hl">1043</span></div>
+      </div>
+      <div class="sheet-res">
+        <div><span class="k">화염 저항</span><span class="v">56%</span></div>
+        <div><span class="k">번개 저항</span><span class="v crit">20%</span></div>
+        <div><span class="k">냉기 저항</span><span class="v">54%</span></div>
+        <div><span class="k">독 저항</span><span class="v">75%</span></div>
+      </div>
+      <div class="sheet-foot">
+        표시값은 지옥 패널티 <span class="num">-100</span>과 <strong>파괴참 패널티까지 이미 반영된 결과</strong>다.
+        부적은 인벤토리에 있기만 해도 효과가 도므로, 이 <span class="num">54%</span>가 곧 실전 냉기 저항이다.
+        <strong style="color:var(--ok)">즉 「저항 올리고 파괴참 껴라」 단계는 통과했다.</strong>
+        <br>남은 건 <strong style="color:var(--danger)">번개 저항 <span class="num">20%</span></strong> 하나다 —
+        지옥 4·5막의 원혼(Soul)·글룸 계열은 번개 한 방이 아프다. → <a href="#solutions">실행 순서</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================== 30초 요약 ===================== -->
+<div class="tldr">
+  <div class="wrap">
+    <p class="eyebrow">30초 요약 — 급하면 이것만</p>
+    <h2 style="font-size:clamp(1.3rem,2.4vw,1.75rem); margin:10px 0 0;">빈 부위 네 칸을 채우는 게 전부다</h2>
+    <div class="tldr-grid">
+      <div class="tldr-card">
+        <span class="n">1순위</span>
+        <h3>갑옷 — 독사마술사의 가죽</h3>
+        <p>지금 입은 건 옵션 없는 사슬 갑옷이다. 독사마술사의 가죽(서펀트스킨 아머) 하나로 <strong>+1 전 기술 · FCR 30 · 전 저항</strong>이 한 번에 들어온다. 요구 힘이 낮아 지금 바로 낄 수 있다.</p>
+        <a class="go" href="#gear">→ 장비 카드 보기</a>
+      </div>
+      <div class="tldr-card">
+        <span class="n">2순위</span>
+        <h3>투구 — 전승(Lore) 룬워드</h3>
+        <p>Ort · Sol 두 개짜리라 사실상 공짜인데 <strong>+1 전 기술과 번개 저항 +30%</strong>가 같이 온다. 지금 유일하게 뚫린 구멍이 번개 <span class="num">20%</span>다.</p>
+        <a class="go" href="#gear">→ 장비 카드 보기</a>
+      </div>
+      <div class="tldr-card">
+        <span class="n">3순위</span>
+        <h3>인벤토리 빈칸을 부적으로 채워라</h3>
+        <p>지금 절반 이상이 비어 있다. <strong>냉기 기술 거대 부적</strong>은 한 장당 눈보라 레벨 +1, 작은 부적은 생명력·저항이다. 같은 값에 얻는 딜 중 제일 싸다.</p>
+        <a class="go" href="#gear">→ 부적 항목 보기</a>
+      </div>
+      <div class="tldr-card">
+        <span class="n">확인할 것</span>
+        <h3>용병에 통찰(Insight)은 꽂았나</h3>
+        <p>마력 <span class="num">46</span> · 마나 <span class="num">391</span>이면 마나는 스탯이 아니라 명상 오라로 푸는 구간이다. 재료가 전부 하위 룬이다.</p>
+        <a class="go" href="#solutions">→ 실행 순서 보기</a>
+      </div>
+      <div class="tldr-card">
+        <span class="n">그다음</span>
+        <h3>3막을 끝까지 밀어라</h3>
+        <p>파괴참 이득이 가장 큰 지역 <span class="num">4</span>곳이 전부 Act 4·5에 잠겨 있다. 진행 자체가 최대의 딜 상승이다.</p>
+        <a class="go" href="#farming">→ 파밍 루트 보기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 지금 막힌 곳 ===================== -->
+<section id="now">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">01 — 지나온 구간</p>
+      <h2>박피자의 정글은 이제 문제가 아니다</h2>
+      <p>
+        이 섹션은 <strong>독 저항이 <span class="num">-10%</span>이던 시절의 기록</strong>이다.
+        지금은 <span class="num">75%</span>(상한)라 독침으로 끊기는 상황 자체가 없어졌다.
+        아래 응급 처치는 <strong>나중에 독 저항이 다시 내려가는 세팅으로 바꿀 때를 위해 남겨둔다.</strong>
+        지금 봐야 할 곳은 <a href="#solutions">실행 순서</a>다.
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="nowcard">
+        <div class="tagrow">
+          <span class="badge b-ok">해결됨 · 2026-09-18</span>
+          <span class="badge b-D">지역 Lv 79</span>
+          <span class="badge b-B">밀도 3 / 5</span>
+          <span class="badge b-D">파밍 점수 62 · D티어</span>
+        </div>
+        <h3>박피자의 정글 <span class="en">Flayer Jungle</span> — 지옥 3막</h3>
+        <p>
+          박피자(Flayer)류가 던지는 <strong>원거리 독침</strong>은 명중 순간 독 도트(DoT)를 누적시킨다.
+          체력이 계속 깎이는 동안 <strong>피격 경직</strong>이 겹쳐 이동·시전이 끊기고, 그 사이에 또 맞는 악순환이 만들어진다.
+          소서는 생명력이 얇아서 이 조합에 특히 약하다.
+        </p>
+        <p>
+          그리고 중요한 사실 하나 — <strong>여기는 버티고 서 있을 가치가 없는 맵이다.</strong>
+          지역 레벨이 <span class="num">79</span>라 최상위 드랍 테이블이 아예 열리지 않는다.
+          <strong>이기는 게 목적이 아니라 통과하는 게 목적이다.</strong> 정면으로 갈아 넣지 마라.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">응급 처치 — 지금 바로 할 수 있는 것 다섯 가지</h3>
+        <div class="tips">
+          <div class="tip">
+            <span class="ic">🧪</span>
+            <span><b>해독 물약(Antidote Potion)을 벨트에 채워라.</b> 독 상태를 즉시 걷어내는 가장 빠른 응급처치다. 벨트 한 칸은 여기에 내줄 값어치가 있다.</span>
+          </div>
+          <div class="tip">
+            <span class="ic">🏹</span>
+            <span><b>근접에서 상대하지 마라.</b> 박피자류는 화면 가장자리 거리에서 블리자드 장판을 깔고 끊어내는 게 정석이다. 붙는 순간 진다.</span>
+          </div>
+          <div class="tip">
+            <span class="ic">⚡</span>
+            <span><b>경직이 계속 걸리면 뚫지 마라.</b> 이동·시전이 끊기기 시작하면 이미 진 싸움이다. 텔레포트로 우회 동선을 만들어라.</span>
+          </div>
+          <div class="tip">
+            <span class="ic">🛡</span>
+            <span><b>독 저항을 먼저 점검해라.</b> 독 저항이 낮으면 같은 공격도 체감 데미지가 확 뛴다. <a href="#calc">계산기</a>에 넣어보고, 부족하면 <a href="#buy">모래폭풍 여로(독 저항 +40~70%)</a>가 한 부위로 끝내는 답이다.</span>
+          </div>
+          <div class="tip">
+            <span class="ic">🚪</span>
+            <span><b>그래도 계속 죽으면 그냥 지나가라.</b> 이 구간을 억지로 뚫을 이유가 없다. 웨이포인트를 찍고 다음 지역으로 건너뛰어도 진행에는 문제가 없다.</span>
+          </div>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>왜 독 데미지는 물약으로 잘 안 버텨지는가</summary>
+        <div class="body">
+          <p>
+            독은 순간 피해가 아니라 <strong>시간에 걸쳐 들어오는 지속 피해</strong>다.
+            그래서 체감상 "회복이 안 따라잡는" 상황이 만들어진다 —
+            독 상태에서는 체력 회복이 평소만큼 들어오지 않는다는 것이 커뮤니티에서 통용되는 설명이다.
+            <span class="badge b-approx">근사치 · 정확한 감소 배율은 패치별로 다름</span>
+          </p>
+          <p style="margin-top:10px">
+            확실한 건 두 가지다. <strong>해독 물약은 독 상태를 즉시 없앤다</strong>는 것,
+            그리고 <strong>독 저항이 올라가면 도트의 총량과 지속 시간이 같이 줄어든다</strong>는 것.
+            둘 다 "맞고 버티기"가 아니라 "덜 맞기 / 빨리 털기" 쪽 해법이다.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 경로 선택 ===================== -->
+<section id="paths">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">02 — 경로 선택</p>
+      <h2>장비를 채우든 레벨을 채우든, 둘 중 하나만 고르면 된다</h2>
+      <p>
+        두 경로를 동시에 돌리지 마라. 하나를 끝까지 밀어야 체감이 온다.
+        <strong>체크 상태는 이 브라우저(localStorage)에만 저장된다</strong> — 외부로 나가는 통신은 없다.
+      </p>
+    </div>
+
+    <div class="pathgrid">
+      <article class="pathcard" data-path="gamble-path">
+        <div class="pathcard-head">
+          <h3>경로 A — 도박으로 장비 보강</h3>
+          <p>지금 장비로 못 뚫는 거면, 냉기 면역 부담 없는 쉬운 구간에서 골드를 모아 반지·목걸이·벨트 도박으로 한 방을 노린다.</p>
+          <div class="meter"><i></i></div>
+          <div class="meter-label"><span class="pct">0%</span><span class="cnt">0 / 5 단계</span></div>
+        </div>
+        <ul class="cklist">
+          <li><label class="ck"><input type="checkbox" data-ck="gp-1"><span>아래 <a href="#gambling">도박 안내</a>에서 노려볼 부위(반지·목걸이·벨트·서클렛)를 먼저 정한다</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="gp-2"><span>냉기 면역 부담이 없는 <a href="#zones">고대인의 터널</a> 등을 돌며 골드 겸 파밍</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="gp-3"><span>기드(액트1 로그 야영지)에게 가서 모은 골드로 반지·목걸이 위주 도박</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="gp-4"><span>나온 아이템을 감정해 저항·스킬 옵션이 좋은 것으로 교체 착용</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="gp-5"><span>독 저항을 확보한 상태로 박피자의 정글 재도전</span></label></li>
+        </ul>
+        <div class="pathcard-foot">
+          <span class="msg">체크하면 자동 저장된다</span>
+          <button class="iconbtn" type="button" data-clear="gamble-path">이 경로 초기화</button>
+        </div>
+      </article>
+
+      <article class="pathcard" data-path="nightmare-path">
+        <div class="pathcard-head">
+          <h3>경로 B — 악몽에서 레벨·저항 보강</h3>
+          <p>지옥이 아직 벅차면 악몽으로 내려가 경험치와 저항 장비를 더 채운 뒤 지옥으로 복귀한다. 돌아가는 길처럼 보이지만 실제로는 더 빠르다.</p>
+          <div class="meter"><i></i></div>
+          <div class="meter-label"><span class="pct">0%</span><span class="cnt">0 / 5 단계</span></div>
+        </div>
+        <ul class="cklist">
+          <li><label class="ck"><input type="checkbox" data-ck="np-1"><span>악몽 난이도로 전환, 액트3 이후 구간 위주로 레벨업</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="np-2"><span>악몽 액트5 아냐(Anya) 구출 퀘스트 완료 — 저항 보너스 보상 확인 <span class="badge b-approx">정확한 수치는 인게임에서</span></span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="np-3"><span>마을 상인(할브·오르무스 등)의 방어구·저항 아이템 재고 확인</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="np-4"><span>레벨·저항이 충분하다 싶으면 다시 지옥 3막으로 복귀</span></label></li>
+          <li><label class="ck"><input type="checkbox" data-ck="np-5"><span>독 저항을 확보한 상태로 박피자의 정글 재도전</span></label></li>
+        </ul>
+        <div class="pathcard-foot">
+          <span class="msg">체크하면 자동 저장된다</span>
+          <button class="iconbtn" type="button" data-clear="nightmare-path">이 경로 초기화</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="callout" style="margin-top:24px">
+      <div class="callout-title">셋째 선택지 — 그냥 지나간다</div>
+      <p>
+        두 경로 모두 마지막 단계가 "박피자의 정글 재도전"이지만, 사실 그 맵을 <strong>클리어할 필요는 없다.</strong>
+        지역 레벨 <span class="num">79</span>짜리 맵에서 얻을 게 없기 때문이다.
+        텔레포트로 웨이포인트만 찍고 다음 구간으로 넘어가는 것도 완전히 정상적인 진행이다 —
+        어차피 목표는 3막을 끝내고 <strong>Act 4·5를 여는 것</strong>이다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 진단 ===================== -->
+<section id="diagnosis">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">03 — 진단</p>
+      <h2>방패·신발을 맞춘 뒤, 무엇이 남았나</h2>
+      <p>
+        <strong>2026-09-18 기준으로 다시 잰 값이다.</strong> 저항 네 줄 중 셋이 정상 범위로 올라왔고,
+        이 문서가 오래 붙들고 있던 「냉기 저항 -92%」 문제는 없어졌다.
+        대신 병목이 <strong>+기술과 생명력</strong> 쪽으로 옮겨갔다.
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th>항목</th><th>현재 값</th><th>판정</th><th>근거</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="t-name">냉기 면역 대응</td>
+              <td class="n">파괴참 보유</td>
+              <td><span class="badge b-ok">해결</span></td>
+              <td class="t-note">면역 몬스터 냉기 저항이 <span class="num">95%</span><span class="badge b-approx">근사치</span>로 내려간다. 구울군주에 눈보라가 들어가기 시작한다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">눈보라 피해</td>
+              <td class="n">1930–2070 <span class="badge b-approx">Lv 78 기록값</span></td>
+              <td><span class="badge b-ok">정상</span></td>
+              <td class="t-note">면역이 깨진 뒤에도 저항 <span class="num">95%</span>가 남아 있어 체감 딜은 크게 줄어든다. 즉사가 아니라 <strong>「시간을 들이면 죽는다」</strong> 수준으로 바뀐 것.</td>
+            </tr>
+            <tr>
+              <td class="t-name">냉기 저항</td>
+              <td class="n">54%</td>
+              <td><span class="badge b-ok">해결</span></td>
+              <td class="t-note"><strong>파괴참을 품은 상태에서 나온 값이다.</strong> 영혼 방패(냉기 +35%)가 패널티를 상쇄했다. 상한 <span class="num">75</span>까지 <span class="num">21</span> 남았다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">번개 저항</td>
+              <td class="n">20%</td>
+              <td><span class="badge b-no">현재 최우선</span></td>
+              <td class="t-note"><strong>네 저항 중 유일하게 뚫린 구멍.</strong> 지옥 4·5막의 원혼(Soul) 계열은 번개로 소서를 한 번에 지운다. 투구에 전승(Lore, 번개 +30%)만 올려도 절반이 메워진다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">빈 부위</td>
+              <td class="n">투구·갑옷·장갑·허리띠</td>
+              <td><span class="badge b-no">딜 병목</span></td>
+              <td class="t-note"><strong>딜이 약한 진짜 이유.</strong> 네 부위가 전부 옵션 없는 일반템이라 <strong>+기술 0 · FCR 0 · 저항 0 · 생명력 0</strong>이다. 눈보라 데미지는 캐릭터 레벨이 아니라 +기술로 오른다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">진행도</td>
+              <td class="n">지옥 Act 3</td>
+              <td><span class="badge b-no">병목</span></td>
+              <td class="t-note">비밀의 성소는 이미 지났다. 다음 문은 <strong>3막 끝(메피스토)</strong>이다. 파괴참으로 점수가 가장 크게 오르는 지역 4곳이 <strong>전부 Act 4·5</strong>라, 3막을 끝내기 전까지 파괴참 값어치의 대부분이 잠겨 있다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">독 저항</td>
+              <td class="n">75%</td>
+              <td><span class="badge b-ok">상한 도달</span></td>
+              <td class="t-note">박피자의 정글에서 막혔던 원인이 사라졌다. 여기서 더 올려도 <strong>상한이 <span class="num">75</span>라 버려진다</strong> — 독 저항 장비는 이제 다른 옵션이 붙은 물건으로 갈아타도 된다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">생명력</td>
+              <td class="n">1043</td>
+              <td><span class="badge b-D">여전히 낮음</span></td>
+              <td class="t-note">활력을 <span class="num">316</span>→<span class="num">384</span>로 <span class="num">68</span> 올렸는데 생명력은 <span class="num">152</span>밖에 안 늘었다. <strong>즉 장비에서 오는 생명력이 사실상 0이다.</strong> 활력을 더 찍는 것보다 생명력 옵션이 붙은 장비·작은 부적이 효율이 높다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">마나</td>
+              <td class="n">391</td>
+              <td><span class="badge b-B">보통</span></td>
+              <td class="t-note">마력 <span class="num">46</span>이면 스탯으로는 안 푼 게 맞고 그게 정답이다. 용병 <strong>통찰(명상 오라)</strong>로 해결하는 영역 — 아직 안 꽂았다면 이게 남은 가장 싼 업그레이드다.</td>
+            </tr>
+            <tr>
+              <td class="t-name">힘</td>
+              <td class="n">172</td>
+              <td><span class="badge b-B">과투자 의심</span></td>
+              <td class="t-note">모너크 방패 요구치는 <span class="num">156</span>이다. 장비에 붙은 힘까지 더해서 판정되므로 <strong>맨몸 힘이 <span class="num">156</span>을 넘긴 만큼은 버려진 포인트</strong>다. 다음 초기화 때 활력으로 돌릴 수 있다. → <a href="#respec">초기화 항목</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">파괴참은 이제 그냥 넣고 다녀도 된다 <span class="badge b-ok">2026-09-18 해결</span></div>
+        <p>
+          파괴참은 <strong>내 냉기 저항을 깎는 대가로</strong> 몬스터의 면역을 깬다.
+          예전 스냅샷에서는 장비 냉기 저항이 <span class="num">8</span>뿐이라 끼는 순간 하한 <span class="num">-100%</span>에 붙었지만,
+          영혼 방패가 들어온 지금은 <strong>부적을 품은 채로도 냉기 <span class="num">54%</span></strong>가 나온다.
+        </p>
+        <p>
+          <strong>주의할 점은 하나다 — 부적은 인벤토리에 있기만 해도 효과가 돈다.</strong>
+          지금 보이는 <span class="num">54%</span>는 이미 패널티가 반영된 값이라, 여기서 부적을 빼면 저항이 올라가는 게 아니라
+          <strong>면역만 못 깨는 상태</strong>가 된다. 남은 목표는 상한 <span class="num">75</span>까지 <span class="num">21</span>을 더 채우는 것.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 난이도 ===================== -->
+<section id="difficulty">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">04 — 난이도 시스템</p>
+      <h2>지옥이 어려운 이유는 몬스터 체력이 아니다</h2>
+      <p>난이도가 올라갈 때 실제로 바뀌는 것은 세 가지다. 내 저항 패널티, 몬스터 저항, 그리고 면역의 등장이다.</p>
+    </div>
+
+    <div class="stack-lg">
+      <div>
+        <h3 class="sub">난이도별 변화</h3>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th>난이도</th><th>내 저항 패널티</th><th>진입 조건</th><th>극블리 소서 체감</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="t-name">일반 <span class="t-sub">Normal</span></td>
+                <td class="n">0</td>
+                <td class="t-note">게임 시작</td>
+                <td class="t-note">면역 없음. 냉기 하나로 전부 해결된다.</td>
+              </tr>
+              <tr>
+                <td class="t-name">악몽 <span class="t-sub">Nightmare</span></td>
+                <td class="n">-40</td>
+                <td class="t-note">일반 바알 처치</td>
+                <td class="t-note">면역 몬스터가 등장하기 시작한다. 아직은 드물어 견딜 만하다.</td>
+              </tr>
+              <tr>
+                <td class="t-name">지옥 <span class="t-sub">Hell</span></td>
+                <td class="n">-100</td>
+                <td class="t-note">악몽 바알 처치</td>
+                <td class="t-note">면역이 대량 등장한다. 단일 속성 빌드가 처음으로 벽에 부딪히는 지점.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="cols2">
+        <div class="callout">
+          <div class="callout-title">저항 표시값 읽는 법</div>
+          <p>
+            캐릭터 창의 저항 수치는 <strong>난이도 패널티가 이미 반영된 최종값</strong>이다.
+            지옥에서 번개가 <span class="num">20%</span>로 보인다면 장비 저항은 <span class="num">120</span>이라는 뜻이고,
+            표시값 <span class="num">75</span>(상한)를 맞추려면 장비에서 <span class="num">175</span>를 모아야 한다 —
+            즉 번개는 <strong>앞으로 <span class="num">55</span>가 더 필요하다.</strong>
+          </p>
+          <p>
+            플레이어 저항 상한은 기본 <span class="num">75%</span>다. 그 위로는 특정 옵션(최대 저항 +x%)이 있어야 올라간다.
+            반대로 하한은 <span class="num">-100%</span>이며 그 아래로는 내려가지 않는다.
+          </p>
+        </div>
+
+        <div class="callout warn">
+          <div class="callout-title">면역의 정의</div>
+          <p>
+            몬스터의 특정 속성 저항이 <strong><span class="num">100%</span> 이상</strong>이면 그 속성에 면역이다.
+            면역은 「저항이 높다」가 아니라 <strong>데미지가 통째로 무시되는 상태</strong>다.
+          </p>
+          <p>
+            그리고 한 번 면역이었던 몬스터는, 면역이 깨진 뒤에도 저항 감소 효과가
+            <strong>대폭 축소된 비율로만</strong> 적용된다.
+            <span class="badge b-approx">근사치 20%</span> — 커뮤니티 통용값이며 패치에 따라 달라질 수 있다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 냉기 면역 ===================== -->
+<section id="immunity">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">05 — 냉기 면역 해부</p>
+      <h2>무엇이 면역을 깨고, 무엇이 못 깨는가</h2>
+      <p>여기서 착각하면 몇 시간을 낭비한다. 면역을 깰 수 있는 수단과 없는 수단은 명확히 갈린다.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>수단</th><th>면역 돌파</th><th>설명</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="t-name">냉기 파괴참 <span class="t-sub">Cold Rupture</span></td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">면역 몬스터의 냉기 저항을 <span class="num">95%</span><span class="badge b-approx">근사치</span>로 설정한다. 대신 내 냉기 저항에 패널티가 붙는다. <strong>지옥 난이도 공포의 영역 몬스터에서만 드랍</strong>된다.</td>
+          </tr>
+          <tr>
+            <td class="t-name">무한 <span class="t-sub">Infinity — 천벌 오라</span></td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">용병 무기. 천벌(Conviction) 오라가 적 저항을 크게 깎아 면역선 아래로 끌어내린다. Ber 룬 2개가 필요해 지금(81레벨·3막) 시점엔 비현실적이다.</td>
+          </tr>
+          <tr>
+            <td class="t-name">저항 감소 저주 <span class="t-sub">Lower Resist</span></td>
+            <td><span class="badge b-B">제한적</span></td>
+            <td class="t-note">네크로 완드의 차지를 무기 스왑으로 사용. 면역 대상에겐 효과가 크게 축소돼 들어가므로, 저항이 면역선에 간신히 걸친 몬스터만 깨진다. 기대치를 낮게 잡을 것.</td>
+          </tr>
+          <tr>
+            <td class="t-name">냉기 숙련 <span class="t-sub">Cold Mastery</span></td>
+            <td><span class="badge b-no">불가능</span></td>
+            <td class="t-note"><strong>가장 흔한 오해.</strong> 냉기 숙련은 면역을 깨지 못한다. 면역이 이미 깨진 뒤에 축소된 비율로만 적용된다. 여기에 포인트를 더 박아도 면역 몹은 그대로 <span class="num">0</span>이다.</td>
+          </tr>
+          <tr>
+            <td class="t-name">+스킬 / 시너지 / 냉뎀% 장비</td>
+            <td><span class="badge b-no">불가능</span></td>
+            <td class="t-note">전부 데미지 배수다. 면역 상태에서는 곱할 대상이 없다.</td>
+          </tr>
+          <tr>
+            <td class="t-name">용병 물리 딜</td>
+            <td><span class="badge b-ok">우회</span></td>
+            <td class="t-note">면역을 깨는 게 아니라 <strong>다른 속성으로 죽인다</strong>. 냉기 면역 몬스터도 물리 데미지는 그대로 받는다. 지금 진행도에서 가장 현실적인 답.</td>
+          </tr>
+          <tr>
+            <td class="t-name">스태틱 필드 <span class="t-sub">Static Field</span></td>
+            <td><span class="badge b-B">우회</span></td>
+            <td class="t-note">번개 속성이라 냉기 면역을 무시하고 현재 체력을 깎는다. 다만 지옥에서는 <strong>최대 체력의 <span class="num">50%</span>까지만</strong> 깎이므로 마무리는 반드시 용병 몫이다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 해법 ===================== -->
+<section id="solutions">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">06 — 해법</p>
+      <h2>실행 순서 <span class="badge b-ok" style="font-size:.75rem; vertical-align:middle">2026-09-18 갱신</span></h2>
+      <p>
+        아래 번호는 우선순위가 아니라 <strong>실제로 밟아야 하는 순서</strong>다.
+        무기·방패·신발이 들어오면서 <strong>저항 복구 단계는 끝났다.</strong>
+        1순위는 이제 <strong>비어 있는 네 부위를 +기술 장비로 채우는 것</strong>이다.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step" style="opacity:.62">
+        <div class="step-n">0</div>
+        <div>
+          <h3>냉기 저항 복구 <span class="badge b-ok">완료 · 2026-09-18</span></h3>
+          <p>
+            영혼(Spirit) 모너크 방패와 신발이 들어오면서 끝난 단계다.
+            <strong>파괴참을 인벤토리에 넣은 채로 냉기 <span class="num">54</span> · 독 <span class="num">75</span></strong>가 나온다 —
+            이 문서가 경고하던 「면역 깨자마자 내가 죽는」 상태는 벗어났다.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">1</div>
+        <div>
+          <h3>빈 네 부위를 +기술 장비로 채우기 <span class="badge b-no">투구 · 갑옷 · 장갑 · 허리띠</span></h3>
+          <p>
+            딜이 약한 원인은 스킬 트리도 레벨도 아니다. <strong>네 부위가 옵션 없는 일반템</strong>이라
+            거기서 나와야 할 +기술 · FCR · 저항 · 생명력이 전부 <span class="num">0</span>이기 때문이다.
+            눈보라 데미지는 <strong>+기술 한 줄마다 계단식으로</strong> 오른다.
+          </p>
+          <ul>
+            <li><strong>갑옷 — 독사마술사의 가죽(바이퍼).</strong> +1 전 기술 · FCR <span class="num">30%</span> · 전 저항 <span class="num">+20~35%</span>. 요구 힘이 <span class="num">43</span>이라 지금 바로 낄 수 있고, 남은 번개 구멍도 같이 메운다. 못 구하면 <strong>연기(Smoke, Nef·Lum)</strong>로 전 저항 <span class="num">+50</span>만 먼저 챙겨라.</li>
+            <li><strong>투구 — 전승(Lore, Ort·Sol).</strong> +1 전 기술 · 번개 저항 <span class="num">+30%</span>. 2소켓 투구만 있으면 되고 재료가 하위 룬이라 사실상 공짜다. <strong>지금 가성비 1위.</strong></li>
+            <li><strong>장갑 — 트래그울의 발톱</strong>(FCR <span class="num">20</span> · 냉기 저항 <span class="num">30</span>) 또는 <strong>마수</strong>(Magefist · 라이트 건틀릿, FCR <span class="num">20</span>).</li>
+            <li><strong>허리띠 — 생명력·저항이 붙은 레어</strong>면 충분하다. 거미 그물띠(+1 기술 · FCR 20)는 요구 레벨 <span class="num">80</span>이라 이제 조건은 된다.</li>
+            <li><strong>목표는 FCR <span class="num">105%</span></strong> — 영혼 <span class="num">35</span> + 바이퍼 <span class="num">30</span> + 장갑 <span class="num">20</span> + 허리띠 <span class="num">10</span> + 반지 <span class="num">10</span>. 딱 떨어진다. → <a href="#cheatsheet">브레이크포인트 표</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">2</div>
+        <div>
+          <h3>인벤토리 빈칸을 부적으로 채우기 <span class="badge b-charm">지금 절반 이상 비어 있음</span></h3>
+          <p>
+            부적은 <strong>인벤토리에 들어 있기만 하면</strong> 효과가 돈다. 빈칸은 그대로 버려지는 능력치다.
+          </p>
+          <ul>
+            <li><strong>냉기 기술 거대 부적</strong> — 한 장당 눈보라 레벨 +1. 지금 상태에서 살 수 있는 딜 중 가장 싸다.</li>
+            <li><strong>작은 부적</strong> — 생명력 <span class="num">+20</span>짜리와 저항짜리를 섞어라. 생명력 <span class="num">1043</span>을 올릴 가장 현실적인 수단이다.</li>
+            <li>파괴참은 <strong>인벤토리 한 칸을 계속 차지한다</strong>는 것도 계산에 넣어라.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <h3>용병 세팅 — 통찰(Insight) <span class="badge b-runeword">Ral · Tir · Tal · Sol</span></h3>
+          <p>
+            파괴참이 있어도 용병은 여전히 필요하다. 면역이 깨진 몬스터는 저항 <span class="num">95%</span>가 남아 있어
+            눈보라 체감 딜이 크게 줄기 때문이다. <strong>면역 몹은 여전히 용병이 훨씬 빨리 죽인다.</strong>
+          </p>
+          <ul>
+            <li><strong>용병 종류</strong> — Act 2 <strong>악몽 난이도 공격형(힘 오라)</strong>. 물리 딜을 올리는 쪽이 낫다.</li>
+            <li><strong>무기</strong> — 통찰. 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 명상 오라가 마나 문제까지 해결한다.</li>
+            <li><strong>투구</strong> — <strong>흡혈귀의 눈길</strong>(Vampire Gaze) 등 생명력 흡수가 붙은 것. 흡혈이 없으면 용병이 먼저 죽는다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">4</div>
+        <div>
+          <h3>3막 끝까지 밀기 <span class="badge b-A">현재 목표</span></h3>
+          <p>
+            <strong>지옥 난이도</strong> 기준이다. 비밀의 성소는 이미 통과했다 —
+            그 덕에 지옥 Act 3와 탈 라샤의 무덤(<span class="num">74</span>점)이 열렸다.
+            <strong>다음 문은 메피스토다.</strong> 이 단계는 파밍이 아니라 <strong>해금</strong>이 목적이다.
+          </p>
+          <ul>
+            <li>박피자의 정글은 <a href="#now">통과 대상</a>이지 파밍 대상이 아니다. 지역 레벨 <span class="num">79</span>짜리에서 시간을 쓰지 마라.</li>
+            <li>쿠라스트를 지나 <strong>트라빈칼</strong>(<span class="num">79</span>점 · 런 <span class="num">90</span>초)에 닿으면, 그 즉시 <strong>런타임 대비 효율 1위 파밍지</strong>가 손에 들어온다.</li>
+            <li>메피스토를 잡으면 Act 4가 열리고 혼돈의 성역(<span class="num">81</span>점)·불의 강(<span class="num">77</span>점)이 따라 들어온다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">5</div>
+        <div>
+          <h3>해금 후 고득점 지역 로테이션</h3>
+          <p>
+            Act 5까지 뚫으면 세계석 요새(<span class="num">82</span>점)와 혼돈의 성역(<span class="num">81</span>점)이 열린다.
+            둘 다 파괴참 덕에 <strong>B → A로 승격</strong>한 지역이다. 냉기 기술 거대 부적을 여기서 쌓는다.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">6</div>
+        <div>
+          <h3>장기 — 무한(Infinity) <span class="badge b-runeword">Ber · Mal · Ber · Ist</span></h3>
+          <p>
+            천벌 오라는 파괴참으로 깨진 몬스터의 남은 저항 <span class="num">95%</span>를 추가로 깎는다.
+            <strong>파괴참과 겹치는 게 아니라 곱해지는 관계</strong>다. Ber 룬 2개가 필요하니 목표로만 잡아둘 것.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 파밍 루트 ===================== -->
+<section id="farming">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">07 — 파밍 루트 · 파괴참 보유 기준</p>
+      <h2>파괴참의 값어치는 대부분 아직 잠겨 있다</h2>
+      <p>
+        파밍 효율 점수를 파괴참 보유 기준으로 다시 계산하면 순위가 바뀐다.
+        그런데 <strong>점수가 가장 크게 오른 지역 4곳이 전부 Act 4·5</strong>다.
+        지옥 3막에서 막혀 있는 한 그 이득을 한 푼도 못 쓴다.
+      </p>
+    </div>
+
+    <div class="callout warn" style="margin-bottom:28px">
+      <div class="callout-title">잠금의 역설 — 파괴참으로 가장 이득 보는 곳이 지금 못 가는 곳이다</div>
+      <p>
+        파괴참으로 점수가 <span class="num">+12</span> 오른 지역은 세계석 요새 · 혼돈의 성역 · 파괴의 왕좌 · 고뇌의 전당,
+        네 곳이다. 냉기 면역 비중이 <span class="num">3</span>으로 가장 높았던 곳들이라 이득도 가장 크다.
+        그런데 <strong>전부 Act 4·5다.</strong>
+      </p>
+      <p>
+        반면 지금 갈 수 있는 지역의 상승폭은 고대인의 터널 <span class="num">+0</span>,
+        비밀의 성소 <span class="num">+4</span>, 구덩이·탈 라샤의 무덤 <span class="num">+8</span>에 그친다.
+        <strong>그래서 지금 할 일은 새 파밍지를 찾는 게 아니라 3막을 끝까지 미는 것이다.</strong>
+        진행 자체가 이 캐릭터에서 가장 큰 딜 상승이다.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div>
+          <h3>고대인의 터널 <span class="badge b-D">지옥</span> <span class="badge b-S">S</span> <span class="badge b-S">91점</span></h3>
+          <p>
+            <strong>파괴참이 있든 없든 변함없는 1위다</strong>(점수 변동 <span class="num">0</span>).
+            냉기 면역이 원래 <span class="num">0</span>이라 파괴참이 개입할 여지가 없기 때문이다.
+            잃어버린 도시 웨이포인트에서 바로 갈 수 있다.
+          </p>
+          <dl class="kv" style="margin-top:12px">
+            <dt>지역 레벨</dt><dd>85</dd>
+            <dt>냉기 면역</dt><dd>0 — 눈보라가 100% 그대로 들어간다</dd>
+            <dt>런타임</dt><dd>약 150초</dd>
+            <dt>지금 목표</dt><dd>냉기 저항 장신구 — 해법 1단계 재료</dd>
+          </dl>
+          <p style="margin-top:12px">
+            <strong>파괴참을 끼지 않은 채로 도는 것이 핵심이다.</strong> 면역이 0이라 파괴참이 무의미한데
+            내 저항만 깎이므로, 여기서는 빼두는 게 순이득이다.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">2</div>
+        <div>
+          <h3>비밀의 성소 <span class="badge b-D">지옥</span> <span class="badge b-A">A</span> <span class="badge b-A">85점 ▲4</span></h3>
+          <p>
+            <strong>이미 뚫은 곳이고, 지금 갈 수 있는 지역 중 2위다.</strong>
+            유령류가 냉기에 잘 녹는 맵인데 면역 팩만 처리가 안 돼서 막혀 있던 것이고, 파괴참이 그 문제를 풀었다.
+          </p>
+          <ul>
+            <li>웨이포인트가 이미 열려 있으니 <strong>마을에서 바로 진입</strong>할 수 있다. 진행을 멈추고 장비를 채우기에 가장 좋은 곳.</li>
+            <li>여기를 통과한 덕에 탈 라샤의 무덤(<span class="num">74</span>점)도 같이 열려 있다 — 무덤 로테이션도 지금 가능하다.</li>
+            <li>단, 뱀파이어의 냉기 볼트가 있으니 <strong>저항 복구 후</strong> 들어갈 것.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <h3>구덩이 1~2층 <span class="badge b-D">지옥</span> <span class="badge b-S">S</span> <span class="badge b-S">82점 ▲8</span></h3>
+          <p>
+            파괴참으로 <span class="num">74</span> → <span class="num">82</span>점이 됐다.
+            <strong>잠겨 있는 세계석 요새와 동점</strong>이다. 즉 지금 접근 가능한 지역만으로도
+            Act 5급 효율이 나온다는 뜻.
+          </p>
+          <p style="margin-top:8px">외곽 수도원 웨이포인트 → 타모에 고원. 고대인의 터널과 번갈아 돌기 좋다.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">4</div>
+        <div>
+          <h3>카운테스 <span class="badge b-D">지옥</span> <span class="badge b-runeword">룬 목적</span></h3>
+          <p>Act 1 검은 습지 → 잊혀진 탑. 아이템이 아니라 <strong>룬</strong>을 보고 가는 곳이다.</p>
+          <ul>
+            <li>통찰 재료(Ral · Tir · Tal · Sol)가 전부 지옥 카운테스가 흔히 뱉는 하위 룬이다.</li>
+            <li>영혼(Spirit) 재료(Tal · Thul · Ort · Amn)도 같은 구간에서 나온다 — <strong>저항 +FCR을 한 번에 해결</strong>하는 방패다.</li>
+            <li>런 1회가 1분 남짓. 해법 1·2단계를 동시에 여는 가장 빠른 경로.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">5</div>
+        <div>
+          <h3>탈 라샤의 무덤 <span class="badge b-D">지옥</span> <span class="badge b-B">B</span> <span class="badge b-B">74점 ▲8</span></h3>
+          <p>
+            비밀의 성소를 통과하면서 마법사의 협곡이 열렸으므로 <strong>이제 접근 가능한 지역</strong>이다.
+            일곱 무덤을 순회하는 방식이라 런 한 번이 길지만, 지역 레벨 <span class="num">85</span>라 드랍 테이블은 최상위가 열려 있다.
+          </p>
+          <p style="margin-top:8px">고대인의 터널이 질릴 때 섞어 도는 용도. 단독 1순위로 잡을 만큼은 아니다.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">6</div>
+        <div>
+          <h3>공포의 영역 — 목적이 바뀌었다</h3>
+          <p>
+            파괴참을 이미 확보했으므로 공포의 영역을 도는 이유가 <strong>파괴참 사냥에서 경험치·드랍으로 바뀐다.</strong>
+            더 이상 로테이션에 매달릴 필요가 없다.
+          </p>
+          <ul>
+            <li>접근 가능한 Act 1·2 지역이 걸리면 들어가되, 안 걸리면 고대인의 터널을 도는 게 낫다.</li>
+            <li>공포의 영역은 몬스터 레벨을 캐릭터 레벨 기준으로 끌어올린다. 정확한 보정치는 패치마다 다르다.</li>
+            <li>공포의 영역 자체는 난이도를 가리지 않지만, <strong>드랍을 보고 도는 거라면 지옥에서 돌아야 한다.</strong> 악몽 공포의 영역은 지역 레벨이 낮아 상위 아이템이 안 뜬다.</li>
+            <li>81레벨이므로 경험치 효율도 같이 챙길 수 있다.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:28px">
+      <div class="callout-title">정리 — 지금의 최단 경로</div>
+      <p>
+        고대인의 터널 + 카운테스로 <strong>전 저항 장비와 통찰·영혼 룬</strong>을 먼저 확보한다 →
+        저항(냉기 그리고 독)이 올라간 뒤에 파괴참을 장착한다 →
+        <strong>박피자의 정글을 통과해 3막을 끝낸다</strong> → 트라빈칼과 혼돈의 성역이 열리고,
+        그때부터 세계석 요새까지 이어지며 파괴참의 진짜 값어치를 회수한다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 공포의 영역 ===================== -->
+<section id="zones">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">08 — 공포의 영역 전체 티어 · 파괴참 보유 기준 재계산</p>
+      <h2>순위가 바뀐 곳과 안 바뀐 곳</h2>
+      <p>
+        점수는 대시보드의 <code>computeZoneScore()</code>로 실제 계산한 값이다
+        (냉기 면역 40점 · 밀도 30점 · 지역 레벨 20점 · 런타임 10점).
+        <strong>점수 순 정렬</strong>이며, <span class="num">▲</span> 표시는 파괴참으로 오른 폭이다.
+        「지금 접근」은 <strong>지옥 3막 박피자의 정글에서 막힌 진행도</strong> 기준이다.
+        아래 칩으로 표를 좁혀 볼 수 있다.
+      </p>
+      <p>
+        <strong>난이도 칸이 전부 「지옥」인 건 실수가 아니다.</strong>
+        <strong>지역 레벨 <span class="num">85</span>는 지옥에서만 나오기 때문</strong>이다 —
+        같은 맵이라도 악몽에서 돌면 지역 레벨이 확 떨어져 상위 드랍 테이블이 아예 안 열린다.
+        <strong>아래 표는 전부 지옥 기준이고, 파밍하러 갈 때는 지옥으로 가야 한다.</strong>
+        악몽은 파밍지가 아니라 <a href="#paths">레벨·저항을 채우러 잠깐 내려가는 곳</a>이다.
+      </p>
+    </div>
+
+    <div class="chipbar" id="zone-filter">
+      <span class="lbl">보기</span>
+      <button class="chip on" type="button" data-zf="all">전체</button>
+      <button class="chip" type="button" data-zf="open">지금 갈 수 있는 곳</button>
+      <button class="chip" type="button" data-zf="top">S · A 티어만</button>
+      <button class="chip" type="button" data-zf="locked">잠긴 곳(목표)</button>
+      <span class="rowcount" id="zone-count"></span>
+    </div>
+
+    <div class="tablewrap">
+      <table style="min-width:1060px">
+        <thead>
+          <tr>
+            <th>티어</th><th>지역</th><th>난이도</th><th>Act</th><th>지역Lv</th>
+            <th>밀도</th><th>냉기 면역</th><th>점수</th><th>런타임</th><th>지금 접근</th><th>메모</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tier-S">
+            <td class="stripe"><span class="badge b-S">S</span></td>
+            <td class="t-name">고대인의 터널 <span class="t-sub">Ancient Tunnels</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">2</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="off">□□□□□</span></td>
+            <td class="n"><strong>91</strong></td>
+            <td class="n">150초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">냉기 면역이 원래 0이라 <strong>파괴참 영향을 안 받는 유일한 지역</strong>. 여기서는 파괴참을 빼는 게 순이득이다.</td>
+          </tr>
+          <tr class="tier-A">
+            <td class="stripe"><span class="badge b-A">A</span></td>
+            <td class="t-name">비밀의 성소 <span class="t-sub">Arcane Sanctuary</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">2</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
+            <td class="n"><strong>85</strong> <span style="color:var(--ok)">▲4</span></td>
+            <td class="n">210초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">막혀 있던 곳이 전체 2위가 됐다. 파밍과 진행 해금을 동시에 하는 유일한 지역.</td>
+          </tr>
+          <tr class="tier-S">
+            <td class="stripe"><span class="badge b-S">S</span></td>
+            <td class="t-name">구덩이 1~2층 <span class="t-sub">The Pit</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">1</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>82</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">180초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">잠겨 있는 세계석 요새와 동점. 지금 갈 수 있는 곳만으로 Act 5급 효율이 나온다.</td>
+          </tr>
+          <tr class="tier-A">
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
+            <td class="t-name">세계석 요새 2~3층 <span class="t-sub">Worldstone Keep</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">5</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■■</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>82</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">파괴참 최대 수혜 지역. 기술 거대 부적이 뜨는 핵심 구간. <strong>해금이 곧 딜 상승.</strong></td>
+          </tr>
+          <tr class="tier-A">
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
+            <td class="t-name">혼돈의 성역 <span class="t-sub">Chaos Sanctuary</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">4</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■■</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>81</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">270초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">파괴참 없을 땐 블리소서에게 함정이었지만 이제는 정상 파밍지. 봉인 보스 3종.</td>
+          </tr>
+          <tr class="tier-A">
+            <td class="stripe"><span class="badge b-A">A</span> <span class="t-note" style="font-size:.625rem">▲B</span></td>
+            <td class="t-name">파괴의 왕좌 <span class="t-sub">Throne of Destruction</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">5</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■■</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>80</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">300초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">경험치+아이템 동시 효율. 웨이브 특성상 랩타임 편차가 크다.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span></td>
+            <td class="t-name">트라빈칼 <span class="t-sub">Travincal</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">3</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>79</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">90초</td>
+            <td><span class="badge b-approx">눈앞</span></td>
+            <td class="t-note">런 1회 <strong>90초로 최단</strong>. 지금 막힌 구간과 <strong>같은 3막</strong>이라, 정글만 지나면 손에 들어온다. 3막을 미는 이유 그 자체.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span></td>
+            <td class="t-name">불의 강 <span class="t-sub">River of Flame</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">4</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>77</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">150초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">혼돈의 성역 가는 길에 끼워 도는 용도. 단독 파밍 가치는 중간.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span> <span class="t-note" style="font-size:.625rem">▲D</span></td>
+            <td class="t-name">고뇌의 전당 / 고통의 전당 <span class="t-sub">Halls of Anguish / Pain</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">5</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■■</span><span class="off">□</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>76</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-no">잠김</span></td>
+            <td class="t-note">두 단계 승격. 파괴참 없을 땐 D였지만 이제 니흘라탁 연계로 쓸 만하다.</td>
+          </tr>
+          <tr class="tier-B">
+            <td class="stripe"><span class="badge b-B">B</span></td>
+            <td class="t-name">탈 라샤의 무덤 <span class="t-sub">Tal Rasha's Tombs</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">2</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>74</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">비밀의 성소를 통과하면서 마법사의 협곡이 열렸다. <strong>지금 갈 수 있는 지역 중 지역 레벨 85짜리.</strong></td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">구더기 소굴 <span class="t-sub">Maggot Lair</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">2</td><td class="n">85</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="n"><strong>66</strong> <span style="color:var(--ok)">▲8</span></td>
+            <td class="n">300초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">일자 통로라 블리자드 장판 효율 최악. 접근은 되지만 시간만 먹는다. 스킵.</td>
+          </tr>
+          <tr class="tier-D here">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">박피자의 정글 <span class="t-sub">Flayer Jungle</span> <span class="badge b-no">현재 위치</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">3</td><td class="n">79</td>
+            <td class="dots cool"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
+            <td class="n"><strong>62</strong> <span style="color:var(--ok)">▲4</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">지역 레벨 <span class="num">79</span>라 최상위 드랍이 안 열린다. <strong>파밍지가 아니라 통과 구간이다.</strong> 원거리 독침이 도트와 경직을 겹쳐 넣으니 근접하지 말고 <a href="#now">해독 물약 + 텔레포트 우회</a>로 처리해라.</td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">차가운 평원 <span class="t-sub">Cold Plains</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">1</td><td class="n">80</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
+            <td class="n"><strong>57</strong> <span style="color:var(--ok)">▲4</span></td>
+            <td class="n">210초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">이름만 차갑다. 밀도·지역 레벨 둘 다 부족. 공포의 영역 로테이션 때만.</td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">지하 통로 <span class="t-sub">Underground Passage</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">1</td><td class="n">80</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■</span><span class="off">□□□□</span></td>
+            <td class="n"><strong>56</strong> <span style="color:var(--ok)">▲4</span></td>
+            <td class="n">240초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">지역 레벨이 낮아 상위 드랍이 안 열린다. 파괴참을 이미 얻었으므로 갈 이유가 사라졌다.</td>
+          </tr>
+          <tr class="tier-D">
+            <td class="stripe"><span class="badge b-D">D</span></td>
+            <td class="t-name">머나먼 오아시스 <span class="t-sub">Far Oasis</span></td>
+
+            <td><span class="badge b-D">지옥</span></td>
+            <td class="n">2</td><td class="n">81</td>
+            <td class="dots cool"><span class="on">■■</span><span class="off">□□□</span></td>
+            <td class="dots"><span class="on">■■■</span><span class="off">□□</span></td>
+            <td class="n"><strong>46</strong> <span style="color:var(--ok)">▲12</span></td>
+            <td class="n">300초</td>
+            <td><span class="badge b-ok">가능</span></td>
+            <td class="t-note">상승폭은 크지만 여전히 최하위. 맵이 넓고 밀도가 낮으며 지역 레벨도 85 미만이다. 스킵.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 졸업 장비 ===================== -->
+<section id="gear">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">09 — 졸업 장비 현상수배</p>
+      <h2>목표 장비 26종</h2>
+      <p>
+        등급은 <strong>상대적 수요</strong>(T0 최상위 ~ T3 흔함)이지 시세 금액이 아니다.
+        가격은 시즌마다 변해서 적어두면 금방 거짓말이 된다.
+        카드마다 붙은 <strong>「확보함」 체크는 이 브라우저에 저장</strong>되니 현상수배 보드처럼 써도 된다.
+      </p>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px">
+      <div class="callout-title">T 등급은 「얼마나 좋냐」이지 「지금 뭘 사냐」가 아니다</div>
+      <p>
+        이 섹션의 <strong>T0~T3는 빌드가 완성됐을 때의 상대적 가치</strong>다.
+        반면 <a href="#buy">현금 구매 우선순위</a>는 <strong>지금 이 캐릭터의 병목</strong>을 기준으로 뽑은 순서다.
+        <strong>두 목록이 다른 건 모순이 아니라 축이 다르기 때문이다.</strong>
+      </p>
+      <div class="tablewrap" style="margin-top:10px">
+        <table style="min-width:0">
+          <thead><tr><th>목록</th><th>재는 것</th><th>답하는 질문</th></tr></thead>
+          <tbody>
+            <tr><td class="t-name">T0 ~ T3 등급</td><td class="t-note">완성형에서의 가치 · 상대적 수요</td><td class="t-note">"최종적으로 뭐가 제일 센가"</td></tr>
+            <tr><td class="t-name"><a href="#buy">현질 순위</a></td><td class="t-note">지금 막힌 문제를 푸는 정도</td><td class="t-note">"지금 돈 쓰면 뭐가 제일 크게 바뀌나"</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px">
+        그래서 T0(죽음의 깊이·무한·수수께끼)는 현질 목록에 없다. <strong>이유는 두 가지다</strong> —
+        Ber·Jah 룬이 들어가 <strong>소액 예산과 자릿수가 다르고</strong>,
+        더 중요하게는 <strong>지금 문제를 안 푼다.</strong>
+        <a href="#now">독침에 죽어서 막힌 상황</a>에서 딜을 올려봐야 똑같이 죽는다.
+      </p>
+      <p>
+        거꾸로 T1인 <strong>마라는 현질 2순위에 들어가 있다</strong> — 등급이 높아서가 아니라 저항을 메워서다.
+        같은 T1이라도 <strong>거미 그물띠는 저항이 없어서 뺐다.</strong> 판단 기준이 등급이 아니라는 뜻이다.
+      </p>
+    </div>
+
+    <div class="callout danger" style="margin-bottom:20px">
+      <div class="callout-title">2026-09-18 — 아이템 이름을 인게임 한글명으로 전부 맞췄다</div>
+      <p>
+        이전 판의 일부 이름은 <strong>영문명을 옮겨 적은 것이라 인게임 표기와 달랐다.</strong>
+        <a href="https://diablo2.inven.co.kr/dataninfo/item/" target="_blank" rel="noopener">디아블로2 레저렉션 인벤 아이템 DB</a>와
+        대조해 고친 목록은 다음과 같다.
+      </p>
+      <div class="tablewrap" style="margin-top:10px">
+        <table style="min-width:0">
+          <thead><tr><th>이전 표기</th><th>인게임 한글명</th><th>영문명</th></tr></thead>
+          <tbody>
+            <tr><td class="t-note">뱀 마법사의 가죽</td><td class="t-name">독사마술사의 가죽</td><td class="t-note">Skin of the Vipermagi</td></tr>
+            <tr><td class="t-note">서펜트스킨 아머</td><td class="t-name">서펀트스킨 아머</td><td class="t-note">Serpentskin Armor</td></tr>
+            <tr><td class="t-note">지식</td><td class="t-name">전승</td><td class="t-note">Lore</td></tr>
+            <tr><td class="t-note">불굴</td><td class="t-name">인내</td><td class="t-note">Fortitude</td></tr>
+            <tr><td class="t-note">명예의 사슬</td><td class="t-name">명예의 굴레</td><td class="t-note">Chains of Honor</td></tr>
+            <tr><td class="t-note">모나크</td><td class="t-name">모너크</td><td class="t-note">Monarch</td></tr>
+            <tr><td class="t-note">스케럽 허스크 부츠</td><td class="t-name">스캐럽쉘 부츠</td><td class="t-note">Scarabshell Boots</td></tr>
+            <tr><td class="t-note">대형 참 / 소형 참</td><td class="t-name">거대 부적 / 큰 부적 / 작은 부적</td><td class="t-note">Grand / Large / Small Charm</td></tr>
+            <tr><td class="t-note">소서리스 기술</td><td class="t-name">원소술사 기술</td><td class="t-note">Sorceress Skills</td></tr>
+            <tr><td class="t-note">마법사의 주먹</td><td class="t-name">마수</td><td class="t-note">Magefist</td></tr>
+            <tr><td class="t-note">인피니티 · 에니그마 · 피닉스 · CTA</td><td class="t-name">무한 · 수수께끼 · 불사조 · 소집</td><td class="t-note">Infinity · Enigma · Phoenix · Call to Arms</td></tr>
+            <tr><td class="t-note">그리프 · 둠 · 데스</td><td class="t-name">슬픔 · 파멸 · 죽음</td><td class="t-note">Grief · Doom · Death</td></tr>
+            <tr><td class="t-note">브램블 · 드래곤</td><td class="t-name">찔레 · 용</td><td class="t-note">Bramble · Dragon</td></tr>
+            <tr><td class="t-note">흡혈의 시선</td><td class="t-name">흡혈귀의 눈길</td><td class="t-note">Vampire Gaze</td></tr>
+            <tr><td class="t-note">거인의 도리깨</td><td class="t-name">자이언트 쓰레셔</td><td class="t-note">Giant Thresher</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px">
+        같은 대조에서 <strong>수치 오류 세 건</strong>도 같이 나왔다 —
+        독사마술사의 가죽 요구 레벨 <span class="num">24</span>→<span class="num">29</span>,
+        마법 피해 감소 <span class="num">7~15</span>→<span class="num">9~13</span>,
+        그리고 <strong>안다리엘의 두개골은 「독 저항 -30%」가 아니라 「독 저항 +70% · 화염 저항 -30%」</strong>다.
+      </p>
+      <p>
+        <strong>음역 표기(인피니티 · 에니그마 · 그리프 같은 것)는 인게임에 존재하지 않는 이름이다.</strong>
+        영어 이름을 한글로 소리 나는 대로 적은 커뮤니티 표기일 뿐이라, 게임 안에서 그 이름으로는 아무것도 못 찾는다.
+        그래서 이 문서에서는 전부 걷어냈다.
+      </p>
+      <p>
+        <strong>분노</strong>(Fury)와 <strong>부</strong>(Wealth)는 원래부터 맞는 표기였다.
+        참고로 <strong>진노</strong>는 Fury가 아니라 <strong>Wrath</strong>(Pul·Lum·Ber·Mal)의 이름이니 헷갈리지 마라.
+      </p>
+    </div>
+
+    <div class="callout danger" style="margin-bottom:20px">
+      <div class="callout-title">2026-09-16 — 옵션 데이터 일부를 수정했다</div>
+      <p>
+        인게임 아이템 정보와 대조한 결과 <strong>원본 데이터에 오류가 있었다.</strong> 고친 항목은 다음과 같다.
+      </p>
+      <ul style="margin:4px 0 0; padding-left:18px; font-size:.875rem; color:var(--ink-2); line-height:1.7">
+        <li><strong>트래그울의 발톱</strong> — 「냉기 데미지 +25% · 독 저항」은 틀렸다. 실제는 <strong>냉기 저항 +30%</strong>이고, +25%는 <strong>독 기술 피해</strong>(소서 무용)다.</li>
+        <li><strong>모래폭풍 여로</strong> — 독 저항이 무려 <strong>+40~70%</strong>다. 수치가 빠져 있어 중요도가 가려져 있었다.</li>
+        <li><strong>밤날개의 너울</strong> — 「적 냉기 저항 감소」는 없는 옵션이다. 실제는 <strong>냉기 흡수 +5~9</strong>.</li>
+        <li><strong>죽음의 깊이</strong> — 냉기 스킬 피해는 <span class="num">15~30%</span>(40 아님), 붙는 저항은 <strong>화염·번개</strong>뿐이다.</li>
+        <li><strong>거미 그물띠</strong> — 「느리게 하기 저항 감소」가 아니라 <strong>대상 둔화 10%</strong>. 요구 레벨 <span class="num">80</span>.</li>
+        <li><strong>영혼 · 칠흑 서리</strong> — 빠져 있던 저항·흡수 수치를 채웠다.</li>
+      </ul>
+      <p style="margin-top:8px">
+        <span class="badge b-ok">2026-09-16 재검증</span> 배지가 붙은 카드만 대조를 마쳤다.
+        <strong>배지가 없는 카드는 최초 리서치 그대로이며 아직 검증되지 않았다</strong> — 지르기 전에 인게임 툴팁을 보고 확인해라.
+      </p>
+    </div>
+
+    <div class="chipbar">
+      <span class="lbl">현상수배</span>
+      <button class="chip" type="button" id="gear-hide">확보한 것 숨기기</button>
+      <span class="rowcount" id="gear-count"></span>
+    </div>
+
+    <div class="stack-lg">
+      <div>
+        <h3 class="sub">언젠가의 졸업 목표 <span class="badge b-charm">T0</span> <span class="badge b-no">지금 살 물건 아님</span></h3>
+        <div class="gear-grid">
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">죽음의 깊이</div><span class="gear-en">Death's Fathom</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">차원의 파편 (Dimensional Shard) · 무기</div>
+            <div class="gear-stats"><span>+3 원소술사 기술</span><span>냉기 스킬 피해 +15~30%</span><span>FCR +20%</span><span>화염·번개 저항 +25~40%</span></div>
+            <p class="gear-note">
+              극블리 딜의 상한선을 결정하는 단일 최대 변수. <strong>냉기 스킬 피해는 최대 30%</strong>이고,
+              붙는 저항은 <strong>화염·번개뿐이다 — 냉기 저항은 없다.</strong> 지옥 바알 등 고레벨 몬스터 드랍.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">추위의 파열 (냉기 파괴참)</div><span class="gear-en">Cold Rupture</span></div>
+              <span class="badge b-ok">보유</span>
+            </div>
+            <div class="gear-base">거대 부적</div>
+            <div class="gear-stats"><span>몬스터 냉기 면역 파괴</span><span>내 냉기 저항 감소(패널티)</span></div>
+            <p class="gear-note"><strong>확보 완료.</strong> 다만 장착하려면 냉기 저항이 먼저 올라가야 한다. 지금 끼면 저항 하한에 붙는다. 고대인의 터널처럼 면역이 0인 지역에서는 빼두는 게 이득.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">무한 (용병 무기)</div><span class="gear-en">Infinity</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Ber · Mal · Ber · Ist</div>
+            <div class="gear-base">4소켓 창/폴암 (자이언트 쓰레셔 선호) · 용병</div>
+            <div class="gear-stats"><span>Lv12 천벌 오라</span><span>적 저항 감소</span><span>+2 전 기술</span></div>
+            <p class="gear-note">천벌 오라로 적 냉기 저항을 크게 깎는다. 파괴참과 함께 냉면 해법의 축.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">수수께끼 (갑옷)</div><span class="gear-en">Enigma</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Jah · Ith · Ber</div>
+            <div class="gear-base">3소켓 갑옷 (모너크/듀사 셸 등) · 갑옷</div>
+            <div class="gear-stats"><span>순간이동</span><span>+2 전 기술</span><span>레벨당 MF</span><span>이동속도</span></div>
+            <p class="gear-note">소서는 텔포가 기본이라 다른 클래스만큼 급하진 않다. MF·스탯 목적이면 후순위 가능.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="sub">졸업 핵심 <span class="badge b-charm">T1</span> <span class="badge b-approx">일부는 지금도 유효</span></h3>
+        <div class="gear-grid">
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">밤날개의 너울</div><span class="gear-en">Nightwing's Veil</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">첨탑 투구 · 투구</div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>냉기 스킬 피해 +8~15%</span><span>냉기 흡수 +5~9</span><span>요구치 -50%</span></div>
+            <p class="gear-note">
+              <strong>적 냉기 저항을 깎는 옵션은 없다</strong> — 붙는 건 내가 받는 냉기를 흡수하는 쪽이다.
+              저항이 마이너스인 지금은 그 흡수가 오히려 쓸모 있다. 냉기 스킬 피해 15% 롤이 졸업. 소켓엔 파세공 주얼.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">오르무스의 장포 (+3 블리자드)</div><span class="gear-en">Ormus' Robes</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">더스크 실 · 갑옷</div>
+            <div class="gear-stats"><span>+3 블리자드(랜덤)</span><span>냉기 데미지 +10~15%</span><span>+FCR</span><span>마나 재생</span></div>
+            <p class="gear-note">블리자드 롤이 떠야 의미가 있다. 딜만 보면 수수께끼보다 이쪽이 우위.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">명예의 굴레</div><span class="gear-en">Chains of Honor</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Dol · Um · Ber · Ist</div>
+            <div class="gear-base">4소켓 갑옷 · 갑옷</div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>전 저항 +65</span><span>데미지 감소 8%</span><span>+생명력</span></div>
+            <p class="gear-note">생존 세팅의 갑옷 선택지. 저항 65가 압도적 — 지금 냉기 8인 상황에 직격으로 맞는 옵션.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">거미 그물띠</div><span class="gear-en">Arachnid Mesh</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">스파이더웹 새시 · 벨트</div>
+            <div class="gear-stats"><span>+1 전 기술</span><span>FCR +20%</span><span>최대 마나 +5%</span><span>대상 둔화 10%</span></div>
+            <p class="gear-note">
+              벨트에서 +1스킬과 FCR 20을 동시에 주는 유일한 선택. 사실상 확정.
+              <strong>요구 레벨 <span class="num">80</span></strong>이라 지금(<span class="num">81</span>)에야 겨우 낄 수 있게 됐다.
+              저항은 하나도 안 붙으니 생존 목적으로는 사지 마라.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">요르단의 반지</div><span class="gear-en">Stone of Jordan</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">반지</div>
+            <div class="gear-stats"><span>+1 전 기술</span><span>최대 마나 +25%</span><span>마나 +20</span></div>
+            <p class="gear-note">2개 착용이 이상적. 다만 FCR 10% 레어링과 브레이크포인트 상충을 먼저 계산할 것.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">마라의 만화경</div><span class="gear-en">Mara's Kaleidoscope</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">목걸이</div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>전 저항 +20~30</span><span>전 능력치 +5</span></div>
+            <p class="gear-note">저항 확보가 급하면 마라, 딜 극대화면 +3냉기/20FCR 레어 목걸이가 낫다. <strong>지금은 마라 쪽.</strong></p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">냉기 기술 거대 부적</div><span class="gear-en">Cold Skiller Grand Charm</span></div>
+              <span class="badge b-charm">참</span>
+            </div>
+            <div class="gear-base">거대 부적</div>
+            <div class="gear-stats"><span>+1 냉기 기술</span><span>부가 옵션(생명력/FHR)</span></div>
+            <p class="gear-note">인벤에 여러 장 쌓는 게 딜 증가의 가장 확실한 방법. 세계석 요새에서 파밍.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">어나이얼러스</div><span class="gear-en">Annihilus</span></div>
+              <span class="badge b-charm">참</span>
+            </div>
+            <div class="gear-base">작은 부적</div>
+            <div class="gear-stats"><span>+1 전 기술</span><span>전 능력치 +10~20</span><span>전 저항 +10~20</span><span>경험치 +5~10%</span></div>
+            <p class="gear-note">우버 디아블로(월드스톤 이벤트) 처치 보상. 옵션 롤 차이가 크다.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">지옥불 횃불 (소서)</div><span class="gear-en">Hellfire Torch</span></div>
+              <span class="badge b-charm">참</span>
+            </div>
+            <div class="gear-base">큰 부적</div>
+            <div class="gear-stats"><span>+3 원소술사 기술</span><span>전 능력치 +10~20</span><span>전 저항 +10~20</span></div>
+            <p class="gear-note">3열쇠(카운티스·서머너·닐라댁) 퀘스트 보상. +3 전 기술은 단일 부위 최대 보너스 중 하나.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">불사조 (방패)</div><span class="gear-en">Phoenix</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Vex · Vex · Lo · Jah</div>
+            <div class="gear-base">4소켓 모너크/신성 방패 · 방패</div>
+            <div class="gear-stats"><span>Lv10~15 구원 오라</span><span>적 화염 저항 -28%</span><span>+350~400 방어</span></div>
+            <p class="gear-note">블리소서 기준 영혼보다 확실히 낫다고 보긴 어렵다. FCR 손실을 먼저 계산할 것.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">소집 (무기 스왑)</div><span class="gear-en">Call to Arms</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Amn · Ral · Mal · Ist · Ohm</div>
+            <div class="gear-base">5소켓 저요구 무기 (플레일 등) · 스왑</div>
+            <div class="gear-stats"><span>전투 명령</span><span>+2~6 전투 함성</span><span>+1 전 기술</span></div>
+            <p class="gear-note">무기 교체용. 생명력·마나 뻥튀기라 하드코어면 사실상 필수.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">참나무의 심장</div><span class="gear-en">Heart of the Oak</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Ko · Vex · Pul · Thul</div>
+            <div class="gear-base">4소켓 지팡이/철퇴 (플레일 선호) · 무기</div>
+            <div class="gear-stats"><span>+3 전 기술</span><span>+40 FCR</span><span>전 저항 +30~40</span><span>+마나 15%</span></div>
+            <p class="gear-note">죽음의 깊이를 못 구했을 때의 대체 무기. 냉기 데미지 % 옵션은 없다.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">인내 (용병 갑옷)</div><span class="gear-en">Fortitude</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">El · Sol · Dol · Lo</div>
+            <div class="gear-base">4소켓 갑옷 · 용병</div>
+            <div class="gear-stats"><span>+300% 향상된 데미지</span><span>+15 전 저항</span><span>+200% 방어</span></div>
+            <p class="gear-note">용병 생존과 딜을 동시에 해결. 내가 입어도 저항·방어 이득이 크다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="sub">지금 당장 노릴 것 <span class="badge b-charm">T2 · T3</span> <span class="badge b-ok">현질 순위와 겹침</span></h3>
+        <div class="gear-grid">
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">전승 (투구)</div><span class="gear-en">Lore</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Ort · Sol</div>
+            <div class="gear-base">2소켓 투구 · 아무 베이스</div>
+            <div class="gear-stats"><span>+1 전 기술</span><span>번개 저항 +30%</span><span>+10 마력</span><span>피해 감소 7</span></div>
+            <p class="gear-note">
+              <strong>2026-09-18 기준 가성비 1위.</strong> 지금 투구가 옵션 없는 일반템이고 번개 저항이
+              <span class="num">20%</span>인데, 이 룬워드 하나가 <strong>그 두 문제를 동시에</strong> 친다.
+              Ort·Sol은 지옥 카운테스 구간에서 흔하게 나오고, 소켓은 라주크 퀘스트나 소켓 주는 큐브 조합으로 만든다.
+              나중에 밤날개의 너울이 들어오면 그때 교체하면 된다.
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">독사마술사의 가죽</div><span class="gear-en">Skin of the Vipermagi</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">서펀트스킨 아머 · 갑옷 · 요구 힘 43 / 레벨 29</div>
+            <div class="gear-stats"><span>+1 전 기술</span><span>FCR +30%</span><span>전 저항 +20~35%</span><span>마법 피해 감소 9~13</span></div>
+            <p class="gear-note">
+              <strong>갑옷 칸의 표준 답이다.</strong> +1 기술 · FCR 30 · 전 저항이 한 부위에서 같이 나오는데
+              요구 힘이 <span class="num">43</span>뿐이라 힘을 한 점도 더 안 써도 된다.
+              지금 입고 있는 사슬 갑옷과 비교하면 <strong>말 그대로 공짜로 네 줄이 생긴다.</strong>
+              요구 레벨이 <span class="num">29</span>인 저레벨 유니크라 <strong>지옥 구간 어디서든 흔히 돈다</strong> — 거래로도 싸다.
+              오르무스의 장포(+3 눈보라)나 명예의 굴레가 들어오기 전까지 쓰는 물건이다.
+              <span class="badge b-ok">2026-09-18 인게임명 대조</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">연기 (갑옷)</div><span class="gear-en">Smoke</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Nef · Lum</div>
+            <div class="gear-base">2소켓 갑옷 · 요구 레벨 37</div>
+            <div class="gear-stats"><span>전 저항 +50%</span><span>FHR +20%</span><span>방어력 +75%</span><span>광원 반경 -1</span></div>
+            <p class="gear-note">
+              바이퍼를 못 구했을 때의 <strong>대체재이자 최단 경로</strong>다.
+              전 저항 <span class="num">+50</span>은 단일 부위 기준으로 이 문서에서 가장 큰 저항 덩어리라,
+              번개 <span class="num">20%</span> 구멍을 한 번에 덮는다.
+              <strong>+기술과 FCR이 없다는 게 유일한 약점</strong>이라, 바이퍼가 들어오면 바로 갈아탄다.
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">통찰 (용병)</div><span class="gear-en">Insight</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Ral · Tir · Tal · Sol</div>
+            <div class="gear-base">4소켓 창/폴암 · 용병</div>
+            <div class="gear-stats"><span>명상 오라</span><span>+1~6 전 기술</span><span>+마나 회복</span></div>
+            <p class="gear-note"><strong>아직 안 꽂았다면 지금도 최우선급이다.</strong> 재료가 전부 하위 룬이라 지옥 카운테스 몇 판이면 모인다. 면역이 깨진 뒤에도 저항 95%가 남으므로 용병 물리 딜은 여전히 필요하다.</p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">영혼 (모너크)</div><span class="gear-en">Spirit</span></div>
+              <span class="badge b-runeword">룬워드</span>
+            </div>
+            <div class="gear-runes">Tal · Thul · Ort · Amn</div>
+            <div class="gear-base">4소켓 모너크 · 방패</div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>FCR +25~35%</span><span>FHR +55%</span><span>냉기·번개·독 저항 각 +35%</span></div>
+            <p class="gear-note">
+              <span class="badge b-ok">2026-09-18 확보 · 장착 중</span>
+              재료가 카운테스 구간 룬이라 가장 빨리 만들 수 있고,
+              <strong>독 저항 +35%는 이 문서 전체에서 단일 최대 독 저항 수단</strong>이다(화염 저항만 없다).
+              파괴참 패널티를 상쇄하면서 FCR 105까지 챙기는 유일한 부품.
+              모너크 방패는 힘 <span class="num">156</span>·레벨 <span class="num">54</span>를 요구하는데,
+              <strong>힘 <span class="num">172</span>로 이미 조건을 넘겼다.</strong> → <a href="#respec">힘 초과분 회수</a>
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">트래그울의 발톱</div><span class="gear-en">Trang-Oul's Claws</span></div>
+              <span class="badge b-set">세트</span>
+            </div>
+            <div class="gear-base">헤비 브레이서 / 엘리트 뱀브레이스 · 장갑</div>
+            <div class="gear-stats"><span>냉기 저항 +30%</span><span>FCR +20%</span><span>방어력 +30</span></div>
+            <p class="gear-note">
+              세트 2피스 없이 단독 착용해도 옵션이 다 나온다. <strong>쓸 건 냉기 저항 30과 FCR 20 두 줄뿐이다</strong> —
+              같이 붙은 「독 기술 피해 +25%」와 「+2 저주(강령술사 전용)」는 소서에게 아무 값어치가 없다.
+              <strong>독 저항은 붙지 않는다.</strong>
+              요구 힘/레벨은 일반본 <span class="num">58</span>/<span class="num">45</span>,
+              엘리트 업그레이드본 <span class="num">106</span>/<span class="num">58</span>.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">칠흑 서리</div><span class="gear-en">Raven Frost</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">반지</div>
+            <div class="gear-stats"><span>얼지 않음</span><span>+민첩 15~20</span><span>냉기 흡수 +20%</span><span>+마나 40</span></div>
+            <p class="gear-note">
+              얼지 않음 확보 수단. <strong>냉기 흡수 20%는 냉기 저항이 마이너스인 지금 특히 크게 먹는다.</strong>
+              다른 데서 CBF가 나오면 FCR 반지로 교체.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">안다리엘의 두개골 (용병)</div><span class="gear-en">Andariel's Visage</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">데몬헤드 · 용병</div>
+            <div class="gear-stats"><span>+2 전 기술</span><span>+20 IAS</span><span>흡혈 8~10%</span><span>독 저항 +70%</span><span>화염 저항 -30%</span><span>+힘 25~30</span></div>
+            <p class="gear-note">
+              용병 흡혈 확보용. <strong>이전 판에 「독 저항 -30%」로 적혀 있던 건 오류다</strong> —
+              실제로는 <strong>독 저항 +70%가 붙고 깎이는 쪽은 화염 저항 -30%</strong>다.
+              패널티는 화염 파세공 주얼로 상쇄한다. 요구 힘 <span class="num">102</span> · 레벨 <span class="num">83</span>.
+              <span class="badge b-ok">2026-09-18 재검증</span>
+            </p>
+          </div>
+          <div class="gear">
+            <div class="gear-top">
+              <div><div class="gear-name">모래폭풍 여로</div><span class="gear-en">Sandstorm Trek</span></div>
+              <span class="badge b-unique">유니크</span>
+            </div>
+            <div class="gear-base">스캐럽쉘 부츠 · 신발</div>
+            <div class="gear-stats"><span>독 저항 +40~70%</span><span>FHR +20%</span><span>+힘 10~15</span><span>+활력 10~15</span></div>
+            <p class="gear-note">
+              <span class="badge b-ok">2026-09-18 확보</span>
+              독 저항이 한 부위에서 최대 <span class="num">70</span>까지 붙는다. 독 <span class="num">75</span>(상한)는 여기서 나왔다.
+              덤으로 <strong>+힘 10~15</strong>가 붙어서 모너크(힘 156) 착용 조건을 좁히는 데도 기여한다.
+              요구 힘 <span class="num">91</span> · 레벨 <span class="num">64</span>로 지금 바로 낄 수 있다.
+              MF를 노릴 때만 전쟁 여행자로 교체.
+              <span class="badge b-ok">2026-09-16 재검증</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 룬 ===================== -->
+<section id="runes">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">10 — 룬 수요 등급</p>
+      <h2>어떤 룬을 남겨야 하는가</h2>
+      <p>드랍된 룬을 버릴지 말지 판단하는 기준표. 등급은 상대적 수요이며 시세가 아니다.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>룬</th><th>등급</th><th>주요 용도</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="t-name">조드 <span class="t-sub">Zod</span></td><td><span class="badge b-runeword">최상위</span></td><td class="t-note">파괴불가 옵션 부여</td></tr>
+          <tr><td class="t-name">챔 <span class="t-sub">Cham</span></td><td><span class="badge b-runeword">최상위</span></td><td class="t-note">파멸(Doom) · 얼지않음 부여</td></tr>
+          <tr><td class="t-name">자 <span class="t-sub">Jah</span></td><td><span class="badge b-runeword">최상위</span></td><td class="t-note">수수께끼 · 불사조</td></tr>
+          <tr><td class="t-name">베르 <span class="t-sub">Ber</span></td><td><span class="badge b-runeword">최상위</span></td><td class="t-note">무한(2개) · 수수께끼 · 명예의 굴레</td></tr>
+          <tr><td class="t-name">서 <span class="t-sub">Sur</span></td><td><span class="badge b-A">상위</span></td><td class="t-note">찔레 · 용 · 분노</td></tr>
+          <tr><td class="t-name">로 <span class="t-sub">Lo</span></td><td><span class="badge b-A">상위</span></td><td class="t-note">슬픔 · 인내 · 불사조</td></tr>
+          <tr><td class="t-name">옴 <span class="t-sub">Ohm</span></td><td><span class="badge b-A">상위</span></td><td class="t-note">소집 · 파멸</td></tr>
+          <tr><td class="t-name">벡스 <span class="t-sub">Vex</span></td><td><span class="badge b-A">상위</span></td><td class="t-note">참나무의 심장 · 불사조(2개) · 죽음</td></tr>
+          <tr><td class="t-name">굴 <span class="t-sub">Gul</span></td><td><span class="badge b-B">중상위</span></td><td class="t-note">죽음 · 소켓 재료</td></tr>
+          <tr><td class="t-name">이스트 <span class="t-sub">Ist</span></td><td><span class="badge b-B">중상위</span></td><td class="t-note">무한 · 명예의 굴레 · 소집</td></tr>
+          <tr><td class="t-name">말 <span class="t-sub">Mal</span></td><td><span class="badge b-B">중상위</span></td><td class="t-note">무한 · 소집 · 슬픔</td></tr>
+          <tr><td class="t-name">움 <span class="t-sub">Um</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">명예의 굴레 · 파멸</td></tr>
+          <tr><td class="t-name">풀 <span class="t-sub">Pul</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">참나무의 심장</td></tr>
+          <tr><td class="t-name">렘 <span class="t-sub">Lem</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">부(Wealth) · MF 룬워드</td></tr>
+          <tr><td class="t-name">코 <span class="t-sub">Ko</span></td><td><span class="badge b-B">중위</span></td><td class="t-note">참나무의 심장</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 치트시트 ===================== -->
+<section id="cheatsheet">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">11 — 치트시트</p>
+      <h2>브레이크포인트와 딜 기준표</h2>
+      <p>
+        프레임은 낮을수록 빠르다. 브레이크포인트 사이의 수치는 <strong>버려지는 값</strong>이므로,
+        다음 구간에 못 미치는 FCR은 아무 효과가 없다.
+      </p>
+    </div>
+
+    <div class="stack-lg">
+      <div class="cols2">
+        <div>
+          <h3 class="sub">FCR — 시전 속도 <span class="badge b-S">최우선</span></h3>
+          <div class="tablewrap">
+            <table style="min-width:0">
+              <thead><tr><th>필요 FCR</th><th>프레임</th></tr></thead>
+              <tbody>
+                <tr><td class="n">0</td><td class="n">13</td></tr>
+                <tr><td class="n">9</td><td class="n">12</td></tr>
+                <tr><td class="n">20</td><td class="n">11</td></tr>
+                <tr><td class="n">37</td><td class="n">10</td></tr>
+                <tr><td class="n">63</td><td class="n">9</td></tr>
+                <tr><td class="n">105</td><td class="n">8</td></tr>
+                <tr><td class="n">200</td><td class="n">7</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="t-note" style="margin-top:10px">
+            실전 목표는 <span class="num">105</span>(8프레임). <span class="num">200</span>은 다른 옵션을 너무 많이 포기해야 해서 비권장.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="sub">FHR — 경직 회복</h3>
+          <div class="tablewrap">
+            <table style="min-width:0">
+              <thead><tr><th>필요 FHR</th><th>프레임</th></tr></thead>
+              <tbody>
+                <tr><td class="n">0</td><td class="n">15</td></tr>
+                <tr><td class="n">5</td><td class="n">14</td></tr>
+                <tr><td class="n">9</td><td class="n">13</td></tr>
+                <tr><td class="n">14</td><td class="n">12</td></tr>
+                <tr><td class="n">20</td><td class="n">11</td></tr>
+                <tr><td class="n">30</td><td class="n">10</td></tr>
+                <tr><td class="n">42</td><td class="n">9</td></tr>
+                <tr><td class="n">60</td><td class="n">8</td></tr>
+                <tr><td class="n">86</td><td class="n">7</td></tr>
+                <tr><td class="n">142</td><td class="n">6</td></tr>
+                <tr><td class="n">280</td><td class="n">5</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="cols2">
+        <div>
+          <h3 class="sub">FBR — 방패 막기</h3>
+          <div class="tablewrap">
+            <table style="min-width:0">
+              <thead><tr><th>필요 FBR</th><th>프레임</th></tr></thead>
+              <tbody>
+                <tr><td class="n">0</td><td class="n">9</td></tr>
+                <tr><td class="n">7</td><td class="n">8</td></tr>
+                <tr><td class="n">15</td><td class="n">7</td></tr>
+                <tr><td class="n">27</td><td class="n">6</td></tr>
+                <tr><td class="n">48</td><td class="n">5</td></tr>
+                <tr><td class="n">86</td><td class="n">4</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="sub">블리자드 기본 데미지 <span class="badge b-approx">앵커값</span></h3>
+          <div class="tablewrap">
+            <table style="min-width:0">
+              <thead><tr><th>스킬 레벨</th><th>최소</th><th>최대</th></tr></thead>
+              <tbody>
+                <tr><td class="n">1</td><td class="n">45</td><td class="n">75</td></tr>
+                <tr><td class="n">20</td><td class="n">570</td><td class="n">619</td></tr>
+                <tr><td class="n">40</td><td class="n">1770</td><td class="n">1839</td></tr>
+                <tr><td class="n">60</td><td class="n">3070</td><td class="n">3159</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="t-note" style="margin-top:10px">
+            위 값은 <strong>시너지 미적용 기본 데미지</strong>다. 시너지(아이스 볼트 · 아이스 블라스트 · 글레이셜 스파이크)는
+            레벨당 <span class="num">+5%</span>씩 더한다. 표에 없는 레벨은 선형 보간 근사치이므로,
+            정확한 값은 인게임 스킬창에서 확인할 것.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">면역 몹 상대 계산 규칙</div>
+        <p>
+          원래 면역이 <strong>아닌</strong> 몬스터에게는 저항 감소(냉기 숙련 + 천벌)가 <span class="num">100%</span> 그대로 적용된다.
+          원래 면역이었던 몬스터는 파괴참으로 면역을 깬 뒤 저항 <span class="num">95%</span>에서 시작하고,
+          이후 저항 감소는 <span class="num">20%</span> 비율로만 적용된다.
+          <span class="badge b-approx">두 수치 모두 커뮤니티 통용값 · 패치로 변동 가능</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== 계산기 ===================== -->
+<section id="calc">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">12 — 계산기</p>
+      <h2>표를 읽지 말고 내 숫자를 넣어봐라</h2>
+      <p>
+        전부 이 페이지 안에서 계산된다. <strong>어떤 값도 밖으로 나가지 않는다.</strong>
+        공식은 계산기 아래에 그대로 적어뒀으니 결과가 이상하면 직접 검산할 수 있다.
+      </p>
+    </div>
+
+    <div class="cols2">
+      <!-- 저항 계산기 -->
+      <div class="calcbox">
+        <div class="calcbox-head">
+          <span>저항 계산기</span>
+          <span class="badge b-S">냉기 · 독 공용</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-row">
+            <label for="rc-diff">난이도 패널티
+              <span class="hint">노말 0 · 악몽 <span class="num">-40</span> · 지옥 <span class="num">-100</span></span>
+            </label>
+            <select id="rc-diff">
+              <option value="0">노말</option>
+              <option value="40">악몽</option>
+              <option value="100" selected>지옥</option>
+            </select>
+          </div>
+          <div class="calc-row">
+            <label for="rc-gear">장비 저항 합 (%)
+              <span class="hint">캐릭터 창 표시값이 아니라 <strong>장비에 붙은 합계</strong></span>
+            </label>
+            <input type="number" id="rc-gear" value="120" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="rc-sunder">파괴참 패널티 (%)
+              <span class="hint">참 툴팁의 <strong>「− N% 냉기 저항」</strong>을 그대로 입력. 버전마다 달라서 이 문서는 값을 지어내지 않는다</span>
+            </label>
+            <input type="number" id="rc-sunder" value="0" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="rc-cap">저항 상한 (%)
+              <span class="hint">기본 <span class="num">75</span>. 상한 증가 옵션이 있으면 올려라</span>
+            </label>
+            <input type="number" id="rc-cap" value="75" step="1">
+          </div>
+        </div>
+        <div class="calc-out">
+          <div class="calc-big" id="rc-out">-92%</div>
+          <div class="calc-msg" id="rc-msg"></div>
+          <div class="calc-formula">
+            표시 저항 = clamp(장비 − 난이도 패널티 − 파괴참, <span class="num">-100</span>, 상한) ·
+            받는 피해 배율 = (100 − 표시 저항) ÷ 100
+          </div>
+        </div>
+      </div>
+
+      <!-- FCR 체커 -->
+      <div class="calcbox">
+        <div class="calcbox-head">
+          <span>FCR 브레이크포인트 체커</span>
+          <span class="badge b-S">시전 속도</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-row">
+            <label for="fc-in">현재 FCR 합 (%)
+              <span class="hint">장비·참에 붙은 시전 속도 증가의 단순 합</span>
+            </label>
+            <input type="number" id="fc-in" value="105" step="1" min="0">
+          </div>
+          <div class="calc-row">
+            <label>지금 프레임 <span class="hint">낮을수록 빠르다</span></label>
+            <span class="num" id="fc-frames" style="font-size:1.25rem">8</span>
+          </div>
+          <div class="calc-row">
+            <label>초당 시전 횟수 <span class="hint">25프레임 = 1초 기준</span></label>
+            <span class="num" id="fc-cps" style="font-size:1.25rem">3.13</span>
+          </div>
+        </div>
+        <div class="calc-out">
+          <div class="calc-big" id="fc-out">—</div>
+          <div class="calc-msg" id="fc-msg"></div>
+          <div class="calc-formula">
+            구간 사이 수치는 전부 버려진다 — <span class="num">104</span>는 <span class="num">63</span>과 같은 프레임이다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:24px">
+      <div class="callout-title">이 계산기가 알려주지 않는 것</div>
+      <p>
+        <strong>파괴참 패널티 수치는 비워뒀다.</strong> 참 툴팁의 값이 게임 버전마다 다르고,
+        검증되지 않은 숫자를 기본값으로 박아두면 계산 결과가 통째로 거짓말이 되기 때문이다.
+        인게임에서 참을 마우스로 짚고 나오는 수치를 그대로 넣어라.
+        마찬가지로 몬스터 쪽 저항 계산은 <a href="#immunity">냉기 면역 해부</a>의 규칙을 따른다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 도박 ===================== -->
+<section id="gambling">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">13 — 도박</p>
+      <h2>기드에게 골드를 넣기 전에 알아야 할 것</h2>
+      <p>
+        <a href="#paths">경로 A</a>의 핵심 수단이다. 다만 <strong>확률과 가격 공식은 공개된 적이 없어서 이 문서에 수치는 없다.</strong>
+        동작 원리와 노려볼 부위만 정리한다.
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="callout">
+        <div class="callout-title">기드 <span class="en">Gheed</span> — 액트1 로그 야영지</div>
+        <p>
+          도박 창(Gamble)을 여는 대표 상인. <strong>도박은 난이도를 가리지 않는다</strong> —
+          노말에서 돌리든 지옥에서 돌리든 <strong>아이템 레벨은 내 캐릭터 레벨을 따라간다.</strong>
+          그래서 굳이 지옥 마을까지 갈 필요 없이, 가까운 난이도의 기드에게 돌려도 결과는 같다.
+        </p>
+      </div>
+
+      <div class="cols2">
+        <div>
+          <h3 class="sub">어떻게 동작하는가</h3>
+          <div class="tips" style="grid-template-columns:minmax(0,1fr)">
+            <div class="tip"><span class="ic">🎲</span><span>금화를 내고 <b>정체불명 아이템 1개</b>를 무작위로 받는다. 반지·목걸이·벨트·서클렛·장갑 등 <b>종류는 직접 고를 수 있다.</b></span></div>
+            <div class="tip"><span class="ic">💰</span><span>가격은 아이템 종류와 <b>내 캐릭터 레벨에 비례</b>해서 올라간다.</span></div>
+            <div class="tip"><span class="ic">🔵</span><span>나오는 아이템은 <b>최소 매직(파란색) 등급이 보장</b>된다. 레어·세트·유니크도 가능하지만 완전 무작위다.</span></div>
+            <div class="tip"><span class="ic">📈</span><span>아이템 레벨이 캐릭터 레벨을 따라가므로, <b>레벨이 높을수록 고티어 옵션이 뜰 잠재력</b>이 커진다.</span></div>
+            <div class="tip"><span class="ic">🔍</span><span>식별 전에는 등급을 알 수 없다. <b>반드시 감정(identify)해서 확인</b>해야 한다.</span></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="sub">극블리 소서가 노릴 부위</h3>
+          <div class="tablewrap">
+            <table style="min-width:0">
+              <thead><tr><th>부위</th><th>이유</th></tr></thead>
+              <tbody>
+                <tr><td class="t-name">반지</td><td class="t-note">요르단의 반지(SoJ), 레이븐 프로스트 등 <strong>반지 유니크 풀이 두껍다.</strong> 도박 1순위로 자주 꼽히는 부위.</td></tr>
+                <tr><td class="t-name">목걸이</td><td class="t-note">마라의 만화경 등 목걸이 유니크 풀이 넓다. <strong>전 저항</strong>이 붙는 부위라 지금 상황과도 맞는다.</td></tr>
+                <tr><td class="t-name">벨트</td><td class="t-note">거미 그물띠(Arachnid Mesh) 같은 벨트 유니크도 도박으로 나올 수 있다.</td></tr>
+                <tr><td class="t-name">서클렛 / 투구</td><td class="t-note">레어 서클렛에서 <strong>+스킬 · +FCR · 저항</strong> 조합이 뜨면 밤날개의 너울을 못 구했을 때 대체품이 된다.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">기대치를 낮춰라 <span class="badge b-approx">확률 미공개</span></div>
+        <p>
+          유니크가 뜰 확률은 매우 낮고, <strong>공식적으로 공개된 정확한 수치가 없다.</strong>
+          "도박으로 SoJ 파밍"은 시간 대비 효율이 낮은 <strong>보조 수단</strong>으로 보는 게 맞다 —
+          메인 파밍(<a href="#zones">지역 드랍</a>)을 우선하고, 남는 골드로 여유 있게 돌리는 용도다.
+        </p>
+        <p>
+          도박 시스템의 동작 원리 자체는 검증됐지만 확률·가격 공식은 패치별로 다르고 커뮤니티 추정치뿐이라
+          이 문서는 숫자를 적지 않는다. <strong>없는 수치를 그럴듯하게 채우지 않는 것</strong>이 이 문서의 규칙이다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== 현금 구매 우선순위 ===================== -->
+<section id="buy">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">14 — 현금 구매 우선순위</p>
+      <h2>독 저항과 냉기 저항은 서로 다른 부위에서 온다</h2>
+      <p>
+        <a href="#gambling">도박</a>이 골드로 얻는 경로라면 이쪽은 현금으로 얻는 경로다.
+        예산이 작을수록 순위가 중요해진다. 원칙은 둘 —
+        <strong>자력으로 안 나오는 것에만 쓰고, 지금 막힌 문제부터 친다.</strong>
+      </p>
+      <p>
+        <strong>이 순서는 <a href="#gear">졸업 장비의 T 등급</a>과 일부러 다르다.</strong>
+        T 등급은 완성형에서의 가치고, 이 표는 지금의 병목이다.
+        그래서 T0가 여기 없고, T2·T3가 위쪽에 있다. → <a href="#gear">두 축의 차이</a>
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="callout warn">
+        <div class="callout-title">순위를 다시 뽑은 이유 — 2026-09-16</div>
+        <p>
+          이 표의 이전 판은 <strong>트래그울의 발톱을 「독 저항 + 냉기 데미지」로 잘못 알고 1순위에 뒀다.</strong>
+          실제 옵션은 <strong>냉기 저항 +30%</strong>이고 붙은 「+25%」는 <strong>독 기술 피해</strong>로 소서에겐 무용이다.
+          독 저항은 한 줄도 없다.
+        </p>
+        <p>
+          같은 대조에서 <strong>모래폭풍 여로의 독 저항이 <span class="num">+40~70%</span></strong>라는 게 드러났고,
+          그게 지금 막힌 문제의 실제 정답이다. 아래는 그 기준으로 다시 세운 순서다.
+          → <a href="#gear">수정 내역 전체</a>
+        </p>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">먼저, 사면 안 되는 것 — 룬 재료</div>
+        <p>
+          <strong>영혼(Spirit)</strong>의 Tal·Thul·Ort·Amn과 <strong>통찰(Insight)</strong>의 Ral·Tir·Tal·Sol은
+          전부 <a href="#farming">지옥 카운테스</a>가 흔히 뱉는 하위 룬이다. 런 1회가 1분 남짓이라 몇 판이면 모인다.
+        </p>
+        <p>
+          특히 영혼은 <strong>독 저항 +35% · 냉기 저항 +35%</strong>가 한 번에 붙는 최고의 부품인데
+          <strong>재료값이 거의 안 든다.</strong> 현금은 자력으로 안 나오는 유니크에 써라.
+          다만 착용 조건이 문제다 — 바로 아래 항목을 보라.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">현금을 쓴다면 이 순서 <span class="badge b-S">필수만</span></h3>
+        <div class="tablewrap">
+          <table style="min-width:760px">
+            <thead>
+              <tr><th>순위</th><th>아이템</th><th>부위</th><th>이 캐릭터에 실제로 먹는 옵션</th><th>요구 힘 / Lv</th><th>왜 이 순위인가</th></tr>
+            </thead>
+            <tbody>
+              <tr class="tier-S">
+                <td class="stripe n"><strong>1</strong></td>
+                <td class="t-name">모래폭풍 여로 <span class="t-sub">Sandstorm Trek</span></td>
+                <td class="n">신발</td>
+                <td class="t-note"><strong>독 저항 +40~70%</strong> · +힘 10~15 · +활력 10~15 · FHR +20%</td>
+                <td class="n">91 / 64</td>
+                <td class="t-note"><strong>지금 막힌 독침 문제의 최대 단일 해법.</strong> 한 부위에서 독 저항이 최대 <span class="num">70</span> 붙는다. 덤으로 오르는 <strong>+힘</strong>이 영혼(모너크) 착용 조건까지 좁혀준다.</td>
+              </tr>
+              <tr class="tier-S">
+                <td class="stripe n"><strong>2</strong></td>
+                <td class="t-name">마라의 만화경 <span class="t-sub">Mara's Kaleidoscope</span></td>
+                <td class="n">목걸이</td>
+                <td class="t-note"><strong>전 저항 +20~30</strong> · +2 전 기술 · 전 능력치 +5</td>
+                <td class="n">— / 67</td>
+                <td class="t-note">목걸이 <strong>한 부위로 냉기와 독을 동시에</strong> 메운다. <a href="#diagnosis">진단표</a>의 병목 두 줄이 이거 하나로 같이 내려간다. 예산의 주력.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>3</strong></td>
+                <td class="t-name">트래그울의 발톱 <span class="t-sub">Trang-Oul's Claws</span></td>
+                <td class="n">장갑</td>
+                <td class="t-note"><strong>냉기 저항 +30%</strong> · FCR +20% <span class="badge b-no">독 저항 없음</span></td>
+                <td class="n">58 / 45</td>
+                <td class="t-note">담당이 다르다 — <strong>독침이 아니라 <a href="#solutions">파괴참 착용 전제조건(냉기 저항)</a></strong> 쪽이다. 세트 단품으로도 옵션이 다 나오고 값이 눅어서 순위가 높다.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>4</strong></td>
+                <td class="t-name">전 저항 작은 부적 <span class="t-sub">All Resist Small Charm</span></td>
+                <td class="n">인벤</td>
+                <td class="t-note">전 저항 +N <span class="badge b-approx">롤 편차</span></td>
+                <td class="n">— / —</td>
+                <td class="t-note">냉기·독을 같이 올리고 <strong>한 장씩 쪼개 살 수 있다.</strong> 예산이 애매하게 남았을 때 손해 없이 털어넣는 유일한 항목.</td>
+              </tr>
+              <tr class="tier-B">
+                <td class="stripe n"><strong>5</strong></td>
+                <td class="t-name">칠흑 서리 <span class="t-sub">Raven Frost</span></td>
+                <td class="n">반지</td>
+                <td class="t-note">얼지 않음 · <strong>냉기 흡수 +20%</strong> · +민첩 15~20</td>
+                <td class="n">— / 45</td>
+                <td class="t-note">값이 싸다. <strong>냉기 저항이 마이너스인 지금은 흡수 20%가 저항보다 체감이 크다.</strong> 얼지 않음은 덤.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-note" style="margin-top:12px">
+          <strong>거미 그물띠는 이 표에서 뺐다.</strong> +1 스킬과 FCR 20은 좋지만 <strong>저항이 한 줄도 없어서</strong>
+          지금의 생존 문제에 아무것도 못 한다. 요구 레벨도 <span class="num">80</span>이다. 저항을 다 채운 뒤에 살 물건이다.
+        </p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">힘 문제는 끝났다 — 이제 남은 건 초과분 회수다</div>
+        <p>
+          <span class="badge b-ok">2026-09-18 해결</span>
+          모너크(힘 <span class="num">156</span>)를 끼기 위한 힘 확보가 끝났고 영혼 방패는 장착 중이다.
+          현재 표시 힘은 <span class="num">172</span>다.
+        </p>
+        <p>
+          <strong>다만 표시값에는 장비 보너스가 이미 섞여 있다.</strong>
+          신발·목걸이 같은 데서 힘이 붙어 있다면, <strong>맨몸 힘이 그만큼 낮아도 모너크를 낀다</strong>는 뜻이다.
+          장비를 벗고 맨몸 힘을 확인해서 <span class="num">156</span> − (장비 힘)보다 더 찍혀 있으면
+          그 초과분은 <strong>다음 초기화 때 활력으로 돌릴 수 있는 포인트</strong>다.
+          → <a href="#respec">초기화 후 다시 찍기</a>
+        </p>
+      </div>
+
+      <details class="more">
+        <summary>가격을 적지 않는 이유</summary>
+        <div class="body">
+          <p>
+            국내 거래는 보통 사이트 화폐(예: 카오스큐브의 <strong>CP</strong>, 공식 충전 기준 <span class="num">1</span> CP = <span class="num">1</span>원)로 돈다.
+            <strong>다만 이 문서는 개별 아이템 시세를 적지 않는다.</strong>
+            시세는 시즌·패치마다 바뀌어서 적어두는 순간 거짓말이 되기 때문이다 —
+            <a href="#gear">졸업 장비</a>에 수요 등급만 두고 금액을 비운 것과 같은 이유다.
+          </p>
+          <ul>
+            <li>실제 값은 거래 게시판에서 아이템명으로 검색해 <strong>최근 판매완료 글</strong>을 보는 게 가장 정확하다.</li>
+            <li>순위는 시세가 아니라 <strong>이 캐릭터의 병목</strong>에서 나온 것이라, 값이 변해도 순서는 그대로 쓸 수 있다.</li>
+            <li>현금 거래는 게임 약관 위반이라 계정 정지 위험이 따른다. 판단과 책임은 본인 몫이다.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== 초기화 후 다시 찍기 ===================== -->
+<section id="respec">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">15 — 초기화 후 다시 찍기</p>
+      <h2>초기화는 남은 횟수가 정해져 있다</h2>
+      <p>
+        능력치·기술 포인트를 다시 찍기 전에 <strong>남은 초기화 횟수부터 확인해라.</strong>
+        이 캐릭터의 진행도에서는 <strong>지금이 사실상 마지막 무료 기회</strong>일 수 있다.
+      </p>
+    </div>
+
+    <div class="stack">
+      <div class="callout danger">
+        <div class="callout-title">먼저 읽어라 — 이 캐릭터는 추가 초기화 수단이 아직 없다</div>
+        <p>
+          무료 초기화는 <strong>아카라(액트1 로그 야영지)</strong>가 해준다. 악의 소굴 퀘스트를 끝내면
+          <strong>난이도당 <span class="num">1</span>회씩, 노말·악몽·지옥 합쳐 총 <span class="num">3</span>회</strong>다.
+        </p>
+        <p>
+          그 뒤로는 <strong>절대의 증표(Token of Absolution)</strong>를 큐브로 만들어야 하는데,
+          재료인 정수 <span class="num">4</span>종은 <strong>전부 지옥에서만 떨어진다</strong> —
+          안다리엘·두리엘 / <strong>메피스토</strong> / <strong>디아블로</strong> / <strong>바알</strong>.
+        </p>
+        <p>
+          <strong>지금은 지옥 3막이라 메피스토조차 아직 못 잡는다.</strong>
+          즉 증표를 만들 길이 없다. <strong>지옥 아카라 초기화를 아직 안 썼다면 그게 마지막 카드다</strong> —
+          쓰기 전에 아래 배분을 정해놓고 한 번에 끝내라.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">기술 포인트 — 찍는 순서가 곧 우선순위다</h3>
+        <div class="tablewrap">
+          <table style="min-width:680px">
+            <thead>
+              <tr><th>순서</th><th>기술</th><th>포인트</th><th>이유</th></tr>
+            </thead>
+            <tbody>
+              <tr class="tier-S">
+                <td class="stripe n"><strong>1</strong></td>
+                <td class="t-name">블리자드 <span class="t-sub">Blizzard</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">주력기. 여기부터 채운다.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>2</strong></td>
+                <td class="t-name">글레이셜 스파이크 <span class="t-sub">Glacial Spike</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지. 덤으로 얼리는 효과가 있어 셋 중 실전 가치가 가장 높다.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>3</strong></td>
+                <td class="t-name">아이스 블라스트 <span class="t-sub">Ice Blast</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지.</td>
+              </tr>
+              <tr class="tier-A">
+                <td class="stripe n"><strong>4</strong></td>
+                <td class="t-name">아이스 볼트 <span class="t-sub">Ice Bolt</span></td>
+                <td class="n">20 (최대)</td>
+                <td class="t-note">시너지.</td>
+              </tr>
+              <tr class="tier-B">
+                <td class="stripe n"><strong>5</strong></td>
+                <td class="t-name">냉기 숙련 <span class="t-sub">Cold Mastery</span></td>
+                <td class="n">관통 100%까지만</td>
+                <td class="t-note"><strong>더 찍으면 버려진다.</strong> 장비 +스킬을 포함해 관통이 <span class="num">100%</span>가 되는 지점에서 멈춰라. 커뮤니티 기준 대략 <span class="num">17</span>레벨 전후. <span class="badge b-approx">근사치 · 인게임 툴팁으로 확인</span></td>
+              </tr>
+              <tr class="tier-B">
+                <td class="stripe n"><strong>—</strong></td>
+                <td class="t-name">1포인트만 <span class="t-sub">1 point wonders</span></td>
+                <td class="n">각 1</td>
+                <td class="t-note">순간이동 · 스태틱 필드 · 염력 · 냉기 갑옷 · 온기. <strong>순간이동은 필수다</strong> — <a href="#now">독침 구간 우회</a>가 여기서 나온다.</td>
+              </tr>
+              <tr class="tier-D">
+                <td class="stripe n"><strong>—</strong></td>
+                <td class="t-name">남는 포인트</td>
+                <td class="n">스태틱 필드</td>
+                <td class="t-note">위를 다 채우고 남으면 여기. 면역 몹의 체력을 속성 무시로 깎는다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="t-note" style="margin-top:12px">
+          시너지 계산식은 <strong>냉기 피해 +5% × (아이스 볼트 + 아이스 블라스트 + 글레이셜 스파이크 레벨 합)</strong>이다.
+          셋을 다 채우면 <strong>+<span class="num">300</span>%</strong>가 된다 — <a href="#cheatsheet">치트시트</a>의 딜 계산이 이 값을 쓴다.
+        </p>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">냉기 숙련에 과투자하지 마라 — 파괴참 때문에 더 그렇다</div>
+        <p>
+          냉기 숙련은 <strong>면역을 깨지 못한다.</strong> 그리고 파괴참으로 면역이 깨진 몬스터는
+          저항 <span class="num">95%</span>에서 시작해 <strong>이후 저항 감소가 <span class="num">20%</span> 비율로만 적용된다.</strong>
+          <span class="badge b-approx">커뮤니티 통용값</span>
+        </p>
+        <p>
+          즉 <strong>면역이었던 몹 상대로는 냉기 숙련 한 포인트의 값어치가 1/5로 줄어든다.</strong>
+          관통 <span class="num">100%</span>를 넘겨 찍는 건 비면역 몹에게도 버려지고 면역 몹에게도 거의 안 먹는다.
+          남는 포인트는 스태틱 필드로 보내라. → <a href="#immunity">냉기 면역 해부</a>
+        </p>
+      </div>
+
+      <div>
+        <h3 class="sub">능력치 포인트 — 원칙은 세 줄이다</h3>
+        <div class="tips" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+          <div class="tip"><span class="ic">💪</span><span><b>힘</b> — 입을 장비의 요구치까지만. <b>한 점도 더 찍지 마라.</b></span></div>
+          <div class="tip"><span class="ic">🎯</span><span><b>민첩</b> — 역시 장비 요구치까지만. 소서는 방패 막기에 기대지 않는다.</span></div>
+          <div class="tip"><span class="ic">❤️</span><span><b>활력</b> — <b>나머지 전부.</b> 생명력 <span class="num">1043</span>은 지옥 4·5막 기준으로 아직 얇다.</span></div>
+          <div class="tip"><span class="ic">🚫</span><span><b>마력</b> — <b>0.</b> 마나는 용병 <a href="#gear">통찰(명상 오라)</a>과 장비로 푼다. 스탯으로 풀지 마라.</span></div>
+        </div>
+      </div>
+
+      <div class="callout danger">
+        <div class="callout-title">이번 초기화의 진짜 결정 — 힘 초과분을 얼마나 회수할 것인가</div>
+        <p>
+          <span class="badge b-ok">2026-09-18</span>
+          갈림길이었던 <strong><a href="#gear">영혼(Spirit) 모너크 방패</a>는 이미 장착 중</strong>이고 표시 힘은 <span class="num">172</span>다.
+          그래서 질문이 바뀌었다 — <strong>모너크를 유지한 채로 힘을 몇까지 내릴 수 있는가.</strong>
+          장비에 붙은 힘이 요구치 판정에 그대로 들어가므로, 그만큼은 활력으로 돌려도 방패를 계속 낀다.
+        </p>
+        <ul style="margin:4px 0 0; padding-left:18px; font-size:.9375rem; color:var(--ink-2); line-height:1.7">
+          <li><strong>쓴다면</strong> — 독 저항 <span class="num">+35%</span>, 냉기 저항 <span class="num">+35%</span>, FCR <span class="num">+25~35%</span>, +2 전 기술이 한 부위에서 나온다. <a href="#now">지금 막힌 문제</a>를 한 방에 친다.</li>
+          <li><strong>안 쓴다면</strong> — 그 포인트가 전부 활력으로 간다. 대신 저항은 <a href="#buy">마라·모래폭풍 여로</a> 같은 장비로만 메워야 한다.</li>
+          <li><strong>요구치는 장비 보너스를 포함해서 판정된다.</strong> 모래폭풍 여로(+힘 10~15)와 마라(전 능력치 +5)를 끼면 그만큼 덜 찍어도 된다.</li>
+        </ul>
+        <p style="margin-top:10px">
+          <strong>주의 — 캐릭터 창의 힘 수치에는 장비 보너스가 이미 섞여 있다.</strong>
+          찍을 양을 계산하려면 <strong>장비를 벗은 맨몸 수치</strong>를 먼저 확인해라.
+          아래 계산기에 그 값을 넣어야 정확하다.
+        </p>
+      </div>
+
+      <div class="calcbox">
+        <div class="calcbox-head">
+          <span>능력치 포인트 배분 계산기</span>
+          <span class="badge b-S">초기화 전에 돌려봐라</span>
+        </div>
+        <div class="calc-body">
+          <div class="calc-row">
+            <label for="st-lv">캐릭터 레벨
+              <span class="hint">레벨당 <span class="num">5</span>포인트 · 초기화하면 전부 돌려받는다</span>
+            </label>
+            <input type="number" id="st-lv" value="80" min="1" max="99" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-gear">장비에서 오는 +힘
+              <span class="hint">모래폭풍 여로 <span class="num">+10~15</span> · 마라 <span class="num">+5</span> 등의 합</span>
+            </label>
+            <input type="number" id="st-gear" value="0" min="0" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-str">목표 힘 (장비 포함)
+              <span class="hint">모너크 <span class="num">156</span> · 안 쓰면 입을 갑옷 요구치</span>
+            </label>
+            <input type="number" id="st-str" value="156" min="10" step="1">
+          </div>
+          <div class="calc-row">
+            <label for="st-dex">목표 민첩 (장비 포함)
+              <span class="hint">장비 요구치까지만. 기본값 <span class="num">25</span></span>
+            </label>
+            <input type="number" id="st-dex" value="25" min="25" step="1">
+          </div>
+        </div>
+        <div class="calc-out">
+          <div class="calc-big" id="st-out">—</div>
+          <div class="calc-msg" id="st-msg"></div>
+          <div class="calc-formula">
+            총 포인트 = (레벨 − 1) × 5 · 소서 기본 능력치 힘 <span class="num">10</span> / 민첩 <span class="num">25</span> / 활력 <span class="num">10</span> / 마력 <span class="num">35</span> ·
+            힘·민첩에 쓰고 남는 전부가 활력이다
+          </div>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>초기화하기 전 체크리스트</summary>
+        <div class="body">
+          <ul>
+            <li><strong>지옥 아카라 무료 초기화를 이미 썼는지 확인해라.</strong> 썼다면 지금은 증표를 못 만드니 되돌릴 방법이 없다.</li>
+            <li><strong>장비를 벗고 맨몸 힘·민첩을 적어둬라.</strong> 계산기에 넣을 기준값이다.</li>
+            <li><strong>목표 장비를 먼저 정해라.</strong> 힘을 얼마나 찍을지는 「뭘 입을 것인가」로 결정된다. 순서가 반대면 포인트를 버린다.</li>
+            <li><strong>순간이동에 1포인트는 반드시 남겨라.</strong> 지금 막힌 구간을 우회하는 수단이 그것뿐이다.</li>
+            <li>초기화 직후에는 스킬이 비어 있어 약해진다. <strong>마을에서 다 찍고 나가라.</strong></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 푸터 ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="cols2">
+      <div>
+        <h3>데이터 출처</h3>
+        <ul>
+          <li>Maxroll — Blizzard Sorceress 빌드 / Breakpoints / Rune Value</li>
+          <li>DiabloBytes — Terror Zone 가이드</li>
+          <li>Diablo Wiki (Fandom) — Blizzard 스킬 데미지 / 시너지</li>
+          <li>카오스큐브 — 국내 거래 방식(CP) 확인용. 개별 시세는 인용하지 않았다</li>
+          <li>Maxroll — 능력치·기술 포인트 배분 및 시너지 계산식 (2026-09-16 확인)</li>
+          <li>Diablo Wiki — 초기화(아카라 / 절대의 증표) 규칙</li>
+          <li>디아블로2 레저렉션 인벤 아이템 DB — <strong>아이템 인게임 한글명·요구치 대조</strong> (2026-09-18 확인)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>이 문서가 일부러 하지 않는 것</h3>
+        <ul>
+          <li><strong>거래 가격을 적지 않는다.</strong> 시세는 시즌마다 변해서 하드코딩하면 금방 거짓말이 된다. 상대 수요 등급(T0~T3)만 유지한다.</li>
+          <li><strong>확인되지 않은 수치를 확정값처럼 쓰지 않는다.</strong> <span class="badge b-approx">근사치</span> 표시가 붙은 값은 커뮤니티 통용값이거나 보간 결과다.</li>
+          <li>공포의 영역 몬스터 레벨 보정치처럼 패치별로 달라지는 값은 정확한 숫자 대신 경향만 적었다.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:32px; padding-top:20px; border-top:1px solid var(--line);">
+      데이터 기준일 <span class="num">2026-09-18</span> ·
+      진단 기준 캐릭터 BOND1 (Lv <span class="num">80</span>, 지옥 3막, <strong>영혼 방패 + 냉기 파괴참 장착</strong>) ·
+      공포의 영역 점수는 <code>js/03-logic.js</code>의 <code>computeZoneScore()</code>로 실제 계산한 값이다
+    </p>
+  </div>
+</footer>
+<button id="totop" type="button" title="맨 위로" aria-label="맨 위로">↑</button>
+
+<script>
+/* =============================================================================
+ * guide.html 인터랙션
+ * -----------------------------------------------------------------------------
+ * - 외부 라이브러리 없음. 네트워크 통신 없음. 로컬에서 파일을 열어도 그대로 동작한다.
+ * - 저장은 localStorage 키 한 개(d2r_guide_v1)만 쓴다. 접근이 막혀도 페이지는 살아 있어야 한다.
+ * - 대시보드(js/03-logic.js)와 같은 계산 규칙을 쓰되, 이 파일은 단일 문서라 여기 안에 둔다.
+ * ========================================================================== */
+(function () {
+  'use strict';
+
+  var KEY = 'd2r_guide_v1';
+
+  /**
+   * 저장소를 읽는다. 사생활 보호 모드 등으로 막히면 빈 객체를 준다.
+   * @returns {Object} 저장된 상태
+   */
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+
+  /**
+   * 저장소에 쓴다. 실패는 조용히 무시한다(기능은 계속 동작해야 한다).
+   * @param {Object} o - 저장할 상태
+   * @returns {void}
+   */
+  function save(o) {
+    try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) { /* 저장 불가 — 무시 */ }
+  }
+
+  var store = load();
+  if (!store.checks) store.checks = {};
+  if (!store.gear) store.gear = {};
+
+  /** @param {string} sel @param {Element} [root] @returns {Element|null} */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  /** @param {string} sel @param {Element} [root] @returns {Element[]} */
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  /**
+   * 값을 [min, max] 범위로 자른다.
+   * @param {number} v @param {number} min @param {number} max @returns {number}
+   */
+  function clamp(v, min, max) { return v < min ? min : (v > max ? max : v); }
+
+  /* =======================================================================
+   * 1) 테마 — 자동 / 밝음 / 어두움 순환
+   * ===================================================================== */
+  var THEMES = ['auto', 'light', 'dark'];
+  var THEME_LABEL = { auto: '테마 자동', light: '밝은 테마', dark: '어두운 테마' };
+
+  /**
+   * 테마를 문서에 적용하고 버튼 라벨을 맞춘다.
+   * @param {string} t - 'auto' | 'light' | 'dark'
+   * @returns {void}
+   */
+  function applyTheme(t) {
+    var root = document.documentElement;
+    if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t);
+    else root.removeAttribute('data-theme');
+    var btn = $('#btn-theme');
+    if (btn) btn.textContent = THEME_LABEL[t] || THEME_LABEL.auto;
+  }
+
+  applyTheme(store.theme || 'auto');
+  var themeBtn = $('#btn-theme');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var cur = THEMES.indexOf(store.theme || 'auto');
+      store.theme = THEMES[(cur + 1) % THEMES.length];
+      save(store);
+      applyTheme(store.theme);
+    });
+  }
+
+  /* =======================================================================
+   * 2) 읽기 진행 바 + 맨 위로 버튼
+   * ===================================================================== */
+  var bar = $('#readbar');
+  var topBtn = $('#totop');
+  var ticking = false;
+
+  /** 스크롤 위치를 진행 바와 버튼 표시에 반영한다. @returns {void} */
+  function onScroll() {
+    var doc = document.documentElement;
+    var h = doc.scrollHeight - window.innerHeight;
+    var pct = h > 0 ? (window.pageYOffset / h) * 100 : 0;
+    if (bar) bar.style.width = clamp(pct, 0, 100) + '%';
+    if (topBtn) topBtn.classList.toggle('show', window.pageYOffset > 600);
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(onScroll);
+  }, { passive: true });
+  onScroll();
+
+  if (topBtn) {
+    topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
+
+  /* =======================================================================
+   * 3) 현재 읽는 섹션을 상단 내비에 표시
+   * ===================================================================== */
+  var navLinks = $$('.navlinks a');
+  var linkById = {};
+  navLinks.forEach(function (a) { linkById[a.getAttribute('href').slice(1)] = a; });
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var a = linkById[en.target.id];
+        if (!a) return;
+        navLinks.forEach(function (x) { x.classList.remove('active'); });
+        a.classList.add('active');
+      });
+    }, { rootMargin: '-64px 0px -72% 0px', threshold: 0 });
+
+    Object.keys(linkById).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+
+  /* =======================================================================
+   * 4) 경로 체크리스트 — 진행률 + localStorage 저장
+   * ===================================================================== */
+
+  /**
+   * 경로 카드 하나의 진행률을 다시 그린다.
+   * @param {Element} card - .pathcard 요소
+   * @returns {void}
+   */
+  function refreshPath(card) {
+    var boxes = $$('input[data-ck]', card);
+    var total = boxes.length;
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    var pct = total ? Math.round((done / total) * 100) : 0;
+
+    var fill = $('.meter > i', card);
+    if (fill) fill.style.width = pct + '%';
+    var pctEl = $('.meter-label .pct', card);
+    if (pctEl) pctEl.textContent = pct + '%';
+    var cntEl = $('.meter-label .cnt', card);
+    if (cntEl) cntEl.textContent = done + ' / ' + total + ' 단계';
+
+    var complete = total > 0 && done === total;
+    card.classList.toggle('done', complete);
+    var msg = $('.pathcard-foot .msg', card);
+    if (msg) msg.textContent = complete ? '🎉 완주 — 3막으로 돌아갈 차례다' : '체크하면 자동 저장된다';
+  }
+
+  $$('.pathcard').forEach(function (card) {
+    $$('input[data-ck]', card).forEach(function (box) {
+      var id = box.getAttribute('data-ck');
+      box.checked = !!store.checks[id];
+      box.addEventListener('change', function () {
+        store.checks[id] = box.checked;
+        save(store);
+        refreshPath(card);
+      });
+    });
+
+    var clearBtn = $('[data-clear]', card);
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        $$('input[data-ck]', card).forEach(function (b) {
+          b.checked = false;
+          store.checks[b.getAttribute('data-ck')] = false;
+        });
+        save(store);
+        refreshPath(card);
+      });
+    }
+
+    refreshPath(card);
+  });
+
+  /* =======================================================================
+   * 5) 공포의 영역 표 필터
+   * ===================================================================== */
+  var zoneRows = $$('#zones tbody tr');
+
+  /**
+   * 행의 「지금 접근」 칸 텍스트.
+   * 열 순서: 0 티어 · 1 지역 · 2 난이도 · 3 Act · 4 지역Lv · 5 밀도 · 6 냉기면역 · 7 점수 · 8 런타임 · 9 지금접근 · 10 메모
+   * @param {Element} tr @returns {string}
+   */
+  function accessOf(tr) { return tr.cells[9] ? tr.cells[9].textContent.trim() : ''; }
+  /** 행의 티어 문자. @param {Element} tr @returns {string} */
+  function tierOf(tr) {
+    var m = (tr.className || '').match(/tier-([SABD])/);
+    return m ? m[1] : '';
+  }
+
+  /**
+   * 표를 모드에 맞게 좁힌다.
+   * @param {string} mode - 'all' | 'open' | 'top' | 'locked'
+   * @returns {void}
+   */
+  function applyZoneFilter(mode) {
+    var shown = 0;
+    zoneRows.forEach(function (tr) {
+      var acc = accessOf(tr);
+      var show = true;
+      if (mode === 'open') show = acc === '가능';
+      else if (mode === 'top') show = (tierOf(tr) === 'S' || tierOf(tr) === 'A');
+      else if (mode === 'locked') show = (acc === '잠김' || acc === '눈앞');
+      tr.classList.toggle('hidden-row', !show);
+      if (show) shown++;
+    });
+    var cnt = $('#zone-count');
+    if (cnt) cnt.textContent = shown + ' / ' + zoneRows.length + '곳 표시';
+  }
+
+  $$('#zone-filter .chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      $$('#zone-filter .chip').forEach(function (c) { c.classList.remove('on'); });
+      chip.classList.add('on');
+      applyZoneFilter(chip.getAttribute('data-zf'));
+    });
+  });
+  if (zoneRows.length) applyZoneFilter('all');
+
+  /* =======================================================================
+   * 6) 졸업 장비 — 「확보함」 체크박스를 카드마다 붙인다
+   * ===================================================================== */
+  var gearCards = $$('#gear .gear');
+  var hideGot = false;
+
+  /** 확보 개수 표시와 숨김 상태를 다시 그린다. @returns {void} */
+  function refreshGear() {
+    var done = gearCards.filter(function (c) { return c.classList.contains('got'); }).length;
+    var cnt = $('#gear-count');
+    if (cnt) cnt.textContent = done + ' / ' + gearCards.length + ' 확보';
+    gearCards.forEach(function (c) {
+      c.style.display = (hideGot && c.classList.contains('got')) ? 'none' : '';
+    });
+  }
+
+  gearCards.forEach(function (card, i) {
+    var nameEl = $('.gear-name', card);
+    var key = nameEl ? nameEl.textContent.trim() : ('gear-' + i);
+    // 카드에 '보유' 배지가 이미 붙어 있으면 첫 방문 시 확보 상태로 시작한다.
+    var owned = !!$('.gear-top .b-ok', card);
+    var checked = Object.prototype.hasOwnProperty.call(store.gear, key) ? !!store.gear[key] : owned;
+
+    var label = document.createElement('label');
+    label.className = 'gearck';
+    var box = document.createElement('input');
+    box.type = 'checkbox';
+    box.checked = checked;
+    var txt = document.createElement('span');
+    txt.textContent = '확보함';
+    label.appendChild(box);
+    label.appendChild(txt);
+    card.appendChild(label);
+    card.classList.toggle('got', checked);
+    store.gear[key] = checked;
+
+    box.addEventListener('change', function () {
+      store.gear[key] = box.checked;
+      save(store);
+      card.classList.toggle('got', box.checked);
+      refreshGear();
+    });
+  });
+
+  var gearHideBtn = $('#gear-hide');
+  if (gearHideBtn) {
+    gearHideBtn.addEventListener('click', function () {
+      hideGot = !hideGot;
+      gearHideBtn.classList.toggle('on', hideGot);
+      gearHideBtn.textContent = hideGot ? '전부 보기' : '확보한 것 숨기기';
+      refreshGear();
+    });
+  }
+  if (gearCards.length) refreshGear();
+
+  /* =======================================================================
+   * 7) 저항 계산기
+   * ===================================================================== */
+
+  /**
+   * 표시 저항과 피해 배율을 계산한다.
+   * @param {number} gear    - 장비 저항 합(%)
+   * @param {number} penalty - 난이도 패널티(양수로 입력, 지옥이면 100)
+   * @param {number} sunder  - 파괴참 패널티(양수로 입력)
+   * @param {number} cap     - 저항 상한(%)
+   * @returns {{shown:number, mult:number}} 표시 저항과 받는 피해 배율
+   */
+  function computeShownResist(gear, penalty, sunder, cap) {
+    var shown = clamp(gear - penalty - sunder, -100, cap);
+    return { shown: shown, mult: Math.round(((100 - shown) / 100) * 100) / 100 };
+  }
+
+  /** 저항 계산기 출력 갱신. @returns {void} */
+  function updateResist() {
+    var out = $('#rc-out');
+    if (!out) return;
+    var gear = Number($('#rc-gear').value) || 0;
+    var pen = Number($('#rc-diff').value) || 0;
+    var sun = Number($('#rc-sunder').value) || 0;
+    var cap = Number($('#rc-cap').value);
+    if (!isFinite(cap)) cap = 75;
+
+    var r = computeShownResist(gear, pen, sun, cap);
+    out.textContent = (r.shown > 0 ? '+' : '') + r.shown + '%';
+    out.className = 'calc-big ' + (r.shown >= 40 ? 'ok' : (r.shown >= 0 ? 'warn' : 'bad'));
+
+    var verdict;
+    if (r.shown >= cap) verdict = '상한에 도달했다. 이 속성은 더 올려도 버려진다.';
+    else if (r.shown >= 40) verdict = '버틸 만하다. 다음 속성을 채우러 가라.';
+    else if (r.shown >= 0) verdict = '아슬아슬하다. 보스·마법 몬스터 구간에서는 위험하다.';
+    else if (r.shown > -100) verdict = '위험. 이 속성 피해를 정상보다 더 받고 있다.';
+    else verdict = '하한. 받는 피해가 정상의 두 배다 — 이 상태로는 3막을 못 민다.';
+
+    $('#rc-msg').innerHTML = '받는 피해 <strong class="num">×' + r.mult.toFixed(2) + '</strong> · ' + verdict;
+  }
+
+  ['#rc-gear', '#rc-diff', '#rc-sunder', '#rc-cap'].forEach(function (sel) {
+    var el = $(sel);
+    if (el) el.addEventListener('input', updateResist);
+    if (el) el.addEventListener('change', updateResist);
+  });
+  updateResist();
+
+  /* =======================================================================
+   * 8) FCR 브레이크포인트 체커
+   * ===================================================================== */
+  /** 극블리 소서 FCR 표 — 문서 상단 치트시트와 같은 값이다. */
+  var FCR_TABLE = [
+    { stat: 0, frames: 13 }, { stat: 9, frames: 12 }, { stat: 20, frames: 11 },
+    { stat: 37, frames: 10 }, { stat: 63, frames: 9 }, { stat: 105, frames: 8 },
+    { stat: 200, frames: 7 }
+  ];
+
+  /**
+   * 현재 수치가 속한 브레이크포인트와 다음 구간을 찾는다.
+   * @param {{stat:number, frames:number}[]} table - 오름차순 브레이크포인트 표
+   * @param {number} value - 현재 수치(%)
+   * @returns {{frames:number, nextStat:(number|null), nextFrames:(number|null), needed:number}}
+   */
+  function findBreakpoint(table, value) {
+    var v = isFinite(value) ? value : 0;
+    var cur = table[0];
+    for (var i = 0; i < table.length; i++) { if (v >= table[i].stat) cur = table[i]; }
+    var idx = table.indexOf(cur);
+    var next = idx < table.length - 1 ? table[idx + 1] : null;
+    return {
+      frames: cur.frames,
+      nextStat: next ? next.stat : null,
+      nextFrames: next ? next.frames : null,
+      needed: next ? next.stat - v : 0
+    };
+  }
+
+  /** FCR 체커 출력 갱신. @returns {void} */
+  function updateFcr() {
+    var input = $('#fc-in');
+    if (!input) return;
+    var v = Number(input.value) || 0;
+    var bp = findBreakpoint(FCR_TABLE, v);
+    var cps = Math.round((25 / bp.frames) * 100) / 100;
+
+    $('#fc-frames').textContent = bp.frames + ' 프레임';
+    $('#fc-cps').textContent = cps.toFixed(2) + ' 회/초';
+
+    var out = $('#fc-out');
+    var msg = $('#fc-msg');
+    if (bp.nextStat === null) {
+      out.textContent = '최종 구간';
+      out.className = 'calc-big ok';
+      msg.innerHTML = '더 올릴 구간이 없다. FCR 대신 저항·생명력을 채워라.';
+      return;
+    }
+    out.textContent = '+' + bp.needed + '% 더';
+    out.className = 'calc-big ' + (bp.needed <= 10 ? 'ok' : (bp.needed <= 30 ? 'warn' : 'bad'));
+    msg.innerHTML = '<strong class="num">' + bp.nextStat + '%</strong>를 채우면 <strong class="num">'
+      + bp.nextFrames + '프레임</strong>(' + (Math.round((25 / bp.nextFrames) * 100) / 100).toFixed(2) + ' 회/초)이 된다.'
+      + (bp.nextStat === 200 ? ' 다만 <strong>200 구간은 다른 옵션을 너무 많이 포기해야 해서 비권장</strong>이다.' : '');
+  }
+
+  var fcrInput = $('#fc-in');
+  if (fcrInput) fcrInput.addEventListener('input', updateFcr);
+  updateFcr();
+
+  /* =======================================================================
+   * 9) 능력치 포인트 배분 계산기
+   * ===================================================================== */
+  /** 소서리스 기본 능력치 — 초기화해도 이 아래로는 안 내려간다. */
+  var SORC_BASE = { str: 10, dex: 25, vit: 10, enr: 35 };
+  /** 레벨업 1회당 받는 능력치 포인트. */
+  var STAT_PER_LEVEL = 5;
+
+  /**
+   * 목표 힘·민첩을 맞추고 남는 포인트가 얼마인지 계산한다.
+   * @param {number} level    - 캐릭터 레벨
+   * @param {number} gearStr  - 장비에서 오는 +힘
+   * @param {number} goalStr  - 장비 포함 목표 힘
+   * @param {number} goalDex  - 장비 포함 목표 민첩
+   * @returns {{total:number, str:number, dex:number, left:number, vit:number, over:boolean}}
+   */
+  function computeStatPlan(level, gearStr, goalStr, goalDex) {
+    var total = Math.max(0, (level - 1)) * STAT_PER_LEVEL;
+    var str = Math.max(0, goalStr - gearStr - SORC_BASE.str);
+    var dex = Math.max(0, goalDex - SORC_BASE.dex);
+    var left = total - str - dex;
+    return {
+      total: total, str: str, dex: dex,
+      left: Math.max(0, left),
+      vit: SORC_BASE.vit + Math.max(0, left),
+      over: left < 0
+    };
+  }
+
+  /** 능력치 계산기 출력 갱신. @returns {void} */
+  function updateStat() {
+    var out = $('#st-out');
+    if (!out) return;
+    var plan = computeStatPlan(
+      Number($('#st-lv').value) || 1,
+      Number($('#st-gear').value) || 0,
+      Number($('#st-str').value) || 0,
+      Number($('#st-dex').value) || 0
+    );
+
+    var msg = $('#st-msg');
+    if (plan.over) {
+      out.textContent = '포인트 부족';
+      out.className = 'calc-big bad';
+      msg.innerHTML = '목표를 맞추려면 <strong class="num">' + (plan.str + plan.dex - plan.total)
+        + '</strong>포인트가 더 필요하다. 레벨을 더 올리거나 <strong>장비 +힘</strong>으로 메워라 — '
+        + '<a href="#buy">모래폭풍 여로</a>가 그 역할을 한다.';
+      return;
+    }
+
+    out.textContent = '활력에 ' + plan.left + '포인트';
+    out.className = 'calc-big ' + (plan.left >= 250 ? 'ok' : (plan.left >= 180 ? 'warn' : 'bad'));
+    msg.innerHTML = '총 <strong class="num">' + plan.total + '</strong>포인트 중 '
+      + '힘 <strong class="num">' + plan.str + '</strong> · 민첩 <strong class="num">' + plan.dex + '</strong>을 쓰고 '
+      + '나머지가 활력으로 간다 (활력 <strong class="num">' + plan.vit + '</strong>). '
+      + '<strong>마력은 0이다.</strong>';
+  }
+
+  ['#st-lv', '#st-gear', '#st-str', '#st-dex'].forEach(function (sel) {
+    var el = $(sel);
+    if (el) el.addEventListener('input', updateStat);
+  });
+  updateStat();
+
+  /* =======================================================================
+   * 10) 기록 초기화
+   * ===================================================================== */
+  var resetBtn = $('#btn-reset');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      if (!window.confirm('이 문서에 저장된 기록(경로 체크 · 장비 확보 · 테마)을 전부 지운다. 계속할까?')) return;
+      try { localStorage.removeItem(KEY); } catch (e) { /* 무시 */ }
+      window.location.reload();
+    });
+  }
+})();
+</script>
+</body>
+</html>
