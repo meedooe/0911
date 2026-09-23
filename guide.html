@@ -1012,6 +1012,36 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
       </p>
     </div>
 
+    <div class="callout danger" style="margin-bottom:24px">
+      <div class="callout-title">먼저 확인 — 공포의 영역이 떠 있으면 아래가 우선이다</div>
+      <p>
+        공포의 영역은 그 지역 몬스터 레벨과 밀도를 임시로 끌어올린다. <a href="#zones">지역 표</a>의 S·A 티어(고대 토굴·영묘·구덩이·
+        세계석 성채·혼돈의 성역 등)가 걸리면 그냥 그날 루프 대신 거기로 가라 — 원래도 좋은 곳에 보너스가 얹힐 뿐이니 고민할 이유가 없다.
+      </p>
+      <p>
+        진짜 예외는 <strong>평소엔 이 문서의 루트에 없는 지역이 떴을 때</strong>다. 아래는 Maxroll 공포의 영역 티어리스트(시간당 경험치·밀도 기준)
+        상위권 중 <strong>이 문서의 평소 루트에 아직 없는 지역</strong>이다 — 이게 뜨면 두 루프 다 접고 그리로 가라.
+      </p>
+      <ul style="margin:8px 0 0; padding-left:18px; color:var(--ink-2); font-size:.9375rem; line-height:1.7">
+        <li><strong>검은 습지</strong> <span class="en">Black Marsh</span> (액트1)</li>
+        <li><strong>신비술사의 협곡</strong> <span class="en">Canyon of the Magi</span> · <strong>잊힌 도시</strong> <span class="en">Lost City</span> (액트2)</li>
+        <li><strong>거미 숲</strong> <span class="en">Spider Forest</span> · <strong>쿠라스트 시장</strong> <span class="en">Kurast Bazaar</span> ·
+          <strong>상부 쿠라스트</strong> <span class="en">Upper Kurast</span> (액트3)</li>
+      </ul>
+      <p style="margin-top:8px">
+        그리고 <strong>평소엔 스킵 대상인데 TZ가 뜨면 얘기가 달라지는 곳</strong>도 있다 — <a href="#names">약탈자 밀림</a>
+        (지금은 독 저항이 해결돼 더는 위험하지 않고, 밀도 덕에 TZ면 상위권이다), <strong>차가운 평야</strong>,
+        <strong>잊힌 탑</strong>(<a href="#routes">백작 루트</a>와 같은 곳), <strong>니흘라탁의 사원</strong>
+        (<a href="#routes">핀들스킨 루트</a>와 같은 곳)이다.
+      </p>
+      <p style="margin-top:8px">
+        <span class="badge b-approx">근사치 · 패치마다 순위 바뀜</span>
+        위 순위는 시간당 경험치 기준이라 <strong>극블리 소서 전용 순위는 아니다.</strong> 들어가기 전에 냉기 면역 몬스터 비중을 눈으로 확인하고,
+        많으면 추위의 파열을 챙기거나 그냥 평소 루프로 돌아가라. 전체 실시간 순위는
+        <a href="https://maxroll.gg/d2/tierlists/terror-zone-tier-list" target="_blank" rel="noopener">Maxroll 공포의 영역 티어리스트</a>에서 확인해라.
+      </p>
+    </div>
+
     <div class="pathgrid">
       <article class="pathcard" data-path="rune-loop">
         <div class="pathcard-head">
@@ -2361,12 +2391,16 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
                 <tr><td class="t-name">빙하 가시</td><td class="n">20</td><td class="t-note">시너지 +5%/레벨 · 군중 제어도 같이</td></tr>
                 <tr><td class="t-name">얼음 작렬</td><td class="n">20</td><td class="t-note">시너지 +5%/레벨</td></tr>
                 <tr><td class="t-name">얼음살</td><td class="n">20</td><td class="t-note">시너지 +5%/레벨</td></tr>
-                <tr><td class="t-name">냉기 숙련</td><td class="n">1~</td><td class="t-note"><strong>적 저항을 깎는다.</strong> 장비 +기술로 같이 올라가므로 찍는 건 최소로</td></tr>
+                <tr><td class="t-name">냉기 숙련</td><td class="n">~17 <span class="badge b-approx">근사치</span></td><td class="t-note"><strong>장비 +기술을 합쳐 관통 100%가 되는 지점에서 멈춰라.</strong> 그 위로는 비면역 몹에게도 버려지고 면역 깨진 몹에게도 거의 안 먹는다(아래 설명 참고)</td></tr>
                 <tr><td class="t-name">순간이동</td><td class="n">1</td><td class="t-note"><strong>파밍 속도의 핵심.</strong> 레벨을 올려도 거리는 안 늘어난다</td></tr>
-                <tr><td class="t-name">전자기장</td><td class="n">1</td><td class="t-note">보스 체력을 비율로 깎는다 — 메피스토·의회원에 유용</td></tr>
+                <tr><td class="t-name">전자기장</td><td class="n">1 + 남는 포인트 전부</td><td class="t-note">보스 체력을 비율로 깎는다 — 메피스토·의회원에 유용. <strong>4대 스킬(20×4)과 순간이동·냉기 숙련을 다 채우고 남는 포인트는 전부 여기로 보낸다.</strong></td></tr>
               </tbody>
             </table>
           </div>
+          <p class="t-note" style="margin-top:10px">
+            찍는 순서는 <strong>눈보라 → 시너지 3개 → 순간이동 1 → 냉기 숙련(관통 100%까지) → 남는 포인트 전부 전자기장</strong>이다.
+            80레벨을 넘긴 뒤 「뭐에 더 투자하나」로 고민된다면 이미 답이 나와 있는 순서다 — <strong>냉기 숙련을 더 찍는 게 아니라 전자기장으로 보내는 게 맞다.</strong>
+          </p>
         </div>
 
         <div>
@@ -2405,6 +2439,35 @@ tr.here td { background: color-mix(in srgb, var(--danger) 9%, transparent); }
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">냉기 숙련에 남는 포인트를 더 넣지 마라 — 왜 전자기장이 정답인가</div>
+        <p>
+          냉기 숙련은 <strong>면역을 깨지 못한다.</strong> 그리고 추위의 파열로 면역이 깨진 몹은 저항
+          <span class="num">95%</span>에서 시작해 <strong>이후 저항 감소가 <span class="num">20%</span> 비율로만 적용된다.</strong>
+          <span class="badge b-approx">커뮤니티 통용값</span> 즉 <strong>면역이었던 몹 상대로는 냉기 숙련 한 포인트의 값어치가 1/5로 줄어든다.</strong>
+          관통 100%(비면역 몹 저항을 0 밑으로) 를 넘겨 찍는 건 비면역 몹에게도 이미 버려지는 포인트이고, 면역 깨진 몹에게는 그마저 거의 안 먹는다.
+        </p>
+        <p>
+          반면 <strong>전자기장은 저항을 무시하고 현재 체력을 비율로 깎는다</strong> — 면역 여부와 상관없이 항상 들어간다.
+          그래서 80레벨을 넘겨 스킬 포인트가 남기 시작하면, 그 이후로는 <strong>냉기 숙련이 아니라 전자기장에 계속 투자하는 게 맞다.</strong>
+          지옥에서는 최대 체력의 <span class="num">50%</span>까지만 깎이므로 마무리는 용병 몫이라는 것만 기억해라.
+        </p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">능력치는 「올 활력」이 맞다 — 근거 세 줄</div>
+        <p>
+          <strong>힘·민첩은 지금 입을 장비의 요구치를 넘긴 순간부터 버려지는 포인트다.</strong> 더 찍어봐야 딜도 생존력도 안 오른다.
+          <strong>마력은 0이 정답이다</strong> — 마나 문제는 스탯이 아니라 용병 <a href="#runes">통찰(명상 오라)</a>로 푸는 구조이기 때문에,
+          마력에 넣는 포인트는 명상 오라가 이미 대신 해주는 일을 중복으로 사는 것과 같다.
+          그래서 힘·민첩 요구치를 채우고 남는 <strong>나머지 전부는 활력으로 가는 게 맞다</strong> — 생명력 말고는 갈 곳이 없다.
+        </p>
+        <p>
+          80레벨을 넘기면서 스탯 포인트가 남기 시작해도 이 원칙은 그대로다. <strong>장비가 바뀌어서 힘·민첩 요구치가 낮아지면(예: +힘 옵션이 붙은 신발·반지로 교체)
+          그만큼 다음 초기화 때 활력으로 돌리면 된다</strong> — 지금 당장 재분배할 필요는 없다. → <a href="#calc">계산기로 직접 확인</a>
+        </p>
       </div>
 
       <div class="tips">
